@@ -1,0 +1,22 @@
+table.table.table-hover.dataTable.ng-table
+  thead
+    tr
+      th.header.sortable 测试类型
+      th.header.sortable 开始时间
+      th.header.sortable 结束时间
+      th.header.sortable 测试者
+      th.header.sortable 设备
+      th.header.sortable 状态
+      th.header.sortable 报告
+      th.header.sortable 控制
+
+  tbody
+    tr(ng-repeat='column in columns')
+      td(ng-bind='column.id')
+      td(ng-bind='column.start')
+      td(ng-bind='column.end')
+      td(ng-bind='column.user')
+      td(ng-bind='column.serial')
+      td(ng-bind='column.status')
+      td(ng-bind='column.message')
+      td 停止

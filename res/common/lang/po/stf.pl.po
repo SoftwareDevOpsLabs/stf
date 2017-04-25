@@ -1,4 +1,4 @@
-# 
+#
 # Translators:
 # Jakub Mucha <biuro@muchastudio.com.pl>, 2016
 # Mateusz Bartos <mbartos@wikia-inc.com>, 2015
@@ -317,7 +317,7 @@ msgstr "Developer"
 msgid "Device"
 msgstr "Urządzenie"
 
-#: app/device-list/details/device-list-details-directive.js:38
+#: app/device-list/details/select-device-list-directive.js:38
 #: app/device-list/icons/device-list-icons-directive.js:122
 msgid "Device cannot get kicked from the group"
 msgstr "Urządzenie nie może zostać wyrzucone z grupy"

@@ -292,6 +292,23 @@ module.exports = function ControlServiceFactory(
       return sendTwoWay('wifi.get')
     }
 
+    //TODO @chenhao 添加测试命令
+    this.startTest = function(test) {
+      return sendOneWay('startTest',{
+        id : test.id,
+        serial : test.serial,
+        user : test.user,
+        command : test.command
+      })
+    }
+    //TODO @chenhao 添加停止测试命令
+    this.stopTest = function(device,test) {
+      return sendOneWay('stopTest',{
+        serial : device.serial,
+        tester : device.tester
+      })
+    }
+
     window.cc = this
   }
 

@@ -1,4 +1,4 @@
-# 
+#
 # Translators:
 # Jon Liang <jonqchk@gmail.com>, 2016
 # Peng Wang <buaawp@gmail.com>, 2016
@@ -322,7 +322,7 @@ msgstr "开发者"
 msgid "Device"
 msgstr "设备"
 
-#: app/device-list/details/device-list-details-directive.js:38
+#: app/device-list/details/select-device-list-directive.js:38
 #: app/device-list/icons/device-list-icons-directive.js:122
 msgid "Device cannot get kicked from the group"
 msgstr "设备无法从该组移出"
