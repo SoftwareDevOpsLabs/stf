@@ -298,14 +298,14 @@ module.exports = function ControlServiceFactory(
         id : test.id,
         serial : test.serial,
         user : test.user,
-        command : test.command
+        commands : test.commands
       })
     }
     //TODO @chenhao 添加停止测试命令
     this.stopTest = function(device,test) {
       return sendOneWay('stopTest',{
         serial : device.serial,
-        tester : device.tester
+        tester : test.id
       })
     }
 

@@ -1,6 +1,6 @@
 div.page-controller(ng-controller='CommandsCtrl')
   div.page-title 测试命令
-  input.form-control.shell-input(type='text')
+  input.form-control.shell-input(type='text',ng-model='test_command')
   div.page-title 可用设备列表
   select-device-list(tracker='tracker',devices='devices')
   button.btn.btn-primary(ng-click='startTest()') 开始测试

@@ -1,5 +1,5 @@
 div.device-item-list
-  label.device-item(ng-repeat='device in devices')
+  label.device-item(ng-repeat='device in devices',ng-if='device.remoteConnect')
     input(type='checkbox',ng-click='checkDeviceItem(this)')
     span.item-name(ng-bind='device.model')
 

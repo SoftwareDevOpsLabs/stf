@@ -15,3 +15,14 @@
 .device-list-details-content .device-status.state-available {
   font-weight: 600;
 }
+
+
+.report-item{
+  border-bottom: 1px solid #f1f1f1;
+  padding: 4px;
+}
+.report-item .report-time{
+  font-size: 13px;
+  color: #999;
+  padding: 0px 10px;
+}

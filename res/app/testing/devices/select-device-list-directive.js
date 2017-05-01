@@ -19,14 +19,11 @@ module.exports = function SelectDeviceListDirective(
       var prefix = 'd' + Math.floor(Math.random() * 1000000) + '-'
       var mapping = Object.create(null)
 
-
-
       element.on('click', function(e) {
         //checkDeviceStatus(e)
         //checkDeviceSmallImage(e)
         //checkDeviceNote(e)
       })
-
 
       function addListener(device) {
         console.log('设备信息',device);

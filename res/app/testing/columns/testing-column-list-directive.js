@@ -9,6 +9,7 @@ module.exports = function TestingColumnListDirective(
 , DeviceService
 , LightboxImageService
 , StandaloneService
+, $http
 ) {
   return {
     restrict: 'E'
@@ -26,6 +27,26 @@ module.exports = function TestingColumnListDirective(
       var prefix = 'd' + Math.floor(Math.random() * 1000000) + '-'
       var mapping = Object.create(null)
       var childScopes = Object.create(null)
+
+      // --------------------xxxxx----------------------
+      // 查看测试报告
+      scope.showReport = function(obj){
+        var testID = obj.column.id
+        console.log('++---++')
+
+        scope.show_report_modal = true;
+
+        $http.get('/api/v1/testings/' + testID)
+          .then(function(response) {
+            console.log(response)
+            var reports = response['data']['reports']
+            scope.reports = reports
+          })
+      }
+
+      scope.cancel = function () {
+        scope.show_report_modal = false;
+      }
 
 
       function inviteDevice(device) {

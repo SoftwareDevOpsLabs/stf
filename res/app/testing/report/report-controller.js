@@ -8,6 +8,7 @@ module.exports = function ReportCtrl(
 
 
   console.log('ddd')
+  alert('dsdsds')
   console.log($scope.tracker.devices);
 
   // 获取设备的列表

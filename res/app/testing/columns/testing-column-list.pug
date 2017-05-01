@@ -2,6 +2,7 @@ table.table.table-hover.dataTable.ng-table
   thead
     tr
       th.header.sortable 测试类型
+      th.header.sortable 测试ID
       th.header.sortable 开始时间
       th.header.sortable 结束时间
       th.header.sortable 测试者
@@ -12,11 +13,35 @@ table.table.table-hover.dataTable.ng-table
 
   tbody
     tr(ng-repeat='column in columns')
+      td(ng-bind='column.commands[0]')
       td(ng-bind='column.id')
-      td(ng-bind='column.start')
-      td(ng-bind='column.end')
+      td(ng-bind='column.start | date:"yyyy-MM-dd HH:mm:ss"')
+      td(ng-bind='column.end | date:"yyyy-MM-dd HH:mm:ss"')
       td(ng-bind='column.user')
       td(ng-bind='column.serial')
-      td(ng-bind='column.status')
-      td(ng-bind='column.message')
-      td 停止
+      td
+        i(ng-if='column.status=="Testing"').fa.fa-spinner.fa-spin.fa-1x.fa-fw
+        i(ng-if='column.status=="Stop"').fa.fa-times.color-red
+        i(ng-if='column.status=="Finish"').fa.fa-check.color-green
+      td
+        a(ng-if='column.status=="Finish"', ng-click='showReport(this)') 查看报告
+      td(ng-if='column.status=="Finish"') 报告已生成
+      td
+        button.btn.btn-sm.btn-danger(ng-if='column.status=="Testing"',ng-click='stopTest()') 停止
+    tr(ng-if='columns.length==0')
+      td(colspan=9) 暂无测试
+
+
+
+.testing-report-modal.stf-modal(ng-if='show_report_modal')
+  form(ng-submit='ok()')
+    .modal-header
+      button(type='button', ng-click='cancel()').close &times;
+      h4.modal-title
+        i.fa.fa-android
+        .button-spacer
+        span 测试报告详情
+    .modal-body
+      div.report-item(ng-repeat='report in reports')
+        span.report-time(ng-bind='report.time | date:"yyyy-MM-dd HH:mm:ss"')
+        span.report-message(ng-bind='report.message')
