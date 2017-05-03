@@ -1,7 +1,8 @@
 module.exports = angular.module('testing', [
   require('stf/common-ui/nice-tabs').name,
   require('./commands').name,
-  require('./report').name,
+  require('./charts').name,
+  require('./history').name,
   require('./devices').name,
   require('./columns').name
 

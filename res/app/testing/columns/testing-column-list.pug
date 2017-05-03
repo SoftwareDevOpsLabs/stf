@@ -13,7 +13,7 @@ table.table.table-hover.dataTable.ng-table
 
   tbody
     tr(ng-repeat='column in columns')
-      td(ng-bind='column.commands[0]')
+      td(ng-bind='column.name')
       td(ng-bind='column.id')
       td(ng-bind='column.start | date:"yyyy-MM-dd HH:mm:ss"')
       td(ng-bind='column.end | date:"yyyy-MM-dd HH:mm:ss"')

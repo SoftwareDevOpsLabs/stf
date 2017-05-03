@@ -1,8 +1,7 @@
-module.exports = function CommandsCtrl(
+module.exports = function ChartsCtrl(
   $scope,
   DeviceService,
   ControlService,
-  UserService,
   socket,
   $http
 ) {
@@ -10,10 +9,6 @@ module.exports = function CommandsCtrl(
   $scope.control = ControlService.create($scope.tracker.devices, '*ALL')
 
   $scope.devices = [];
-  $scope.user = UserService.currentUser
-  console.log('当前用户',$scope.user)
-
-  $scope.test_name = '拉活测试'
 
   // 读取当前用户所有的测试记录
   $http.get('/api/v1/testings/')
@@ -25,7 +20,7 @@ module.exports = function CommandsCtrl(
 
   // 根据设备计算测试的id
   function calculateId(device) {
-    return new Date().getTime()
+    return new Date().getTime() + device.serial
   }
 
   // 点击开始测试
@@ -64,12 +59,10 @@ module.exports = function CommandsCtrl(
   // 发送开始测试命令
   $scope.sendTestCommand = function(device){
     // 在前端构造测试对象，解析用户输入的测试命令
-    var test_name = $scope.test_name
     var command_params = $scope.test_command.split(' ')
     var test =
     { id: calculateId(device)
-      , name: test_name
-      , user: $scope.user.name
+      , user: 'chenhao'
       , serial: device.serial
       , start: new Date().getTime()
       , end: ''
