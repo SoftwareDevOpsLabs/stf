@@ -55,12 +55,6 @@ module.exports = function CommandsCtrl(
     })
   }
 
-  // 停止测试
-  $scope.stopTest = function(obj){
-    var  testID = obj.column.id
-    $scope.control.stop(test)
-  }
-
   // 发送开始测试命令
   $scope.sendTestCommand = function(device){
     // 在前端构造测试对象，解析用户输入的测试命令

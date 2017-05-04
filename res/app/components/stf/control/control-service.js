@@ -303,10 +303,9 @@ module.exports = function ControlServiceFactory(
       })
     }
     //TODO @chenhao 添加停止测试命令
-    this.stopTest = function(device,test) {
+    this.stopTest = function(test) {
       return sendOneWay('stopTest',{
-        serial : device.serial,
-        tester : test.id
+        id : test.id
       })
     }
 

@@ -24,10 +24,10 @@ table.table.table-hover.dataTable.ng-table
         i(ng-if='column.status=="Stop"').fa.fa-times.color-red
         i(ng-if='column.status=="Finish"').fa.fa-check.color-green
       td
-        a(ng-if='column.status=="Finish"', ng-click='showReport(this)') 查看报告
+        a(ng-if='column.status!="Testing"', ng-click='showReport(this)') 查看报告
       td(ng-if='column.status=="Finish"') 报告已生成
       td
-        button.btn.btn-sm.btn-danger(ng-if='column.status=="Testing"',ng-click='stopTest()') 停止
+        button.btn.btn-sm.btn-danger(ng-if='column.status=="Testing"',ng-click='stopTest(this)') 停止
     tr(ng-if='columns.length==0')
       td(colspan=9) 暂无测试
 

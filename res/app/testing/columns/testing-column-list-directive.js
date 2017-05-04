@@ -7,17 +7,22 @@ module.exports = function TestingColumnListDirective(
 , DeviceColumnService
 , GroupService
 , DeviceService
+, ControlService
 , LightboxImageService
 , StandaloneService
 , $http
 ) {
   return {
-    restrict: 'E'
+    restrict: 'AE'
   , template: require('./testing-column-list.pug')
   , scope: {
-      columns: '=columns'
+      columns: '=columns',
+      onStop : '&'
     }
   , link: function(scope, element) {
+      scope.tracker = DeviceService.trackAll(scope)
+      scope.control = ControlService.create(scope.tracker.devices, '*ALL')
+
       var activeColumns = []
       var activeSorting = []
       var activeFilters = []
@@ -42,6 +47,12 @@ module.exports = function TestingColumnListDirective(
             var reports = response['data']['reports']
             scope.reports = reports
           })
+      }
+
+      // 停止测试
+      scope.stopTest = function (obj) {
+          var  test = obj.column
+          scope.control.stopTest(test)
       }
 
       scope.cancel = function () {

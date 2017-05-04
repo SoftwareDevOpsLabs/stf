@@ -8,6 +8,6 @@ div.page-controller(ng-controller='CommandsCtrl')
   button.btn.btn-primary(ng-click='startTest()') 开始测试
 
   div.page-title 测试列表
-  testing-column-list(columns='columns').selectable
+  testing-column-list(columns='columns',on-stop='stopTest(this)').selectable
 
 
