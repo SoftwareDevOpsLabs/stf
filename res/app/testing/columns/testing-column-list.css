@@ -26,3 +26,11 @@
   color: #999;
   padding: 0px 10px;
 }
+.report-item-list{
+  height: 500px;
+  overflow-y: scroll;
+}
+.report-item-message{
+  padding: 0px 10px;
+  word-break: break-all;
+}

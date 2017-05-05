@@ -9,19 +9,12 @@ module.exports = function CommandsCtrl(
   $scope.tracker = DeviceService.trackAll($scope)
   $scope.control = ControlService.create($scope.tracker.devices, '*ALL')
 
-  $scope.devices = [];
+  $scope.columns = []
+  $scope.devices = []
   $scope.user = UserService.currentUser
   console.log('当前用户',$scope.user)
 
   $scope.test_name = '拉活测试'
-
-  // 读取当前用户所有的测试记录
-  $http.get('/api/v1/testings/')
-    .then(function(response) {
-      console.log(response)
-      var testings = response['data']['testings']
-      $scope.columns = testings
-    })
 
   // 根据设备计算测试的id
   function calculateId(device) {

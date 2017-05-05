@@ -5,6 +5,8 @@
       h4.modal-title
         i.fa.fa-android
         .button-spacer
-        span(translate) Add the following ADB Key to STF?
-    .modal-body
-      h1 测试
+        span(translate) 报告详情
+    .modal-body.report-item-list
+      div.report-item(ng-repeat='item in modal.items')
+        span(ng-bind='item.time | date:"yyyy-MM-dd HH:mm:ss"')
+        span.report-item-message(ng-bind='item.message')

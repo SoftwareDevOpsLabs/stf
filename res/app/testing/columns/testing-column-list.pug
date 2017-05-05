@@ -30,18 +30,3 @@ table.table.table-hover.dataTable.ng-table
         button.btn.btn-sm.btn-danger(ng-if='column.status=="Testing"',ng-click='stopTest(this)') 停止
     tr(ng-if='columns.length==0')
       td(colspan=9) 暂无测试
-
-
-
-.testing-report-modal.stf-modal(ng-if='show_report_modal')
-  form(ng-submit='ok()')
-    .modal-header
-      button(type='button', ng-click='cancel()').close &times;
-      h4.modal-title
-        i.fa.fa-android
-        .button-spacer
-        span 测试报告详情
-    .modal-body
-      div.report-item(ng-repeat='report in reports')
-        span.report-time(ng-bind='report.time | date:"yyyy-MM-dd HH:mm:ss"')
-        span.report-message(ng-bind='report.message')

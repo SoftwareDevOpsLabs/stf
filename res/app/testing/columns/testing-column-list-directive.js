@@ -11,6 +11,7 @@ module.exports = function TestingColumnListDirective(
 , LightboxImageService
 , StandaloneService
 , $http
+, TestingReportModalService
 ) {
   return {
     restrict: 'AE'
@@ -39,13 +40,16 @@ module.exports = function TestingColumnListDirective(
         var testID = obj.column.id
         console.log('++---++')
 
-        scope.show_report_modal = true;
+
+        //scope.show_report_modal = true;
 
         $http.get('/api/v1/testings/' + testID)
           .then(function(response) {
-            console.log(response)
+            console.log('???',response)
             var reports = response['data']['reports']
-            scope.reports = reports
+            //scope.reports = reports
+            TestingReportModalService.open(reports)
+
           })
       }
 

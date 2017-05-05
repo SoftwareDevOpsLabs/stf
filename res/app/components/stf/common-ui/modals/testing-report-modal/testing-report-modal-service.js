@@ -5,8 +5,7 @@ module.exports =
     var ModalInstanceCtrl = function($scope, $uibModalInstance, data) {
       $scope.modal = {}
       $scope.modal.showAdd = true
-      $scope.modal.fingerprint = data.fingerprint
-      $scope.modal.title = data.title
+      $scope.modal.items = data
 
       $scope.ok = function() {
         $uibModalInstance.close(true)
