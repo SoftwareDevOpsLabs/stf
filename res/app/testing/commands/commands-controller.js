@@ -18,7 +18,7 @@ module.exports = function CommandsCtrl(
 
   // 根据设备计算测试的id
   function calculateId(device) {
-    return new Date().getTime()
+    return new Date().getTime() + device.serial
   }
 
   // 点击开始测试
