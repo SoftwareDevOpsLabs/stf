@@ -63,6 +63,10 @@ module.exports = function CommandsCtrl(
       , status: 'Testing'
       , message: 'ok'
       , commands: command_params
+      , model: device.model
+      , manufacturer: device.manufacturer
+      , version: device.version
+      , display: device.display.height+'*'+device.display.width
     }
     $scope.columns.push(test)
     $scope.control.startTest(test)

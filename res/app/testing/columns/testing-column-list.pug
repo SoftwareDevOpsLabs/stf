@@ -2,23 +2,24 @@ table.table.table-hover.dataTable.ng-table
   thead
     tr
       th.header.sortable 测试类型
-      th.header.sortable 测试ID
       th.header.sortable 开始时间
-      th.header.sortable 结束时间
       th.header.sortable 测试者
-      th.header.sortable 设备
+      th.header.sortable 机型
+      th.header.sortable 安卓版本
+      th.header.sortable 分辨率
+      th.header.sortable 厂商
       th.header.sortable 状态
       th.header.sortable 报告
       th.header.sortable 控制
-
   tbody
     tr(ng-repeat='column in columns')
       td(ng-bind='column.name')
-      td(ng-bind='column.id')
       td(ng-bind='column.start | date:"yyyy-MM-dd HH:mm:ss"')
-      td(ng-bind='column.end | date:"yyyy-MM-dd HH:mm:ss"')
       td(ng-bind='column.user')
-      td(ng-bind='column.serial')
+      td(ng-bind='column.model')
+      td(ng-bind='column.version')
+      td(ng-bind='column.display')
+      td(ng-bind='column.manufacturer')
       td
         i(ng-if='column.status=="Testing"').fa.fa-spinner.fa-spin.fa-1x.fa-fw
         i(ng-if='column.status=="Stop"').fa.fa-times.color-red
@@ -29,4 +30,4 @@ table.table.table-hover.dataTable.ng-table
       td
         button.btn.btn-sm.btn-danger(ng-if='column.status=="Testing"',ng-click='stopTest(this)') 停止
     tr(ng-if='columns.length==0')
-      td(colspan=9) 暂无测试
+      td(colspan=10) 暂无测试

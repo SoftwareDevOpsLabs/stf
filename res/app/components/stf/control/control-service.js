@@ -299,7 +299,11 @@ module.exports = function ControlServiceFactory(
         name : test.name,
         serial : test.serial,
         user : test.user,
-        commands : test.commands
+        commands : test.commands,
+        model : test.model,
+        manufacturer : test.manufacturer,
+        version : test.version,
+        display : test.display,
       })
     }
     //TODO @chenhao 添加停止测试命令
