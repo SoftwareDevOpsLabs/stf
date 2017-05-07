@@ -40,10 +40,9 @@ module.exports = function TestingColumnListDirective(
         var testID = obj.column.id
         console.log('++---++')
 
-
         //scope.show_report_modal = true;
 
-        $http.get('/api/v1/testings/' + testID)
+        $http.get('/api/v1/testing/' + testID+'/report/')
           .then(function(response) {
             console.log('???',response)
             var reports = response['data']['reports']

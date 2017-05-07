@@ -9,12 +9,19 @@ module.exports = function CommandsCtrl(
   $scope.tracker = DeviceService.trackAll($scope)
   $scope.control = ControlService.create($scope.tracker.devices, '*ALL')
 
-  $scope.columns = []
   $scope.devices = []
   $scope.user = UserService.currentUser
   console.log('当前用户',$scope.user)
 
   $scope.test_name = '拉活测试'
+
+  // 读取当前用户所有历史的测试记录
+  $http.get('/api/v1/testings/Testing')
+    .then(function(response) {
+      console.log(response)
+      var testings = response['data']['testings']
+      $scope.columns = testings
+    })
 
   // 根据设备计算测试的id
   function calculateId(device) {
@@ -42,19 +49,21 @@ module.exports = function CommandsCtrl(
       return
     }
 
+    var groupId = new Date().getTime()
     // 运行测试命令
     selected_devices.forEach(function(obj){
-      $scope.sendTestCommand(obj)
+      $scope.sendTestCommand(obj,groupId)
     })
   }
 
   // 发送开始测试命令
-  $scope.sendTestCommand = function(device){
+  $scope.sendTestCommand = function(device,groupId){
     // 在前端构造测试对象，解析用户输入的测试命令
     var test_name = $scope.test_name
     var command_params = $scope.test_command.split(' ')
     var test =
     { id: calculateId(device)
+      , group: groupId
       , name: test_name
       , user: $scope.user.name
       , serial: device.serial
@@ -69,6 +78,7 @@ module.exports = function CommandsCtrl(
       , display: device.display.height+'*'+device.display.width
     }
     $scope.columns.push(test)
+    $scope.control = ControlService.create(device, device.channel)
     $scope.control.startTest(test)
 
   }

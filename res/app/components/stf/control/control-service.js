@@ -296,6 +296,7 @@ module.exports = function ControlServiceFactory(
     this.startTest = function(test) {
       return sendOneWay('startTest',{
         id : test.id,
+        group : test.group,
         name : test.name,
         serial : test.serial,
         user : test.user,

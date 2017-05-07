@@ -410,7 +410,7 @@
                 ]
             }
         },
-        "/testings": {
+        "/testings/{status}": {
             "x-swagger-router-controller": "testing",
             "get": {
                 "summary": "Testing List",
@@ -420,6 +420,13 @@
                     "testing"
                 ],
                 "parameters": [
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "test status",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "name": "fields",
                         "in": "query",
@@ -449,7 +456,7 @@
                 ]
             }
         },
-        "/testings/{id}": {
+        "/testing/{id}/report/": {
             "x-swagger-router-controller": "testing",
             "get": {
                 "summary": "Testing Report Info",
