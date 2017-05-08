@@ -9,6 +9,7 @@ module.exports = function CommandsCtrl(
   $scope.tracker = DeviceService.trackAll($scope)
   $scope.control = ControlService.create($scope.tracker.devices, '*ALL')
 
+
   $scope.devices = []
   $scope.user = UserService.currentUser
   console.log('当前用户',$scope.user)

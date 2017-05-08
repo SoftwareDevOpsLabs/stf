@@ -27,16 +27,38 @@ module.exports = function SelectDeviceListDirective(
 
       function addListener(device) {
         console.log('设备信息',device);
-        scope.devices.push(device);
-        scope.$apply()
+
+        // @hy, 2017-05-08, only display usable devices
+        if (device != null && device.usable === true) {
+          scope.devices.push(device)
+          scope.$apply()
+        }
       }
 
-      function changeListener(){
+      function changeListener(device){
+        // @hy, 2017-05-08
+        // return once device is invalid
+        if (device == null)
+          return
 
+        pos=scope.devices.indexOf(device)
+
+        // if device has been already in the list, check if it's usable
+        if (pos >= 0) {
+          if (device.usable != true) {
+            scope.devices.splice(pos, 1)
+            scope.$apply()
+          }
+        // otherwise, check if it's an usable new device
+        } else {
+          if (device.usable === true) {
+            scope.devices.push(device)
+            scope.$apply()
+          }
+        }
       }
 
-      function removeListener(){
-
+      function removeListener(device){
       }
 
       tracker.on('add', addListener)
@@ -45,6 +67,8 @@ module.exports = function SelectDeviceListDirective(
 
       // Maybe we're already late
       tracker.devices.forEach(addListener)
+      //tracker.devices.forEach(changeListener)
+      tracker.devices.forEach(removeListener)
 
       scope.$on('$destroy', function() {
         tracker.removeListener('add', addListener)
