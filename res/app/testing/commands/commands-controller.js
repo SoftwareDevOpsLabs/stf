@@ -2,6 +2,7 @@ module.exports = function CommandsCtrl(
   $scope,
   DeviceService,
   ControlService,
+  GroupService,
   UserService,
   socket,
   $http

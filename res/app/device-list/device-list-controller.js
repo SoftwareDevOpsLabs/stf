@@ -21,7 +21,7 @@ module.exports = function DeviceListCtrl(
     }
   , {
       name: 'model'
-    , selected: true
+    , selected: false  // @HY, 2017-05-09: true ==> false
     }
   , {
       name: 'name'
@@ -29,15 +29,15 @@ module.exports = function DeviceListCtrl(
     }
   , {
       name: 'serial'
-    , selected: false
+    , selected: true   // @HY, 2017-05-09: false ==> true
     }
   , {
       name: 'operator'
-    , selected: true
+    , selected: false  // @HY, 2017-05-09: true ==> false
     }
   , {
       name: 'releasedAt'
-    , selected: true
+    , selected: false  // @HY, 2017-05-09: true ==> false
     }
   , {
       name: 'version'
@@ -49,15 +49,15 @@ module.exports = function DeviceListCtrl(
     }
   , {
       name: 'display'
-    , selected: false
+    , selected: true  // @HY, 2017-05-09: false ==> true
     }
   , {
       name: 'manufacturer'
-    , selected: false
+    , selected: true  // @HY, 2017-05-09: false ==> true
     }
   , {
       name: 'sdk'
-    , selected: false
+    , selected: true  // @HY, 2017-05-09: false ==> true
     }
   , {
       name: 'abi'
@@ -93,7 +93,7 @@ module.exports = function DeviceListCtrl(
     }
   , {
       name: 'batteryStatus'
-    , selected: false
+    , selected: true         // @HY, 2017-05-09: false ==> true
     }
   , {
       name: 'batteryLevel'
