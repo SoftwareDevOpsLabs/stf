@@ -8,3 +8,35 @@
 .shell-input{
   max-width: 100%;
 }
+#chart_panel{
+  display: flex;
+}
+#chart_panel .chart_container{
+  flex: 1;
+  text-align: center;
+}
+.chart_container h5{
+  margin-top: 20px;
+}
+.manufacturer-cell{
+  border: 1px solid #ddd;
+  min-width: 100px;
+  display: inline-block;
+  font-size: 12px;
+  padding: 2px 6px;
+}
+.manufacturer-cell .count{
+  padding: 5px;
+  color: #ff0000;
+}
+
+.axis path,
+.axis line{
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+.axis text{
+  font-size: 11px;
+}
+
