@@ -10,6 +10,8 @@ module.exports = function CommandsCtrl(
   $scope.tracker = DeviceService.trackAll($scope)
   $scope.control = ControlService.create($scope.tracker.devices, '*ALL')
 
+  // @hy 2017-05-10: set default value of test command
+  $scope.test_command = 'python2.7 pulltest/newpull.py {SN} 1 1 1'
 
   $scope.devices = []
   $scope.user = UserService.currentUser
@@ -87,7 +89,6 @@ module.exports = function CommandsCtrl(
     $scope.columns.push(test)
     $scope.control = ControlService.create(device, device.channel)
     $scope.control.startTest(test)
-
   }
 
   // 监听测试任务执行的状态
