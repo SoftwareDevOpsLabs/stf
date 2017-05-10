@@ -24,10 +24,12 @@ table.table.table-hover.dataTable.ng-table
       td(ng-bind='column.manufacturer')
       td
         i(ng-if='column.status=="Testing"').fa.fa-spinner.fa-spin.fa-1x.fa-fw
-        i(ng-if='column.status=="Stop"').fa.fa-times.color-red
+        i(ng-if='column.status=="Stop"').fa.fa-stop.color-red
+        i(ng-if='column.status=="Failed"').fa.fa-times.color-red
         i(ng-if='column.status=="Finish"').fa.fa-check.color-green
       td
-        a(ng-if='column.status!="Testing"', ng-click='showReport(this)') 查看报告
+        <!--a(ng-if='column.status!="Testing"', ng-click='showReport(this)') 查看报告 @HY 2017-05-10 we can check report anytime-->
+        a(ng-click='showReport(this)') 查看报告
       td(ng-if='column.status=="Finish"') 已完成
       td
         button.btn.btn-sm.btn-danger(ng-if='column.status=="Testing"',ng-click='stopTest(this)') 停止

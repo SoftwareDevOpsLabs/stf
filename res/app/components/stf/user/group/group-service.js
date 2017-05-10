@@ -9,6 +9,7 @@ module.exports = function GroupServiceFactory(
   }
 
   groupService.invite = function(device) {
+
     if (!device.usable) {
       return Promise.reject(new Error('Device is not usable'))
     }
@@ -21,7 +22,9 @@ module.exports = function GroupServiceFactory(
         , match: 'exact'
         }
       }
+      ,usage: device.usage||"" // @HY 2017-05-09 add device.usage to show automate status
     })
+
     return tx.promise
       .then(function(result) {
         return result.device

@@ -88,6 +88,7 @@ module.exports = function DeviceServiceFactory($http, socket, EnhanceDeviceServi
       this.emit('change', data)
     }.bind(this)
 
+
     var remove = function remove(data) {
       var index = devicesBySerial[data.serial]
       if (index >= 0) {

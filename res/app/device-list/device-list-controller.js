@@ -149,8 +149,8 @@ module.exports = function DeviceListCtrl(
   $scope.filter = []
 
   $scope.activeTabs = {
-    icons: true
-  , details: false
+    icons: false   // @hy, 2017-05-09: adjust default view to details view, there is no useful info in icon view
+  , details: true
   }
 
   SettingsService.bind($scope, {
