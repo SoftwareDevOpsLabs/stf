@@ -41,7 +41,7 @@ module.exports = function ChartsCtrl(
     }).text(function(d){
       var percent = Number(d.value)/d3.sum(dataset,function(d){return d[1]})*100
       return percent.toFixed(1)+'%'
-    })
+    }).attr('fill','#ffffff')
     arcs.append("line").attr('stroke','#666666')
       .attr('x1',function(d){return arc.centroid(d)[0]*2})
       .attr('y1',function(d){return arc.centroid(d)[1]*2})
