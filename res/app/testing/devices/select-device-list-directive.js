@@ -45,7 +45,7 @@ module.exports = function SelectDeviceListDirective(
 
         // if device has been already in the list, check if it's usable
         if (pos >= 0) {
-          if (device.usable != true) {
+          if (device.usable === false) {
             scope.devices.splice(pos, 1)
             scope.$apply()
           }

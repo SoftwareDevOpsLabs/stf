@@ -2,6 +2,7 @@ module.exports = function CommandsCtrl(
   $scope,
   DeviceService,
   ControlService,
+  GroupService,
   UserService,
   socket,
   $http
@@ -16,7 +17,7 @@ module.exports = function CommandsCtrl(
 
   $scope.test_name = '拉活测试'
 
-  // 读取当前用户所有历史的测试记录
+  // 读取当前所有历史测试记录
   $http.get('/api/v1/testings/Testing')
     .then(function(response) {
       console.log(response)
@@ -78,6 +79,11 @@ module.exports = function CommandsCtrl(
       , version: device.version
       , display: device.display.height+'*'+device.display.width
     }
+
+    // @HY 2017-05-09: change device's usage to automation
+    device.usage = "automation"
+    GroupService.invite(device)
+
     $scope.columns.push(test)
     $scope.control = ControlService.create(device, device.channel)
     $scope.control.startTest(test)

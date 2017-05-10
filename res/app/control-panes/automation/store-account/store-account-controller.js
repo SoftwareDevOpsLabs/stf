@@ -13,7 +13,7 @@ module.exports = function StoreAccountCtrl($scope, ngTableParams, $timeout) {
 
   $scope.addAccount = function() {
     $scope.addingAccount = true
-    var user = $scope.storeLogin.username.$modelValue
+    var user = $scope.storeLogin.username.$modelValuescopedSocketauto
     var pass = $scope.storeLogin.password.$modelValue
 
     $scope.control.addAccount(user, pass).then(function() {
