@@ -58,88 +58,61 @@ module.exports = function ChartsCtrl(
     })
   }
 
-  $scope.drawBarChart = function(){
+  $scope.drawBarChart = function(lables,dataset,panel){
 // 绘制图表
-    var width = 500;
-    var height = 400;
-    var margin = {
-      top : 30,
-      right : 30,
-      bottom : 30,
-      left : 30
-    };
+    var colors = ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9','#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']
 
-// 构造数据
-    var rand = d3.random.normal(0,25);
-    var dataset = [];
-    for (var i=0;i<100;i++){
-      dataset.push(rand())
-    }
-
-// 处理直方图数据
-    var bin_num = 10;
-    var histogram = d3.layout.histogram()
-      .range([-50,50])
-      .bins(bin_num)
-      .frequency(true);
-    var data = histogram(dataset);
-    console.log(data)
-
-
-    var svg = d3.select('#bar_chart')
-      .append('svg')
-      .attr('width',width+margin.left+margin.right)
-      .attr('height',height+margin.top+margin.bottom)
-      .append('g')
-      .attr('transform',"translate("+margin.left+","+margin.top+")");
-
-// 创建坐标轴
-//    var formatPercent = d3.format('个');
-
-    var x = d3.scale.ordinal()
-      .rangeRoundBands([0,width],0.1);
-    var y = d3.scale.linear()
-      .range([height,0]);
-
-    x.domain(data.map(function(d) {
-      return d.x.toFixed(1);
-    }));
-    y.domain([0, d3.max(data, function(d) { return d.y; })]);
-
+    var margin = {top: 70, right: 20, bottom: 30, left: 40},
+      w = 400 - margin.left - margin.right,
+      h = 350 - margin.top - margin.bottom;
     var color = d3.scale.category10();
 
+    var x = d3.scale.ordinal()
+      .rangeRoundBands([0, w], .1);
+    var y = d3.scale.linear()
+      .range([h, 0]);
+
+    var formatPercent = d3.format(".0");
     var xAxis = d3.svg.axis()
       .scale(x)
-      .orient('bottom');
-
+      .orient("bottom");
     var yAxis = d3.svg.axis()
       .scale(y)
-      .orient('left')
-//            .tickFormat(formatPercent);
+      .orient("left")
+      .tickFormat(formatPercent);
 
-    svg.append('g')
-      .attr('class','axis')
-      .attr('transform',"translate("+0+","+height+")")
+    x.domain(lables.map(function(d) { return d; }));
+    y.domain([0, d3.max(dataset, function(d) { return d; })]);
+
+    var svg = d3.select("#"+panel).append("svg")
+      .attr("width", w + margin.left + margin.right)
+      .attr("height", h + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
+
+
+    svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0, " + h + ")")
       .call(xAxis);
 
-    svg.append('g')
-      .attr('class','axis')
+    svg.append("g")
+      .attr("class", "y axis")
       .call(yAxis);
 
     svg.selectAll(".bar")
-      .data(data)
-      .enter()
-      .append("rect")
+      .data(dataset)
+      .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d,i) { return i*(width/bin_num); })
-      .attr("width", 20)
-      .attr("y", function(d) { return y(d.y); })
-      .attr("height", function(d) { return height - y(d.y); })
-      .attr("fill", function(d) { return color(d.x); });
+      .attr("x", function(d,i) { return i*(w/dataset.length)})
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d); })
+      .attr("height", function(d) { return h - y(d); })
+      .attr("fill", function(d,i) { return colors[i]; });
   }
 
   // 读取当前用户所有的测试记录
-  $http.get('/api/v1/testing/chart/manufacturer/')
+  $http.get('/api/v1/testing/pie/manufacturer/')
     .then(function(response) {
       console.log(response)
       var stat = response['data']['stat']
@@ -149,12 +122,32 @@ module.exports = function ChartsCtrl(
     })
 
   // 读取当前用户所有的测试记录
-  $http.get('/api/v1/testing/chart/name/')
+  $http.get('/api/v1/testing/pie/name/')
     .then(function(response) {
       console.log(response)
       var stat = response['data']['stat']
       var panel = 'pie_chart_scene'
       $scope.drawPieChart(stat,panel)
       $scope.scene_stat = stat
+    })
+
+  // 读取当前用户所有的测试记录
+  $http.get('/api/v1/testing/bar/user/')
+    .then(function(response) {
+      console.log(response)
+      var labels = response['data']['labels']
+      var dataset = response['data']['dataset']
+      var panel = 'bar_chart_device'
+      $scope.drawBarChart(labels,dataset,panel);
+    })
+
+  // 读取当前用户所有的测试记录
+  $http.get('/api/v1/testing/bar/serial/')
+    .then(function(response) {
+      console.log(response)
+      var labels = response['data']['labels']
+      var dataset = response['data']['dataset']
+      var panel = 'bar_chart_user'
+      $scope.drawBarChart(labels,dataset,panel)
     })
 }

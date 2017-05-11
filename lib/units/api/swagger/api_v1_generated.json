@@ -502,12 +502,58 @@
                 ]
             }
         },
-        "/testing/chart/{name}/": {
+        "/testing/pie/{name}/": {
             "x-swagger-router-controller": "testing",
             "get": {
                 "summary": "Testing Chart Data",
                 "description": "The testing chart data info",
-                "operationId": "getTestingChart",
+                "operationId": "getTestingPieChart",
+                "tags": [
+                    "testing"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "chart name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Testing Chart Data",
+                        "schema": {
+                            "$ref": "#/definitions/DeviceResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessTokenAuth": []
+                    }
+                ]
+            }
+        },
+        "/testing/bar/{name}/": {
+            "x-swagger-router-controller": "testing",
+            "get": {
+                "summary": "Testing Chart Data",
+                "description": "The testing chart data info",
+                "operationId": "getTestingBarChart",
                 "tags": [
                     "testing"
                 ],

@@ -1,6 +1,5 @@
 .page-controller{
   background-color: #fff;
-  padding: 15px;
 }
 .page-title{
   padding: 10px 0px;
@@ -10,6 +9,8 @@
 }
 #chart_panel{
   display: flex;
+  border-bottom: 1px solid #ddd;
+  padding: 0px 0px 30px 0px;
 }
 #chart_panel .chart_container{
   flex: 1;
