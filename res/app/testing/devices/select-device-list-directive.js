@@ -24,10 +24,10 @@ module.exports = function SelectDeviceListDirective(
         //checkDeviceSmallImage(e)
         //checkDeviceNote(e)
       })
-
+       	
       function addListener(device) {
-        console.log('设备信息',device);
-
+        console.log('设备信息', device);
+	 
         // @hy, 2017-05-08, only display usable devices
         if (device != null && device.usable === true) {
           scope.devices.push(device)
@@ -35,18 +35,19 @@ module.exports = function SelectDeviceListDirective(
         }
       }
 
-      function changeListener(device){
+      function changeListener(device) {
         // @hy, 2017-05-08
         // return once device is invalid
         if (device == null)
           return
-
+		
         pos=scope.devices.indexOf(device)
 
         // if device has been already in the list, check if it's usable
         if (pos >= 0) {
           if (device.usable === false) {
-            scope.devices.splice(pos, 1)
+            // scope.devices.splice(pos, 1)
+            delete scope.devices[pos]
             scope.$apply()
           }
         // otherwise, check if it's an usable new device
