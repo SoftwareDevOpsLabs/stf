@@ -59,7 +59,7 @@ module.exports = function ChartsCtrl(
   }
 
   $scope.drawBarChart = function(lables,dataset,panel){
-// 绘制图表
+    // 绘制图表
     var colors = ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9','#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']
 
     var margin = {top: 70, right: 20, bottom: 30, left: 40},
@@ -112,7 +112,7 @@ module.exports = function ChartsCtrl(
   }
 
   // 读取当前用户所有的测试记录
-  $http.get('/api/v1/testing/pie/manufacturer/')
+  $http.get('/api/v1/testing/pie/model/')
     .then(function(response) {
       console.log(response)
       var stat = response['data']['stat']
@@ -137,17 +137,19 @@ module.exports = function ChartsCtrl(
       console.log(response)
       var labels = response['data']['labels']
       var dataset = response['data']['dataset']
-      var panel = 'bar_chart_device'
+      var panel = 'bar_chart_user'
       $scope.drawBarChart(labels,dataset,panel);
     })
 
-  // 读取当前用户所有的测试记录
-  $http.get('/api/v1/testing/bar/serial/')
+  // Aggregate every device's testing number
+  // $http.get('/api/v1/testing/bar/serial/')
+  // @hy 2017-05-12, replace serial with model
+  $http.get('/api/v1/testing/bar/model/')
     .then(function(response) {
       console.log(response)
       var labels = response['data']['labels']
       var dataset = response['data']['dataset']
-      var panel = 'bar_chart_user'
+      var panel = 'bar_chart_device'
       $scope.drawBarChart(labels,dataset,panel)
     })
 }
