@@ -33,5 +33,5 @@
 .report-item-message{
   padding: 0px 10px;
   word-break: break-all;
-  white-space: pre;
+  white-space: pre-wrap;
 }
