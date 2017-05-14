@@ -50,7 +50,7 @@ USER stf-build
 RUN set -x && \
     cd /tmp/build && \
     export PATH=$PWD/node_modules/.bin:$PATH && \
-    npm install --loglevel http && \
+    npm install --loglevel http --registry=https://registry.npm.taobao.org && \
     npm pack && \
     tar xzf stf-*.tgz --strip-components 1 -C /app && \
     bower cache clean && \
