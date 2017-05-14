@@ -20,6 +20,11 @@ module.exports = function TestingCtrl(
       title: "报表",
       icon: 'fa fa-line-chart',
       templateUrl: 'testing/charts/charts.pug'
+    },{
+      //title: gettext('Tab1'),
+      title: "模板",
+      icon: 'fa fa-list-alt',
+      templateUrl: 'testing/template/template.pug'
     }
   ]
 }

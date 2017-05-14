@@ -4,7 +4,8 @@ module.exports = angular.module('testing', [
   require('./charts').name,
   require('./history').name,
   require('./devices').name,
-  require('./columns').name
+  require('./columns').name,
+  require('./template').name
 
 ])
   .config(function($routeProvider) {

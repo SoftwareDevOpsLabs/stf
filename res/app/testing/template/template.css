@@ -1,0 +1,16 @@
+.page-controller{
+  background-color: #fff;
+}
+.page-title{
+  padding: 10px 0px;
+}
+.shell-input{
+  max-width: 100%;
+  padding: 10px 0px;
+}
+.name-input{
+  max-width: 300px;
+}
+.btn {
+  margin-top: 5px;
+}

@@ -1,4 +1,4 @@
-module.exports = function CommandsCtrl(
+module.exports = function TemplateCtrl(
   $scope,
   DeviceService,
   ControlService,
@@ -9,6 +9,12 @@ module.exports = function CommandsCtrl(
 ) {
   $scope.tracker = DeviceService.trackAll($scope)
   $scope.control = ControlService.create($scope.tracker.devices, '*ALL')
+
+  $scope.templates = [{test_name:'test_name', test_command:'test_command'}]
+
+  $scope.save_template = function() {
+    console.log($scope.test_name, $scope.test_command)
+  }
 
   // @hy 2017-05-10: set default value of test command
   $scope.test_command = 'python2.7 pulltest/newpull.py {SN} 1 1 1'
