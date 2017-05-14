@@ -82,6 +82,12 @@ module.exports = function CommandsCtrl(
       , display: device.display.height+'*'+device.display.width
     }
 
+    // @HY 2017-05-14 if device is not usable, just return
+    if (device.usable === false) {
+      alert("设备#", device.serial, "不可用！");
+      return
+    }
+
     // @HY 2017-05-14 kick the using device
     if (device.using === true) {
       GroupService.kick(device)

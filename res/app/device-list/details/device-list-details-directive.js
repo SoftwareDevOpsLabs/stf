@@ -64,7 +64,9 @@ module.exports = function DeviceListDetailsDirective(
             kickDevice(device, true)
             e.preventDefault()
           }
-          else if (device.using) {
+          // @hy 2017-05-14 when we click 'automation' button, it needn't to
+          // kick the device off
+          else if (device.using && device.state !== 'automation') {
             kickDevice(device)
             e.preventDefault()
           }
