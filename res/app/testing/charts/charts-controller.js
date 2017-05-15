@@ -12,6 +12,12 @@ module.exports = function ChartsCtrl(
   $scope.devices = [];
 
   $scope.drawPieChart = function(dataset,panel){
+    // 检查数据源
+    var colors = ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9','#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']
+    if(dataset.length == 0){
+      dataset = [['暂无数据',0.01]]
+      var colors = ['#dddddd']
+    }
     var pie = d3.layout.pie().value(function(d){return d[1]})
     var pie_data = pie(dataset)
     var width = 400
@@ -19,8 +25,6 @@ module.exports = function ChartsCtrl(
     var outerRadius = width/3
     var innerTadius = 0
     var arc = d3.svg.arc().innerRadius(innerTadius).outerRadius(outerRadius)
-    //var color = d3.scale.category20()
-    var colors = ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9','#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']
     var svg = d3.select("#"+panel).append("svg").attr("width",width).attr("height",height)
     var arcs = svg.selectAll("g")
       .data(pie_data)
@@ -62,7 +66,7 @@ module.exports = function ChartsCtrl(
     // 绘制图表
     var colors = ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9','#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']
 
-    var margin = {top: 70, right: 20, bottom: 30, left: 40},
+    var margin = {top: 30, right: 30, bottom: 30, left: 30},
       w = 400 - margin.left - margin.right,
       h = 350 - margin.top - margin.bottom;
     var color = d3.scale.category10();
@@ -104,7 +108,10 @@ module.exports = function ChartsCtrl(
       .data(dataset)
       .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d,i) { return i*(w/dataset.length)})
+      .attr("x", function(d,i) {
+        var pad = 0.5*(w/dataset.length-x.rangeBand())
+        return pad + i*(w/dataset.length)
+      })
       .attr("width", x.rangeBand())
       .attr("y", function(d) { return y(d); })
       .attr("height", function(d) { return h - y(d); })
