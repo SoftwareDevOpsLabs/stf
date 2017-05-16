@@ -155,7 +155,8 @@ html {
 }
 
 body {
-  font-family: "Lato", "Helvetica Neue", Helvetica, sans-serif;
+  /* @hy 2017-05-16 remove Lato font, it can't be displayed in M$ Windows */ 
+  font-family: "Helvetica Neue", Helvetica, sans-serif;  
   color: $gray;
   min-height: 100%;
 
