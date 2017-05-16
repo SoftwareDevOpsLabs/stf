@@ -46,12 +46,15 @@ module.exports =
     ].concat(angular.copy(sharedTabs))
 
     $scope.belowTabs = [
-      {
+      /* 
+       @hy 2017-05-16 starting of logcat panel will cause performance issue in Web browser, move out of it
+       {
         title: gettext('Logs'),
         icon: 'fa-list-alt color-red',
         templateUrl: 'control-panes/logs/logs.pug',
         filters: ['native', 'web']
-      }
+       }
+      */
     ].concat(angular.copy(sharedTabs))
 
     $scope.device = null
