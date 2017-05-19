@@ -17,9 +17,8 @@ module.exports = function CommandsCtrl(
   $scope.user = UserService.currentUser
   console.log('当前用户',$scope.user)
 
-  $scope.test_name = '拉活测试'
 
-  // 读取当前所有历史测试记录
+  // 读取当前所有正在执行的测试记录
   $http.get('/api/v1/testings/Testing')
     .then(function(response) {
       console.log(response)
@@ -53,6 +52,7 @@ module.exports = function CommandsCtrl(
       return
     }
 
+
     var groupId = new Date().getTime()
     // 运行测试命令
     selected_devices.forEach(function(obj){
@@ -63,12 +63,12 @@ module.exports = function CommandsCtrl(
   // 发送开始测试命令
   $scope.sendTestCommand = function(device,groupId){
     // 在前端构造测试对象，解析用户输入的测试命令
-    var test_name = $scope.test_name
     var command_params = $scope.test_command.split(' ')
     var test =
     { id: calculateId(device)
       , group: groupId
-      , name: test_name
+      , name: $scope.test_name||'未定义'
+      , scenario: $scope.test_scenario||'未定义' //  @hy 2017-05-17 add new field 'scenario'
       , user: $scope.user.name
       , serial: device.serial
       , start: new Date().getTime()
@@ -105,6 +105,7 @@ module.exports = function CommandsCtrl(
   // 监听测试任务执行的状态
   socket.on('testing.status',function(data){
     console.log(data)
+
     // 根据返回的数据，查询是那一条测试记录
     var testID = data['id']
     var status = data['status']

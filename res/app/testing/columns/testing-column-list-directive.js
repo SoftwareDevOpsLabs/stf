@@ -38,17 +38,14 @@ module.exports = function TestingColumnListDirective(
       // 查看测试报告
       scope.showReport = function(obj){
         var testID = obj.column.id
-        console.log('++---++')
 
         //scope.show_report_modal = true;
 
         $http.get('/api/v1/testing/' + testID+'/report/')
           .then(function(response) {
-            console.log('???',response)
             var reports = response['data']['reports']
-            //scope.reports = reports
+            // scope.reports = reports
             TestingReportModalService.open(reports)
-
           })
       }
 

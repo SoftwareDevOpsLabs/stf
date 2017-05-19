@@ -13,7 +13,8 @@ module.exports = function TemplateCtrl(
   $scope.templates = [{test_name:'test_name', test_command:'test_command'}]
 
   $scope.save_template = function() {
-    console.log($scope.test_name, $scope.test_command)
+    alert("+++++++++ "+ $scope.test_group+ $scope.test_scenario+ $scope.test_command)
+    alert("click save template")
   }
 
   // @hy 2017-05-10: set default value of test command
@@ -102,11 +103,10 @@ module.exports = function TemplateCtrl(
     $scope.control.startTest(test)
   }
 
-  // 监听测试任务执行的状态
-  socket.on('testing.status',function(data){
-    console.log(data)
-    // 根据返回的数据，查询是那一条测试记录
-    var testID = data['id']
+  // failed to create a new testcase
+  socket.on('testing.testcase.error',function(data){
+    console.log(err)
+    var success = data['s']
     var status = data['status']
     var end = data['endTime']
     $scope.columns.forEach(function(obj){
@@ -116,6 +116,5 @@ module.exports = function TemplateCtrl(
       }
     });
     $scope.$apply()
-
   })
 }

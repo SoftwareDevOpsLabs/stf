@@ -502,6 +502,91 @@
                 ]
             }
         },
+        "/testcases/{status}": {
+            "x-swagger-router-controller": "testing",
+            "get": {
+                "summary": "Testcases List",
+                "description": "This api  returns list of testcases record @hy 2017-05-18 added for test template",
+                "operationId": "getTestcasesList",
+                "tags": [
+                    "testing", "testcase"
+                ],
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "path",
+                        "description": "testcase status",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Testcase List",
+                        "schema": {
+                            "$ref": "#/definitions/DeviceResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessTokenAuth": []
+                    }
+                ]
+            }
+        },
+        "/testing/{id}/report/": {
+            "x-swagger-cases-controller": "testing",
+            "get": {
+                "summary": "Testing Report Info",
+                "description": "The testing report info return report details of a testing",
+                "operationId": "getTestingReport",
+                "tags": [
+                    "testing"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "test id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Testing Report Info",
+                        "schema": {
+                            "$ref": "#/definitions/DeviceResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessTokenAuth": []
+                    }
+                ]
+            }
+        },
         "/testing/pie/{name}/": {
             "x-swagger-router-controller": "testing",
             "get": {
