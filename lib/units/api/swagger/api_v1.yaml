@@ -316,12 +316,12 @@ paths:
             $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
-  /testcase/{status}:
+  /testTemplates/{status}:
     x-swagger-router-controller: testing
     get:
       summary: Testing List
       description: The testing list return list of testing record
-      operationId: getTestingList
+      operationId: getTestcaseList
       tags:
         - testing
       parameters:
@@ -380,12 +380,12 @@ paths:
             $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
-  
+
   '/testing/pie/{name}/':
     x-swagger-router-controller: testing
     get:
       summary: Testing Chart Data
-      description: The testing chart data info 
+      description: The testing chart data info
       operationId: getTestingPieChart
       tags:
         - testing
@@ -412,13 +412,13 @@ paths:
           schema:
             $ref: '#/definitions/ErrorResponse'
       security:
-        - accessTokenAuth: []      
-        
+        - accessTokenAuth: []
+
   '/testing/bar/{name}/':
     x-swagger-router-controller: testing
     get:
       summary: Testing Chart Data
-      description: The testing chart data info 
+      description: The testing chart data info
       operationId: getTestingBarChart
       tags:
         - testing
@@ -445,8 +445,8 @@ paths:
           schema:
             $ref: '#/definitions/ErrorResponse'
       security:
-        - accessTokenAuth: []  
-  
+        - accessTokenAuth: []
+
   /swagger.json:
     x-swagger-pipe: swagger_raw
 definitions:
