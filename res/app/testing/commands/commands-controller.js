@@ -17,6 +17,57 @@ module.exports = function CommandsCtrl(
   $scope.user = UserService.currentUser
   console.log('当前用户',$scope.user)
 
+  $scope.templates = []
+  $scope.scenarios = []
+  $scope.test_name = ""
+  $scope.test_scenario=""
+  $scope.test_command=""
+
+
+  // Get all the test template from DB
+  $http.get('/api/v1/testTemplates/active')
+    .then(function(response) {
+      if (response.status === 200) {
+        $scope.templates = response['data']['testcases']
+        console.log($scope.templates)
+      } else {
+        console.log("Failed to get test templates!!!")
+      }
+    })
+
+  $scope.LoadTestGroup = function(group) {
+    console.log("++++++++"+group)
+    if (group == "") {
+      $scope.scenarios = []
+      return;
+    }
+
+    $scope.templates.forEach(function(template) {
+      if (template.group === group) {
+        $scope.test_scenario=""
+        $scope.test_command=""
+        $scope.currentTemplte = {}
+        $scope.scenarios = template['reduction']
+        console.log("++++++++scenarios+++++++")
+        console.log($scope.scenarios)
+        return
+      }
+    })
+  }
+
+  $scope.LoadTestScenario = function(scenario) {
+    if (scenario == "") {
+      $scope.scenarios = []
+      return;
+    }
+
+    $scope.scenarios.forEach(function(item) {
+      if (item.scenario === scenario) {
+        $scope.test_command = item['command']
+        return
+      }
+    })
+  }
 
   // 读取当前所有正在执行的测试记录
   $http.get('/api/v1/testings/Testing')
@@ -52,7 +103,6 @@ module.exports = function CommandsCtrl(
       return
     }
 
-
     var groupId = new Date().getTime()
     // 运行测试命令
     selected_devices.forEach(function(obj){
@@ -68,7 +118,7 @@ module.exports = function CommandsCtrl(
     { id: calculateId(device)
       , group: groupId
       , name: $scope.test_name||'未定义'
-      , scenario: $scope.test_scenario||'未定义' //  @hy 2017-05-17 add new field 'scenario'
+      , scenario: $scope.test_scenario||'未定义' // @hy 2017-05-17 add new field 'scenario'
       , user: $scope.user.name
       , serial: device.serial
       , start: new Date().getTime()
@@ -117,6 +167,5 @@ module.exports = function CommandsCtrl(
       }
     });
     $scope.$apply()
-
   })
 }

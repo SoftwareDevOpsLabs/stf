@@ -14,11 +14,19 @@ module.exports = function TemplateCtrl(
   $scope.templates = [{group:""}]
   $scope.scenarios = [{scenario:""}]
   $scope.currentTemplte = {}
+  $scope.test_scenario = ""
+  $scope.test_group = ""
+
 
   // @hy 2017-05-10: set default value of test command
   $scope.test_command = 'python2.7 pulltest/newpull.py {SN} 1 1 1'
 
   $scope.save_template = function() {
+    if ($scope.test_scenario == "" || $scope.test_group == "")  {
+      alert('"测试分类"或"测试场景"不能为空！')
+      return
+    }
+
     socket.emit("testing.testcase.save", {
         id: $scope.currentTemplte.id||""
         ,creator: $scope.user.name
@@ -63,7 +71,6 @@ module.exports = function TemplateCtrl(
       return;
     }
 
-    $scope.currentTemplte = {}
     $scope.scenarios.forEach(function(item) {
       if (item.scenario === scenario) {
         $scope.test_command = item['command']
@@ -78,9 +85,8 @@ module.exports = function TemplateCtrl(
     .then(function(response) {
       if (response.status === 200) {
         $scope.templates = response['data']['testcases']
-        console.log($scope.templates)
       } else {
-        console.log("Failed to get test templates!!!")
+        console.error("Failed to get test templates!!!")
       }
     })
 
