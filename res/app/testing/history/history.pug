@@ -1,4 +1,12 @@
 div.page-controller(ng-controller='HistoryCtrl')
+
+  p.form-group
+    div.input-group.date-input
+      input.form-control(type='text',uib-datepicker-popup='{{format}}',ng-model='dat',is-open='popup1.opened',ng-required='true',close-text='关闭',clear-text='清空',current-text='今天',datepicker-options='options',alt-input-formats='altInputFormats')
+      span.input-group-btn
+        button.btn.btn-primary(type='button',ng-click='open1()')
+          i.glyphicon.glyphicon-calendar
+
   testing-column-list(columns='columns',sort='=sort').selectable
 
 
