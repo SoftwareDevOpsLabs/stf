@@ -294,18 +294,8 @@ module.exports = function ControlServiceFactory(
 
     //TODO @chenhao 添加测试命令
     this.startTest = function(test) {
-      return sendOneWay('startTest',{
-        id : test.id,
-        group : test.group,
-        name : test.name,
-        serial : test.serial,
-        user : test.user,
-        commands : test.commands,
-        model : test.model,
-        manufacturer : test.manufacturer,
-        version : test.version,
-        display : test.display,
-      })
+      // @hy 2017-05-17 replace above json string to below test var
+      return sendOneWay('startTest', test)
     }
     //TODO @chenhao 添加停止测试命令
     this.stopTest = function(test) {

@@ -316,6 +316,38 @@ paths:
             $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
+  /testTemplates/{status}:
+    x-swagger-router-controller: testing
+    get:
+      summary: Testing List
+      description: The testing list return list of testing record
+      operationId: getTestcaseList
+      tags:
+        - testing
+      parameters:
+        - name: status
+          in: path
+          description: test status
+          required: true
+          type: string
+        - name: fields
+          in: query
+          description: >-
+            Fields query parameter takes a comma seperated list of fields. Only
+            listed field will be return in response
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Testing List
+          schema:
+            $ref: '#/definitions/DeviceResponse'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - accessTokenAuth: []
   '/testing/{id}/report/':
     x-swagger-router-controller: testing
     get:
@@ -348,12 +380,12 @@ paths:
             $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
-  
+
   '/testing/pie/{name}/':
     x-swagger-router-controller: testing
     get:
       summary: Testing Chart Data
-      description: The testing chart data info 
+      description: The testing chart data info
       operationId: getTestingPieChart
       tags:
         - testing
@@ -380,13 +412,13 @@ paths:
           schema:
             $ref: '#/definitions/ErrorResponse'
       security:
-        - accessTokenAuth: []      
-        
+        - accessTokenAuth: []
+
   '/testing/bar/{name}/':
     x-swagger-router-controller: testing
     get:
       summary: Testing Chart Data
-      description: The testing chart data info 
+      description: The testing chart data info
       operationId: getTestingBarChart
       tags:
         - testing
@@ -413,8 +445,8 @@ paths:
           schema:
             $ref: '#/definitions/ErrorResponse'
       security:
-        - accessTokenAuth: []  
-  
+        - accessTokenAuth: []
+
   /swagger.json:
     x-swagger-pipe: swagger_raw
 definitions:
