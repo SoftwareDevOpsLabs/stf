@@ -8,3 +8,12 @@
 .shell-input{
   max-width: 100%;
 }
+.date-input{
+  width: 300px;
+}
+.date-input .btn.btn-default{
+  margin: 1px;
+}
+.date-input .btn.btn-primary{
+  margin: 0px;
+}

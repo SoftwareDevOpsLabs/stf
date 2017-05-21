@@ -10,4 +10,19 @@ module.exports = function HistoryCtrl(
       $scope.columns = testings
       $scope.sort='sort'
     })
+
+
+  $scope.dat = new Date();
+  $scope.format = "yyyy/MM/dd";
+  $scope.altInputFormats = ['yyyy/M!/d!'];
+  $scope.options = {
+    showWeeks: false
+  };
+
+  $scope.popup1 = {
+    opened: false
+  };
+  $scope.open1 = function () {
+    $scope.popup1.opened = true;
+  };
 }
