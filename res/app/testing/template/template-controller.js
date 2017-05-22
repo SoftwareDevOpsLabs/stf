@@ -13,7 +13,7 @@ module.exports = function TemplateCtrl(
 
   $scope.templates = [{group:""}]
   $scope.scenarios = [{scenario:""}]
-  $scope.currentTemplte = {}
+  $scope.currentTemplate = {}
   $scope.test_scenario = ""
   $scope.test_group = ""
 
@@ -22,13 +22,17 @@ module.exports = function TemplateCtrl(
   $scope.test_command = 'python2.7 pulltest/newpull.py {SN} 1 1 1'
 
   $scope.save_template = function() {
+    $scope.test_group.trim()
+    $scope.test_scenario.trim()
+    $scope.test_command.trim()
+
     if ($scope.test_scenario == "" || $scope.test_group == "")  {
       alert('"测试分类"或"测试场景"不能为空！')
       return
     }
-
+    console.log($scope.currentTemplate)
     socket.emit("testing.testcase.save", {
-        id: $scope.currentTemplte.id||""
+        id: $scope.currentTemplate.id||""
         ,creator: $scope.user.name
         ,email: $scope.user.email
         ,group: $scope.test_group
@@ -38,8 +42,17 @@ module.exports = function TemplateCtrl(
 
   }
 
+  // define a trim function to remove heading and tailing space
+  if (typeof String.prototype.trim != 'function') { // detect native implementation
+    String.prototype.trim = function () {
+      return this.replace(/^\s+/, '').replace(/\s+$/, '');
+    };
+  }
+
   socket.on("testing.testcase.saved", function (testcase) {
     console.log(testcase)
+    $scope.currentTemplate = testcase
+    getTestTemplates()
     alert("测试模板保存成功!")
   })
 
@@ -49,6 +62,7 @@ module.exports = function TemplateCtrl(
 
 
   $scope.LoadTestGroup = function(group) {
+    $scope.currentTemplate = {}
     if (group == "") {
       $scope.scenarios = []
       return;
@@ -58,7 +72,6 @@ module.exports = function TemplateCtrl(
       if (template.group === group) {
         $scope.test_scenario=""
         $scope.test_command=""
-        $scope.currentTemplte = {}
         $scope.scenarios = template['reduction']
         return
       }
@@ -66,30 +79,28 @@ module.exports = function TemplateCtrl(
   }
 
   $scope.LoadTestScenario = function(scenario) {
-    if (scenario == "") {
-      $scope.scenarios = []
-      return;
-    }
-
+    $scope.currentTemplate = {}
     $scope.scenarios.forEach(function(item) {
       if (item.scenario === scenario) {
         $scope.test_command = item['command']
-        $scope.currentTemplte = item
+        $scope.currentTemplate = item
         return
       }
     })
   }
 
   // Get all the test template from DB
-  $http.get('/api/v1/testTemplates/active')
-    .then(function(response) {
-      if (response.status === 200) {
-        $scope.templates = response['data']['testcases']
-      } else {
-        console.error("Failed to get test templates!!!")
-      }
-    })
+  getTestTemplates = function() {
+    $http.get('/api/v1/testTemplates/active')
+      .then(function (response) {
+        if (response.status === 200) {
+          $scope.templates = response['data']['testcases']
+        } else {
+          console.error("Failed to get test templates!!!")
+        }
+      })
+  }
 
-
+  getTestTemplates()
 }
 

@@ -56,11 +56,7 @@ module.exports = function CommandsCtrl(
   }
 
   $scope.LoadTestScenario = function(scenario) {
-    if (scenario == "") {
-      $scope.scenarios = []
-      return;
-    }
-
+    
     $scope.scenarios.forEach(function(item) {
       if (item.scenario === scenario) {
         $scope.test_command = item['command']
