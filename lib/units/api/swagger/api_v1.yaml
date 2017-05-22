@@ -446,6 +446,35 @@ paths:
             $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
+        
+  '/testing/types/':
+    x-swagger-router-controller: testing
+    get:
+      summary: Get All Test Types 
+      description: The testing types
+      operationId: getTestingTypes
+      tags:
+        - testing
+      parameters:
+        - name: fields
+          in: query
+          description: >-
+            Fields query parameter takes a comma seperated list of fields. Only
+            listed field will be return in response
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Testing types
+          schema:
+            $ref: '#/definitions/DeviceResponse'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - accessTokenAuth: []
+  
 
   /swagger.json:
     x-swagger-pipe: swagger_raw

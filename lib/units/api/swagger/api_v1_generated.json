@@ -456,20 +456,20 @@
                 ]
             }
         },
-        "/testing/{id}/report/": {
+        "/testTemplates/{status}": {
             "x-swagger-router-controller": "testing",
             "get": {
-                "summary": "Testing Report Info",
-                "description": "The testing report info return report details of a testing",
-                "operationId": "getTestingReport",
+                "summary": "Testing List",
+                "description": "The testing list return list of testing record",
+                "operationId": "getTestcaseList",
                 "tags": [
                     "testing"
                 ],
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "status",
                         "in": "path",
-                        "description": "test id",
+                        "description": "test status",
                         "required": true,
                         "type": "string"
                     },
@@ -483,46 +483,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Testing Report Info",
-                        "schema": {
-                            "$ref": "#/definitions/DeviceResponse"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected Error",
-                        "schema": {
-                            "$ref": "#/definitions/ErrorResponse"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "accessTokenAuth": []
-                    }
-                ]
-            }
-        },
-        "/testcases/{status}": {
-            "x-swagger-router-controller": "testing",
-            "get": {
-                "summary": "Testcases List",
-                "description": "This api  returns list of testcases record @hy 2017-05-18 added for test template",
-                "operationId": "getTestcasesList",
-                "tags": [
-                    "testing", "testcase"
-                ],
-                "parameters": [
-                    {
-                        "name": "status",
-                        "in": "path",
-                        "description": "testcase status",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Testcase List",
+                        "description": "Testing List",
                         "schema": {
                             "$ref": "#/definitions/DeviceResponse"
                         }
@@ -542,7 +503,7 @@
             }
         },
         "/testing/{id}/report/": {
-            "x-swagger-cases-controller": "testing",
+            "x-swagger-router-controller": "testing",
             "get": {
                 "summary": "Testing Report Info",
                 "description": "The testing report info return report details of a testing",
@@ -661,6 +622,45 @@
                 "responses": {
                     "200": {
                         "description": "Testing Chart Data",
+                        "schema": {
+                            "$ref": "#/definitions/DeviceResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "accessTokenAuth": []
+                    }
+                ]
+            }
+        },
+        "/testing/types/": {
+            "x-swagger-router-controller": "testing",
+            "get": {
+                "summary": "Get All Test Types",
+                "description": "The testing types",
+                "operationId": "getTestingTypes",
+                "tags": [
+                    "testing"
+                ],
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Testing types",
                         "schema": {
                             "$ref": "#/definitions/DeviceResponse"
                         }
