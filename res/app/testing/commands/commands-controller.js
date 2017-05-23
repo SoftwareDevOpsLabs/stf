@@ -56,7 +56,7 @@ module.exports = function CommandsCtrl(
   }
 
   $scope.LoadTestScenario = function(scenario) {
-    
+
     $scope.scenarios.forEach(function(item) {
       if (item.scenario === scenario) {
         $scope.test_command = item['command']
@@ -66,12 +66,19 @@ module.exports = function CommandsCtrl(
   }
 
   // 读取当前所有正在执行的测试记录
-  $http.get('/api/v1/testings/Testing')
-    .then(function(response) {
-      console.log(response)
-      var testings = response['data']['testings']
-      $scope.columns = testings
-    })
+  $http({
+    method:'post',
+    url:'/api/v1/testings/Testing',
+    data:{
+      'start_time':'',
+      'end_time':'',
+      'test_type':1
+    }
+  }).success(function(response){
+    console.log(response);
+    var testings = response['testings']
+    $scope.columns = testings
+  })
 
   // 根据设备计算测试的id
   function calculateId(device) {

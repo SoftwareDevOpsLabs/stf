@@ -286,7 +286,7 @@ paths:
         - accessTokenAuth: []
   /testings/{status}:
     x-swagger-router-controller: testing
-    get:
+    post:
       summary: Testing List
       description: The testing list return list of testing record
       operationId: getTestingList
@@ -305,6 +305,12 @@ paths:
             listed field will be return in response
           required: false
           type: string
+        - name: device
+          in: body
+          description: filters
+          required: true
+          schema:
+            $ref: '#/definitions/QueryTestingPayload'
       responses:
         '200':
           description: Testing List
@@ -383,7 +389,7 @@ paths:
 
   '/testing/pie/{name}/':
     x-swagger-router-controller: testing
-    get:
+    post:
       summary: Testing Chart Data
       description: The testing chart data info
       operationId: getTestingPieChart
@@ -402,6 +408,12 @@ paths:
             listed field will be return in response
           required: false
           type: string
+        - name: device
+          in: body
+          description: filters
+          required: true
+          schema:
+            $ref: '#/definitions/QueryTestingPayload'
       responses:
         '200':
           description: Testing Chart Data
@@ -416,7 +428,7 @@ paths:
 
   '/testing/bar/{name}/':
     x-swagger-router-controller: testing
-    get:
+    post:
       summary: Testing Chart Data
       description: The testing chart data info
       operationId: getTestingBarChart
@@ -435,6 +447,12 @@ paths:
             listed field will be return in response
           required: false
           type: string
+        - name: filters
+          in: body
+          description: filters
+          required: true
+          schema:
+            $ref: '#/definitions/QueryTestingPayload'
       responses:
         '200':
           description: Testing Chart Data
@@ -446,11 +464,11 @@ paths:
             $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
-        
+
   '/testing/types/':
     x-swagger-router-controller: testing
     get:
-      summary: Get All Test Types 
+      summary: Get All Test Types
       description: The testing types
       operationId: getTestingTypes
       tags:
@@ -474,7 +492,7 @@ paths:
             $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
-  
+
 
   /swagger.json:
     x-swagger-pipe: swagger_raw
@@ -516,6 +534,24 @@ definitions:
         type: string
       serial:
         type: string
+
+  QueryTestingPayload:
+    description: payload object for query testings
+    required:
+      - start_time
+      - end_time
+      - test_type
+    properties:
+      start_time:
+        description: start time
+        type: string
+      end_time:
+        description: end time
+        type: string
+      test_type:
+        description: type
+        type: integer
+
   AddUserDevicePayload:
     description: payload object for adding device to user
     required:

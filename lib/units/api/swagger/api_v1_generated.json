@@ -412,7 +412,7 @@
         },
         "/testings/{status}": {
             "x-swagger-router-controller": "testing",
-            "get": {
+            "post": {
                 "summary": "Testing List",
                 "description": "The testing list return list of testing record",
                 "operationId": "getTestingList",
@@ -433,6 +433,15 @@
                         "description": "Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response",
                         "required": false,
                         "type": "string"
+                    },
+                    {
+                        "name": "device",
+                        "in": "body",
+                        "description": "filters",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/QueryTestingPayload"
+                        }
                     }
                 ],
                 "responses": {
@@ -550,7 +559,7 @@
         },
         "/testing/pie/{name}/": {
             "x-swagger-router-controller": "testing",
-            "get": {
+            "post": {
                 "summary": "Testing Chart Data",
                 "description": "The testing chart data info",
                 "operationId": "getTestingPieChart",
@@ -571,6 +580,15 @@
                         "description": "Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response",
                         "required": false,
                         "type": "string"
+                    },
+                    {
+                        "name": "device",
+                        "in": "body",
+                        "description": "filters",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/QueryTestingPayload"
+                        }
                     }
                 ],
                 "responses": {
@@ -596,7 +614,7 @@
         },
         "/testing/bar/{name}/": {
             "x-swagger-router-controller": "testing",
-            "get": {
+            "post": {
                 "summary": "Testing Chart Data",
                 "description": "The testing chart data info",
                 "operationId": "getTestingBarChart",
@@ -617,6 +635,15 @@
                         "description": "Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response",
                         "required": false,
                         "type": "string"
+                    },
+                    {
+                        "name": "filters",
+                        "in": "body",
+                        "description": "filters",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/QueryTestingPayload"
+                        }
                     }
                 ],
                 "responses": {
@@ -741,6 +768,28 @@
                 },
                 "serial": {
                     "type": "string"
+                }
+            }
+        },
+        "QueryTestingPayload": {
+            "description": "payload object for query testings",
+            "required": [
+                "start_time",
+                "end_time",
+                "test_type"
+            ],
+            "properties": {
+                "start_time": {
+                    "description": "start time",
+                    "type": "string"
+                },
+                "end_time": {
+                    "description": "end time",
+                    "type": "string"
+                },
+                "test_type": {
+                    "description": "type",
+                    "type": "integer"
                 }
             }
         },

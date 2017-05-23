@@ -1,16 +1,24 @@
+var oboe = require('oboe')
+
 module.exports = function HistoryCtrl(
   $scope,
   $http
 ) {
   // 读取当前用户所有历史的测试记录
-  $http.get('/api/v1/testings/Notrun')
-    .then(function(response) {
-      console.log(response)
-      var testings = response['data']['testings']
-      $scope.columns = testings
-      $scope.sort='sort'
-    })
-
+  $http({
+    method:'post',
+    url:'/api/v1/testings/Notrun',
+    data:{
+      'start_time':'1212',
+      'end_time':'1212',
+      'test_type':1
+    }
+  }).success(function(response){
+    console.log(response);
+    var testings = response['testings']
+    $scope.columns = testings
+    $scope.sort='sort'
+  })
 
   $scope.start_time = new Date();
   $scope.end_time = new Date();
@@ -19,7 +27,7 @@ module.exports = function HistoryCtrl(
   $scope.options = {
     showWeeks: false
   };
-  
+
   // 获取所有的测试类型
   $http.get('/api/v1/testing/types/')
     .then(function(response) {
@@ -39,7 +47,20 @@ module.exports = function HistoryCtrl(
     }
 
     // 发送请求，按照过滤条件查询
-    // TODO get data from server
+    $http({
+      method:'post',
+      url:'/api/v1/testings/Notrun',
+      data:{
+        'start_time': stat_time,
+        'end_time': end_time,
+        'test_type': test_type
+      }
+    }).success(function(response){
+      console.log(response);
+      var testings = response['testings']
+      $scope.columns = testings
+      $scope.sort='sort'
+    })
   };
 
   $scope.popup1 = {

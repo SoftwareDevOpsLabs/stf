@@ -162,45 +162,67 @@ module.exports = function ChartsCtrl(
       .attr("fill", function(d,i) { return colors[i]; });
   }
 
-  // 读取当前用户所有的测试记录
-  $http.get('/api/v1/testing/pie/model/')
-    .then(function(response) {
-      console.log(response)
-      var stat = response['data']['stat']
-      var panel = 'pie_chart_manufacturer'
-      $scope.drawPieChart(stat,panel)
-      $scope.manufacturer_stat = stat
-    })
+  $http({
+    method:'post',
+    url:'/api/v1/testing/pie/model/',
+    data:{
+      'start_time': '',
+      'end_time': '',
+      'test_type': 1
+    }
+  }).success(function(response){
+    console.log(response);
+    var stat = response['stat']
+    var panel = 'pie_chart_manufacturer'
+    $scope.drawPieChart(stat,panel)
+    $scope.manufacturer_stat = stat
+  })
 
-  // 读取当前用户所有的测试记录
-  $http.get('/api/v1/testing/pie/name/')
-    .then(function(response) {
-      console.log(response)
-      var stat = response['data']['stat']
-      var panel = 'pie_chart_scene'
-      $scope.drawPieChart(stat,panel)
-      $scope.scene_stat = stat
-    })
+  $http({
+    method:'post',
+    url:'/api/v1/testing/pie/name/',
+    data:{
+      'start_time': '',
+      'end_time': '',
+      'test_type': 1
+    }
+  }).success(function(response){
+    console.log(response)
+    var stat = response['stat']
+    var panel = 'pie_chart_scene'
+    $scope.drawPieChart(stat,panel)
+    $scope.scene_stat = stat
+  })
 
-  // 读取当前用户所有的测试记录
-  $http.get('/api/v1/testing/bar/user/')
-    .then(function(response) {
-      console.log(response)
-      var labels = response['data']['labels']
-      var dataset = response['data']['dataset']
-      var panel = 'bar_chart_user'
-      $scope.drawBarChart(labels,dataset,panel);
-    })
+  $http({
+    method:'post',
+    url:'/api/v1/testing/bar/user/',
+    data:{
+      'start_time': '',
+      'end_time': '',
+      'test_type': 1
+    }
+  }).success(function(response){
+    console.log(response);
+    var labels = response['labels']
+    var dataset = response['dataset']
+    var panel = 'bar_chart_user'
+    $scope.drawBarChart(labels,dataset,panel);
+  })
 
-  // Aggregate every device's testing number
-  // $http.get('/api/v1/testing/bar/serial/')
-  // @hy 2017-05-12, replace serial with model
-  $http.get('/api/v1/testing/bar/model/')
-    .then(function(response) {
-      console.log(response)
-      var labels = response['data']['labels']
-      var dataset = response['data']['dataset']
-      var panel = 'bar_chart_device'
-      $scope.drawBarChart(labels,dataset,panel)
-    })
+  $http({
+    method:'post',
+    url:'/api/v1/testing/bar/model/',
+    data:{
+      'start_time': '',
+      'end_time': '',
+      'test_type': 1
+    }
+  }).success(function(response){
+    console.log(response);
+    var labels = response['labels']
+    var dataset = response['dataset']
+    var panel = 'bar_chart_device'
+    $scope.drawBarChart(labels,dataset,panel)
+  })
 }
