@@ -26,8 +26,6 @@ module.exports = function SelectDeviceListDirective(
       })
        	
       function addListener(device) {
-        console.log('设备信息', device);
-	 
         // @hy, 2017-05-08, only display usable devices
         if (device != null && device.usable === true) {
           scope.devices.push(device)

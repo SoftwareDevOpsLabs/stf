@@ -53,6 +53,20 @@ module.exports = function TemplateCtrl(
     console.log(testcase)
     $scope.currentTemplate = testcase
     getTestTemplates()
+
+    // @hy 2017-05-23 add new scenario after saving
+    var i
+    for (i = 0; i < $scope.scenarios.length; i++) {
+       if ($scope.scenarios[i]['scenario'] === $scope.test_scenario) {
+           break
+       }
+    }
+
+    if (i == $scope.scenarios.length) { // new testcase
+	$scope.scenarios.push(testcase)
+    }
+    $scope.$apply()
+
     alert("测试模板保存成功!")
   })
 
