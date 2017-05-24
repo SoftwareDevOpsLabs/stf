@@ -11,55 +11,12 @@ module.exports = function ChartsCtrl(
 
   $scope.devices = [];
 
-  $scope.stat_time = new Date();
+  $scope.start_time = new Date();
   $scope.end_time = new Date();
   $scope.format = "yyyy/MM/dd";
   $scope.altInputFormats = ['yyyy/M!/d!'];
   $scope.options = {
     showWeeks: false
-  };
-
-  // 获取所有的测试类型
-  $http.get('/api/v1/testing/types/')
-    .then(function(response) {
-      $scope.types = response['data']['types']
-    })
-
-  // 定义默认的参数
-  var default_params = {
-    'start_time': 0,
-    'end_time': new Date().getTime(),
-    'test_type': ''
-  }
-  // 获取默认的数据
-  $scope.getStatData(default_params)
-
-  // 根据条件查询统计图的信息
-  $scope.submitQuery = function(){
-    // 检查开始时间和结束时间的输入
-    var stat_time = $scope.stat_time
-    var end_time = $scope.end_time
-    var test_type = $scope.test_type
-
-    // 检查开始时间和结束时间
-    if (stat_time>end_time){
-      alert('开始时间不能大于结束时间')
-      return
-    }
-
-    // 检查测试类型
-    if (!test_type){
-      alert('请选择测试类型')
-      return
-    }
-    var params = {
-      'start_time': stat_time.getTime(),
-      'end_time': end_time.getTime(),
-      'test_type': test_type
-    }
-
-    // 获取统计图的数据
-    $scope.getStatData(params)
   };
 
   $scope.getStatData = function(params){
@@ -108,6 +65,49 @@ module.exports = function ChartsCtrl(
     })
   };
 
+  // 获取所有的测试类型
+  $http.get('/api/v1/testing/types/')
+    .then(function(response) {
+      $scope.types = response['data']['types']
+    })
+
+  // 定义默认的参数
+  var default_params = {
+    'start_time': 0,
+    'end_time': new Date().getTime(),
+    'test_type': ''
+  }
+  // 获取默认的数据
+  $scope.getStatData(default_params)
+
+  // 根据条件查询统计图的信息
+  $scope.submitQuery = function(){
+    // 检查开始时间和结束时间的输入
+    var start_time = $scope.start_time
+    var end_time = $scope.end_time
+    var test_type = $scope.test_type
+
+    // 检查开始时间和结束时间
+    if (start_time>end_time){
+      alert('开始时间不能大于结束时间')
+      return
+    }
+
+    // 检查测试类型
+    if (!test_type){
+      alert('请选择测试类型')
+      return
+    }
+    var params = {
+      'start_time': start_time.getTime(),
+      'end_time': end_time.getTime(),
+      'test_type': test_type
+    }
+
+    // 获取统计图的数据
+    $scope.getStatData(params)
+  };
+
 
   $scope.popup1 = {
     opened: false
@@ -138,6 +138,7 @@ module.exports = function ChartsCtrl(
     var innerTadius = 0
     var arc = d3.svg.arc().innerRadius(innerTadius).outerRadius(outerRadius)
     var svg = d3.select("#"+panel).append("svg").attr("width",width).attr("height",height)
+    // 清空画布
     var arcs = svg.selectAll("g")
       .data(pie_data)
       .enter()

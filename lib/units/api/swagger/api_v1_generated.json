@@ -435,7 +435,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "device",
+                        "name": "filters",
                         "in": "body",
                         "description": "filters",
                         "required": true,
@@ -582,7 +582,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "device",
+                        "name": "filters",
                         "in": "body",
                         "description": "filters",
                         "required": true,

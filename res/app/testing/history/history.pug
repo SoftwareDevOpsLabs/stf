@@ -17,7 +17,7 @@ div.page-controller(ng-controller='HistoryCtrl')
 
     div.type-item
       div.date-item-title 测试类型
-      input.form-control.type-input(list='types')
+      input.form-control.type-input(list='types',ng-model='test_type')
       datalist(id='types')
         option(ng-repeat='type in types') {{type}}
 

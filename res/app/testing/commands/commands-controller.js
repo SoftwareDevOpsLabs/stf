@@ -70,9 +70,9 @@ module.exports = function CommandsCtrl(
     method:'post',
     url:'/api/v1/testings/Testing',
     data:{
-      'start_time':'',
-      'end_time':'',
-      'test_type':1
+      'start_time':0,
+      'end_time': new Date().getTime(),
+      'test_type': ''
     }
   }).success(function(response){
     console.log(response);

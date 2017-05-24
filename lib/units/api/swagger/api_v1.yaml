@@ -305,7 +305,7 @@ paths:
             listed field will be return in response
           required: false
           type: string
-        - name: device
+        - name: filters
           in: body
           description: filters
           required: true
@@ -408,7 +408,7 @@ paths:
             listed field will be return in response
           required: false
           type: string
-        - name: device
+        - name: filters
           in: body
           description: filters
           required: true
