@@ -22,9 +22,17 @@ module.exports = function ChartsCtrl(
   // 获取所有的测试类型
   $http.get('/api/v1/testing/types/')
     .then(function(response) {
-      console.log(response)
       $scope.types = response['data']['types']
     })
+
+  // 定义默认的参数
+  var default_params = {
+    'start_time': 0,
+    'end_time': new Date().getTime(),
+    'test_type': ''
+  }
+  // 获取默认的数据
+  $scope.getStatData(default_params)
 
   // 根据条件查询统计图的信息
   $scope.submitQuery = function(){
@@ -33,13 +41,73 @@ module.exports = function ChartsCtrl(
     var end_time = $scope.end_time
     var test_type = $scope.test_type
 
+    // 检查开始时间和结束时间
     if (stat_time>end_time){
       alert('开始时间不能大于结束时间')
+      return
     }
 
-    // 发送请求，按照过滤条件查询
-    // TODO get data from server
+    // 检查测试类型
+    if (!test_type){
+      alert('请选择测试类型')
+      return
+    }
+    var params = {
+      'start_time': stat_time.getTime(),
+      'end_time': end_time.getTime(),
+      'test_type': test_type
+    }
+
+    // 获取统计图的数据
+    $scope.getStatData(params)
   };
+
+  $scope.getStatData = function(params){
+    $http({
+      method:'post',
+      url:'/api/v1/testing/pie/model/',
+      data: params
+    }).success(function(response){
+      var stat = response['stat']
+      var panel = 'pie_chart_manufacturer'
+      $scope.drawPieChart(stat,panel)
+      $scope.manufacturer_stat = stat
+    })
+
+    $http({
+      method:'post',
+      url:'/api/v1/testing/pie/name/',
+      data: params
+    }).success(function(response){
+      var stat = response['stat']
+      var panel = 'pie_chart_scene'
+      $scope.drawPieChart(stat,panel)
+      $scope.scene_stat = stat
+    })
+
+    $http({
+      method:'post',
+      url:'/api/v1/testing/bar/user/',
+      data: params
+    }).success(function(response){
+      var labels = response['labels']
+      var dataset = response['dataset']
+      var panel = 'bar_chart_user'
+      $scope.drawBarChart(labels,dataset,panel);
+    })
+
+    $http({
+      method:'post',
+      url:'/api/v1/testing/bar/model/',
+      data: params
+    }).success(function(response){
+      var labels = response['labels']
+      var dataset = response['dataset']
+      var panel = 'bar_chart_device'
+      $scope.drawBarChart(labels,dataset,panel)
+    })
+  };
+
 
   $scope.popup1 = {
     opened: false
@@ -161,68 +229,4 @@ module.exports = function ChartsCtrl(
       .attr("height", function(d) { return h - y(d); })
       .attr("fill", function(d,i) { return colors[i]; });
   }
-
-  $http({
-    method:'post',
-    url:'/api/v1/testing/pie/model/',
-    data:{
-      'start_time': '',
-      'end_time': '',
-      'test_type': 1
-    }
-  }).success(function(response){
-    console.log(response);
-    var stat = response['stat']
-    var panel = 'pie_chart_manufacturer'
-    $scope.drawPieChart(stat,panel)
-    $scope.manufacturer_stat = stat
-  })
-
-  $http({
-    method:'post',
-    url:'/api/v1/testing/pie/name/',
-    data:{
-      'start_time': '',
-      'end_time': '',
-      'test_type': 1
-    }
-  }).success(function(response){
-    console.log(response)
-    var stat = response['stat']
-    var panel = 'pie_chart_scene'
-    $scope.drawPieChart(stat,panel)
-    $scope.scene_stat = stat
-  })
-
-  $http({
-    method:'post',
-    url:'/api/v1/testing/bar/user/',
-    data:{
-      'start_time': '',
-      'end_time': '',
-      'test_type': 1
-    }
-  }).success(function(response){
-    console.log(response);
-    var labels = response['labels']
-    var dataset = response['dataset']
-    var panel = 'bar_chart_user'
-    $scope.drawBarChart(labels,dataset,panel);
-  })
-
-  $http({
-    method:'post',
-    url:'/api/v1/testing/bar/model/',
-    data:{
-      'start_time': '',
-      'end_time': '',
-      'test_type': 1
-    }
-  }).success(function(response){
-    console.log(response);
-    var labels = response['labels']
-    var dataset = response['dataset']
-    var panel = 'bar_chart_device'
-    $scope.drawBarChart(labels,dataset,panel)
-  })
 }

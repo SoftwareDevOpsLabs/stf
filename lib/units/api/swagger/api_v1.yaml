@@ -544,13 +544,13 @@ definitions:
     properties:
       start_time:
         description: start time
-        type: string
+        type: integer
       end_time:
         description: end time
-        type: string
+        type: integer
       test_type:
         description: type
-        type: integer
+        type: string
 
   AddUserDevicePayload:
     description: payload object for adding device to user
