@@ -123,22 +123,45 @@ module.exports = function ChartsCtrl(
     $scope.popup2.opened = true;
   };
 
+  // 初始化画布
+  var width = 400
+  var height = 400
+
+  // 定义默认颜色
+  var colors = d3.range(20).map(d3.scale.category20())
+
+  var outerRadius = width/3
+  var innerTadius = 0
+  var arc = d3.svg.arc().innerRadius(innerTadius).outerRadius(outerRadius)
+  // 初始化型号饼图
+  var pie_chart_manufacturer
+
+  // 初始化场景饼图
+  var pie_chart_scene
+
+  //
+
+
+
+  // 重新写绘制图形的方法
+  $scope.drawPie = function (dataset, panel) {
+    // 当dataset发生改变的时候，需要动态更新图表的显示
+
+
+  }
+
+
+
   $scope.drawPieChart = function(dataset,panel){
     // 检查数据源
-    var colors = ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9','#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']
     if(dataset.length == 0){
       dataset = [['暂无数据',0.01]]
       var colors = ['#dddddd']
     }
     var pie = d3.layout.pie().value(function(d){return d[1]})
     var pie_data = pie(dataset)
-    var width = 400
-    var height = 400
-    var outerRadius = width/3
-    var innerTadius = 0
-    var arc = d3.svg.arc().innerRadius(innerTadius).outerRadius(outerRadius)
-    var svg = d3.select("#"+panel).append("svg").attr("width",width).attr("height",height)
     // 清空画布
+    var svg = d3.select("#"+panel).append("svg").attr("width",width).attr("height",height)
     var arcs = svg.selectAll("g")
       .data(pie_data)
       .enter()
@@ -176,37 +199,37 @@ module.exports = function ChartsCtrl(
   }
 
   $scope.drawBarChart = function(lables,dataset,panel){
-    // 绘制图表
-    var colors = ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9','#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']
-
-    var margin = {top: 30, right: 30, bottom: 30, left: 30},
-      w = 400 - margin.left - margin.right,
+    // 定义图表的间距
+    var margin = {top: 30, right: 30, bottom: 30, left: 100},
+      w = 500 - margin.left - margin.right,
       h = 350 - margin.top - margin.bottom;
-    var color = d3.scale.category10();
 
-    var x = d3.scale.ordinal()
-      .rangeRoundBands([0, w], .1);
-    var y = d3.scale.linear()
-      .range([h, 0]);
+    // 定义x轴和y轴
+    var y = d3.scale.ordinal()
+      .rangeRoundBands([0,h], .1);
+
+    console.log('label',lables)
+    y.domain(lables.map(function(d) { return d; }));
+
+    var x = d3.scale.linear()
+      .range([0,w]);
+    x.domain([0, d3.max(dataset, function(d) { return d; })]);
 
     var formatPercent = d3.format(".0");
     var xAxis = d3.svg.axis()
       .scale(x)
-      .orient("bottom");
+      .orient("bottom")
+      .tickFormat(formatPercent)
+
     var yAxis = d3.svg.axis()
       .scale(y)
       .orient("left")
-      .tickFormat(formatPercent);
-
-    x.domain(lables.map(function(d) { return d; }));
-    y.domain([0, d3.max(dataset, function(d) { return d; })]);
 
     var svg = d3.select("#"+panel).append("svg")
       .attr("width", w + margin.left + margin.right)
       .attr("height", h + margin.top + margin.bottom)
       .append("g")
       .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
-
 
     svg.append("g")
       .attr("class", "x axis")
@@ -221,13 +244,13 @@ module.exports = function ChartsCtrl(
       .data(dataset)
       .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d,i) {
-        var pad = 0.5*(w/dataset.length-x.rangeBand())
-        return pad + i*(w/dataset.length)
+      .attr("y", function(d,i) {
+        var pad = 0.5*(h/dataset.length-y.rangeBand())
+        return pad + i*(h/dataset.length)
       })
-      .attr("width", x.rangeBand())
-      .attr("y", function(d) { return y(d); })
-      .attr("height", function(d) { return h - y(d); })
+      .attr("height", y.rangeBand())
+      .attr("x", function(d) { return 0; })
+      .attr("width", function(d) { return x(d); })
       .attr("fill", function(d,i) { return colors[i]; });
   }
 }
