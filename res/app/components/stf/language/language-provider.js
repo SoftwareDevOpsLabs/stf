@@ -2,7 +2,7 @@
 
 module.exports = function LanguageProvider(AppStateProvider) {
   var provider = {
-    selectedLanguage: 'ja' // default
+    selectedLanguage: 'cn' // default
   }
 
   var a = AppStateProvider.$get()

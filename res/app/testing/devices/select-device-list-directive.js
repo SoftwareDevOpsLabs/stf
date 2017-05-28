@@ -62,8 +62,6 @@ module.exports = function SelectDeviceListDirective(
             device.checked = false
             scope.devices.push(device)
             scope.$apply()
-            console.log("++++++++++++++After deleting ++++++++++++++++++")
-            console.log(scope.devices)
           }
         }
       }
