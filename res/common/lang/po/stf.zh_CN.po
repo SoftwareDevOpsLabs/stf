@@ -766,6 +766,10 @@ msgstr "未充电"
 msgid "Notes"
 msgstr "标注"
 
+#: app/device-list/column/device-column-service.js:256
+msgid "Notes"
+msgstr "标注"
+
 #: app/control-panes/inspect/inspect.html:1
 msgid "Nothing to inspect"
 msgstr "无需检查"
@@ -907,6 +911,10 @@ msgstr "电源来源"
 #: app/components/stf/device/device-info-filter/index.js:9
 msgid "Preparing"
 msgstr "准备中"
+
+#: app/device-list/column/device-column-service.js:262
+msgid "PresentedAt"
+msgstr "离线时间"
 
 #: app/control-panes/control-panes-hotkeys-controller.js:104
 msgid "Press Back button"

@@ -93,7 +93,7 @@ module.exports = function DeviceListCtrl(
     }
   , {
       name: 'batteryStatus'
-    , selected: false         
+    , selected: false
     }
   , {
       name: 'batteryLevel'
@@ -106,6 +106,10 @@ module.exports = function DeviceListCtrl(
   , {
       name: 'provider'
     , selected: true
+    }
+    ,{
+      name: 'presenceChangedAt'
+      ,selected: true
     }
   , {
       name: 'notes'

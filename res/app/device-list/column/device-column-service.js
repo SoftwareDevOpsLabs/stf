@@ -258,6 +258,12 @@ module.exports = function DeviceColumnService($filter, gettext) {
         return device.provider ? device.provider.name : ''
       }
     })
+    , presenceChangedAt: DateCell({  // @HY 2017-05-28 Added to present last time the device is online
+      title: gettext('PresentedAt')
+      , value: function(device) {
+        return device.presenceChangedAt ? new Date(device.presenceChangedAt) : null
+      }
+    })
   , notes: DeviceNoteCell({
       title: gettext('Notes')
     , value: function(device) {
@@ -377,6 +383,10 @@ function DateCell(options) {
           + zeroPadTwoDigit(date.getMonth() + 1)
           + '-'
           + zeroPadTwoDigit(date.getDate())
+          + ' '   // @HY 2018-05-28 we need more exact datetime
+          + zeroPadTwoDigit(date.getHours())
+          + ':'
+          + zeroPadTwoDigit(date.getMinutes())
       }
       else {
         t.nodeValue = ''
@@ -390,8 +400,8 @@ function DateCell(options) {
     }
   , filter: (function() {
       function dateNumber(d) {
-        return d
-          ? d.getFullYear() * 10000 + d.getMonth() * 100 + d.getDate()
+        return d    // // @HY 2018-05-28 we need more exact datetime
+          ? d.getFullYear() * 1000000 + d.getMonth() * 10000 + d.getDate() + 100 * date.getHours() + date.getMinutes()
           : 0
       }
       return function(item, filter) {

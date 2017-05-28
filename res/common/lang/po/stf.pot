@@ -893,6 +893,10 @@ msgstr ""
 msgid "Preparing"
 msgstr ""
 
+#: app/device-list/column/device-column-service.js:265
+msgid "PresentedAt"
+msgstr ""
+
 #: app/control-panes/control-panes-hotkeys-controller.js:104
 msgid "Press Back button"
 msgstr ""
