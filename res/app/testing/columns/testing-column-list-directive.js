@@ -18,7 +18,8 @@ module.exports = function TestingColumnListDirective(
   , template: require('./testing-column-list.pug')
   , scope: {
       columns: '=columns',
-      onStop : '&'
+      onStop : '&',
+      devices: '='
     }
   , link: function(scope, element) {
       scope.tracker = DeviceService.trackAll(scope)
@@ -41,7 +42,7 @@ module.exports = function TestingColumnListDirective(
 
         //scope.show_report_modal = true;
 
-        $http.get('/api/v1/testing/' + testID+'/report/')
+        $http.get('/api/v1/testing/' + testID + '/report/')
           .then(function(response) {
             var reports = response['data']['reports']
             // scope.reports = reports

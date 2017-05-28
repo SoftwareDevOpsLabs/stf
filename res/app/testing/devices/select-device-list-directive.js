@@ -14,6 +14,7 @@ module.exports = function SelectDeviceListDirective(
       devices: '='
     }
   , link: function(scope, element) {
+
       var activeColumns = []
       var tracker = scope.tracker()
       var prefix = 'd' + Math.floor(Math.random() * 1000000) + '-'
@@ -24,16 +25,15 @@ module.exports = function SelectDeviceListDirective(
         //checkDeviceSmallImage(e)
         //checkDeviceNote(e)
       })
-       	
+
       function addListener(device) {
-	console.log("++++++++addListener++++++++++")
-	console.log(device)
         if (device == null)
           return
 
         // @hy, 2017-05-08, only display usable devices
-	// device usage will not be recovered to null after Ungrouping
+	      // device usage will not be recovered to null after Ungrouping
         if (device.usable === true && (device.using === false || device.usage !== "automation")) {
+          device.checked = false
           scope.devices.push(device)
           scope.$apply()
         }
@@ -45,26 +45,25 @@ module.exports = function SelectDeviceListDirective(
         if (device == null)
           return
 
-	console.log("++++++++changeListener++++++++++")
-	console.log(device)
-		
         pos=scope.devices.indexOf(device)
 
         // if device has been already in the list, check if it's usable
- 	// @hy 2017-05-27 remove the device in the state of "automation"
+ 	      // @hy 2017-05-27 remove the using device in the state of "automation"
         if (pos >= 0) {
-          if (device.usable === false || 
-              (device.usable === true && device.usage === "automation")) {
-            // scope.devices.splice(pos, 1)
-            delete scope.devices[pos]
+          if (device.usable === false ||
+              (device.using === true && device.usage === "automation")) {
+            scope.devices.splice(pos, 1)
             scope.$apply()
           }
         // otherwise, check if it's an usable new device
         } else {
-	  // @hy 2017-05-27 the devices used by automation test will not be listed in UI  	
+          // @hy 2017-05-27 the devices used by automation test will not be listed in UI
           if (device.usable === true && (device.using === false || device.usage !== "automation")) {
+            device.checked = false
             scope.devices.push(device)
             scope.$apply()
+            console.log("++++++++++++++After deleting ++++++++++++++++++")
+            console.log(scope.devices)
           }
         }
       }
@@ -74,16 +73,14 @@ module.exports = function SelectDeviceListDirective(
         // return once device is invalid
         if (device == null)
           return
-	console.log("++++++++removeListener++++++++++")
-	console.log(device)
-		
+
         pos=scope.devices.indexOf(device)
 
         // if device has been already in the list, remove it
         if (pos >= 0) {
-            delete scope.devices[pos]
-            scope.$apply()
-        } 
+          scope.devices.splice(pos, 1)
+          scope.$apply()
+        }
       }
 
       tracker.on('add', addListener)

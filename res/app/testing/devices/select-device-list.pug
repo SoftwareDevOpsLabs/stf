@@ -1,6 +1,5 @@
 div.device-item-list
-  <!-- label.device-nitem(ng-repeat='device in devices',ng-if='device.remoteConnect') @hy 2017-05-11 remove ng-if ... -->
-  label.device-nitem(ng-repeat='device in devices')
-    input(type='checkbox',ng-click='checkDeviceItem(this)',ng-modle='device')
-    span.item-name({{device.manufacturer}}{{device.model}})
+  label.device-nitem(ng-repeat='device in devices track by device.serial')
+    input(type='checkbox',ng-click='checkDeviceItem(this)')
+    span.item-name {{device.manufacturer}}-{{device.model}}-Android{{device.version}} &nbsp;
 

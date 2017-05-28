@@ -36,7 +36,6 @@ module.exports = function CommandsCtrl(
     })
 
   $scope.LoadTestGroup = function(group) {
-    console.log("++++++++"+group)
     if (group == "") {
       $scope.scenarios = []
       return;

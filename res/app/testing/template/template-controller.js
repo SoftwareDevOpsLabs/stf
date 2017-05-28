@@ -11,12 +11,13 @@ module.exports = function TemplateCtrl(
   $scope.control = ControlService.create($scope.tracker.devices, '*ALL')
   $scope.user = UserService.currentUser
 
+  /*
   $scope.templates = [{group:""}]
   $scope.scenarios = [{scenario:""}]
   $scope.currentTemplate = {}
   $scope.test_scenario = ""
   $scope.test_group = ""
-
+  */
 
   // @hy 2017-05-10: set default value of test command
   $scope.test_command = 'python2.7 pulltest/newpull.py {SN} 1 1 1'
@@ -63,7 +64,7 @@ module.exports = function TemplateCtrl(
     }
 
     if (i == $scope.scenarios.length) { // new testcase
-	$scope.scenarios.push(testcase)
+	        $scope.scenarios.push(testcase)
     }
     $scope.$apply()
 

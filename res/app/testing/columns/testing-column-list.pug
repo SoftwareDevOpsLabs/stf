@@ -10,6 +10,7 @@ table.table.table-hover.dataTable.ng-table
       th.header.sortable 测试类型
       th.header.sortable 场景
       th.header.sortable 开始时间
+      th.header.sortable 结束时间
       th.header.sortable 状态
       th.header.sortable 报告
       th.header.sortable 控制
@@ -18,12 +19,14 @@ table.table.table-hover.dataTable.ng-table
       td(ng-bind='column.group')
       td(ng-bind='column.user')
       td(ng-bind='column.manufacturer')
-      td(ng-bind='column.model')
+      td
+        a.device-product-name-using(ng-bind='column.model',ng-href="#!/control/{{column.serial}}")
       td(ng-bind='column.version')
       td(ng-bind='column.display')
       td(ng-bind='column.name')
       td(ng-bind='column.scenario')
       td(ng-bind='column.start | date:"yyyy-MM-dd HH:mm:ss"')
+      td(ng-bind='column.end   | date:"yyyy-MM-dd HH:mm:ss"')
       td
         i(ng-if='column.status=="Testing"').fa.fa-spinner.fa-spin.fa-1x.fa-fw
         i(ng-if='column.status=="Stop"').fa.fa-stop.color-red
