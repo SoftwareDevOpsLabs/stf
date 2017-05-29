@@ -11,5 +11,12 @@ module.exports = function SettingsCtrl($scope, gettext) {
       icon: 'fa-key fa-fw',
       templateUrl: 'settings/keys/keys.pug'
     }
+    /*,
+    {
+      title: gettext('Notifications'),
+      icon: 'a-exclamation-circle fa-fw',
+      templateUrl: 'settings/notifications/notifications.pug'
+    }
+    */
   ]
 }

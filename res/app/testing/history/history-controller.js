@@ -27,15 +27,20 @@ module.exports = function HistoryCtrl(
     })
 
   // 读取当前用户所有历史的测试记录
+  // @HY 2017-05-29 默认查询当天的测试记录
+  thisDay = new Date()
+  // new Date(year, month, day [, hour, minute, second, millisecond ])
+  start_time = new Date(thisDay.getFullYear(), thisDay.getMonth(), thisDay.getDate())
   var default_params = {
-    'start_time': 0,
-    'end_time': new Date().getTime(),
+    'start_time': start_time.getTime(),
+    'end_time': thisDay.getTime(),
     'test_type':''
   }
+
   // 获取默认数据
   $scope.getHistoryList(default_params)
 
-  $scope.start_time = new Date();
+  $scope.start_time = start_time;
   $scope.end_time = new Date();
   $scope.format = "yyyy/MM/dd";
   $scope.altInputFormats = ['yyyy/M!/d!'];
@@ -51,16 +56,18 @@ module.exports = function HistoryCtrl(
     var test_type = $scope.test_type
 
     // 检查开始时间和结束时间
-    if (start_time>end_time){
+    if (start_time > end_time){
       alert('开始时间不能大于结束时间')
       return
     }
 
     // 检查测试类型
-    if (!test_type){
+    // 测试类型为空时，查询条件为所有的测试类型
+    /*if (!test_type){
       alert('请选择测试类型')
       return
     }
+    */
 
     var params = {
       'start_time': start_time.getTime(),

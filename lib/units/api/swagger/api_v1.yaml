@@ -308,7 +308,7 @@ paths:
         - name: filters
           in: body
           description: filters
-          required: true
+          required: false
           schema:
             $ref: '#/definitions/QueryTestingPayload'
       responses:
@@ -540,7 +540,6 @@ definitions:
     required:
       - start_time
       - end_time
-      - test_type
     properties:
       start_time:
         description: start time
