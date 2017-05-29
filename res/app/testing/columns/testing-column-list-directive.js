@@ -39,7 +39,6 @@ module.exports = function TestingColumnListDirective(
       // 查看测试报告
       scope.showReport = function(obj){
         var testID = obj.column.id
-
         //scope.show_report_modal = true;
 
         $http.get('/api/v1/testing/' + testID + '/report/')
