@@ -8,5 +8,5 @@
         span(translate) 报告详情
     .modal-body.report-item-list
       div.report-item(ng-repeat='item in modal.items')
-        span(ng-bind='item.time | date:"yyyy-MM-dd HH:mm:ss"')
+        span(ng-bind='item.time | date:"yyyy-MM-dd HH:mm:ss:sss"')
         span.report-item-message(ng-bind='item.message')

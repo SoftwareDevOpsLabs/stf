@@ -147,11 +147,15 @@ module.exports = function CommandsCtrl(
 
     // @HY 2017-05-09: change device's usage to automation
     device.usage = "automation"
-    GroupService.invite(device)
+    try {
+      GroupService.invite(device)
 
-    $scope.columns.push(test)
-    $scope.control = ControlService.create(device, device.channel)
-    $scope.control.startTest(test)
+      $scope.columns.push(test)
+      $scope.control = ControlService.create(device, device.channel)
+      $scope.control.startTest(test)
+    } catch(err) {
+      console.log(err)
+    }
   }
 
   // 监听测试任务执行的状态
@@ -162,12 +166,15 @@ module.exports = function CommandsCtrl(
     var testID = data['id']
     var status = data['status']
     var end = data['endTime']
-    $scope.columns.forEach(function(obj){
-      if(obj['id'] == testID){
+    // $scope.columns.forEach(function(obj){
+    for (var i = 0; i < $scope.columns.length; i++) {
+      obj = $scope.columns[i]
+      if (obj['id'] == testID) {
         obj['status'] = status
         obj['end'] = end
+        break;
       }
-    });
+    }
     $scope.$apply()
   })
 }

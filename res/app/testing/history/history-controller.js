@@ -27,10 +27,10 @@ module.exports = function HistoryCtrl(
     })
 
   // 读取当前用户所有历史的测试记录
-  // @HY 2017-05-29 默认查询当天的测试记录
+  // @HY 2017-05-29 默认查询当月的测试记录
   thisDay = new Date()
   // new Date(year, month, day [, hour, minute, second, millisecond ])
-  start_time = new Date(thisDay.getFullYear(), thisDay.getMonth(), thisDay.getDate())
+  start_time = new Date(thisDay.getFullYear(), thisDay.getMonth(), 1)
   var default_params = {
     'start_time': start_time.getTime(),
     'end_time': thisDay.getTime(),
