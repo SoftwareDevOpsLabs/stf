@@ -133,24 +133,6 @@ module.exports = function ChartsCtrl(
   var outerRadius = width/3
   var innerTadius = 0
   var arc = d3.svg.arc().innerRadius(innerTadius).outerRadius(outerRadius)
-  // 初始化型号饼图
-  var pie_chart_manufacturer
-
-  // 初始化场景饼图
-  var pie_chart_scene
-
-  //
-
-
-
-  // 重新写绘制图形的方法
-  $scope.drawPie = function (dataset, panel) {
-    // 当dataset发生改变的时候，需要动态更新图表的显示
-
-
-  }
-
-
 
   $scope.drawPieChart = function(dataset,panel){
     // 检查数据源
