@@ -145,6 +145,7 @@ module.exports = function ChartsCtrl(
     var pie = d3.layout.pie().value(function(d){return d[1]})
     var pie_data = pie(dataset)
     // 清空画布
+    d3.select('#'+panel).select('svg').remove()
     var svg = d3.select("#"+panel).append("svg").attr("width",width).attr("height",height)
     var arcs = svg.selectAll("g")
       .data(pie_data)
@@ -209,6 +210,7 @@ module.exports = function ChartsCtrl(
       .scale(y)
       .orient("left")
 
+    d3.select('#'+panel).select('svg').remove()
     var svg = d3.select("#"+panel).append("svg")
       .attr("width", w + margin.left + margin.right)
       .attr("height", h + margin.top + margin.bottom)
