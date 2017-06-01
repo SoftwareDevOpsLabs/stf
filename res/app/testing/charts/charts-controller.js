@@ -157,6 +157,8 @@ module.exports = function ChartsCtrl(
     if(dataset.length == 0){
       dataset = [['暂无数据',0.01]]
       var colors = ['#dddddd']
+    }else{
+      var colors = d3.range(20).map(d3.scale.category20())
     }
     var pie = d3.layout.pie().value(function(d){return d[1]})
     var pie_data = pie(dataset)
