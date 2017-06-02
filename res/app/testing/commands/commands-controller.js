@@ -166,12 +166,14 @@ module.exports = function CommandsCtrl(
     var testID = data['id']
     var status = data['status']
     var end = data['endTime']
+    var logcat = data['logcat']
     // $scope.columns.forEach(function(obj){
     for (var i = 0; i < $scope.columns.length; i++) {
       obj = $scope.columns[i]
       if (obj['id'] == testID) {
         obj['status'] = status
         obj['end'] = end
+        obj['logcat'] = logcat
         break;
       }
     }
