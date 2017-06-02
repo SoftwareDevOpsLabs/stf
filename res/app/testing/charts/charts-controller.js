@@ -128,7 +128,7 @@ module.exports = function ChartsCtrl(
   var height = 400
 
   // 定义默认颜色
-  var colors = d3.range(20).map(d3.scale.category20())
+  var colors = d3.range(100).map(d3.scale.category20())
 
   var outerRadius = width/3
   var innerTadius = 0
@@ -140,7 +140,7 @@ module.exports = function ChartsCtrl(
       dataset = [['暂无数据',0.01]]
       var colors = ['#dddddd']
     }else{
-      var colors = d3.range(20).map(d3.scale.category20())
+      var colors = d3.range(30).map(d3.scale.category20())
     }
     var pie = d3.layout.pie().value(function(d){return d[1]})
     var pie_data = pie(dataset)
@@ -185,13 +185,13 @@ module.exports = function ChartsCtrl(
 
   $scope.drawBarChart = function(lables,dataset,panel){
     // 定义图表的间距
-    var margin = {top: 30, right: 30, bottom: 30, left: 100},
-      w = 500 - margin.left - margin.right,
-      h = 350 - margin.top - margin.bottom;
+    var margin = {top: 30, right: 30, bottom: 30, left: 100}
+    var w = 500 - margin.left - margin.right
+    var h = dataset.length*20 - margin.top - margin.bottom;
 
     // 定义x轴和y轴
     var y = d3.scale.ordinal()
-      .rangeRoundBands([0,h], .1);
+      .rangeRoundBands([0,h],0.1,0);
 
     console.log('label',lables)
     y.domain(lables.map(function(d) { return d; }));
@@ -231,8 +231,7 @@ module.exports = function ChartsCtrl(
       .enter().append("rect")
       .attr("class", "bar")
       .attr("y", function(d,i) {
-        var pad = 0.5*(h/dataset.length-y.rangeBand())
-        return pad + i*(h/dataset.length)
+        return  i*(h/dataset.length)
       })
       .attr("height", y.rangeBand())
       .attr("x", function(d) { return 0; })
