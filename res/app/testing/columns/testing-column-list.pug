@@ -37,7 +37,7 @@ table.table.table-hover.dataTable.ng-table
         <!--a(ng-if='column.status!="Testing"', ng-click='showReport(this)') 查看报告 @HY 2017-05-10 we can check report anytime-->
         a(ng-click='showReport(this)') 查看报告
       td
-        a.device-product-name-using(ng-model='column.logcat',ng-if='column.logcat!="" && column.status != "Testing"',ng-href="{{column.logcat}}") 查看Logcat
+        a.device-product-name-using(ng-if='column.logcat!=""&&column.status != "Testing"',ng-href="{{column.logcat}}") 查看Logcat
       td(ng-if='column.status=="Finish"') 已完成
       td
         button.btn.btn-sm.btn-danger(ng-if='column.status=="Testing"',ng-click='stopTest(this)') 停止
