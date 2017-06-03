@@ -111,6 +111,10 @@ module.exports = function DeviceListCtrl(
       name: 'presenceChangedAt'
       ,selected: true
     }
+    ,{
+      name: 'inventoryID'
+      ,selected: false
+    }
   , {
       name: 'notes'
     , selected: true

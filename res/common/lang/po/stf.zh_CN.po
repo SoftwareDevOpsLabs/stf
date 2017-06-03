@@ -577,6 +577,12 @@ msgstr "安装超时"
 msgid "Installing app..."
 msgstr "安装 app..."
 
+
+
+#: app/device-list/column/device-column-service.js:268
+msgid "InventoryID"
+msgstr "资产编号"
+
 #: app/components/stf/keys/add-adb-key/add-adb-key.html:1
 msgid "Key"
 msgstr "密钥"

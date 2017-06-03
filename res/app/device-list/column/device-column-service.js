@@ -264,6 +264,12 @@ module.exports = function DeviceColumnService($filter, gettext) {
         return device.presenceChangedAt ? new Date(device.presenceChangedAt) : null
       }
     })
+    , inventoryID: TextCell({
+      title: gettext('InventoryID')
+      , value: function(device) {
+        return device.inventoryID ? device.inventoryID : ''
+      }
+    })
   , notes: DeviceNoteCell({
       title: gettext('Notes')
     , value: function(device) {

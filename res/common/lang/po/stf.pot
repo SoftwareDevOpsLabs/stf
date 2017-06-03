@@ -562,6 +562,10 @@ msgstr ""
 msgid "Installing app..."
 msgstr ""
 
+#: app/control-panes/dashboard/install/install.html:7
+msgid "InventoryID"
+msgstr ""
+
 #: app/components/stf/keys/add-adb-key/add-adb-key.html:1
 msgid "Key"
 msgstr ""
