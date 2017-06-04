@@ -21,6 +21,7 @@ module.exports = function CommandsCtrl(
   $scope.scenarios = []
   $scope.test_name = ""
   $scope.test_scenario=""
+  $scope.test_package=""
   $scope.test_command=""
 
 
@@ -47,8 +48,7 @@ module.exports = function CommandsCtrl(
         $scope.test_command=""
         $scope.currentTemplte = {}
         $scope.scenarios = template['reduction']
-        console.log("++++++++scenarios+++++++")
-        console.log($scope.scenarios)
+        // console.log($scope.scenarios)
         return
       }
     })
@@ -127,6 +127,7 @@ module.exports = function CommandsCtrl(
       , end: ''
       , status: 'Testing'
       , message: 'ok'
+      , package: $scope.test_package
       , commands: command_params
       , model: device.model
       , manufacturer: device.manufacturer
@@ -149,7 +150,6 @@ module.exports = function CommandsCtrl(
     device.usage = "automation"
     try {
       GroupService.invite(device)
-
       $scope.columns.push(test)
       $scope.control = ControlService.create(device, device.channel)
       $scope.control.startTest(test)
