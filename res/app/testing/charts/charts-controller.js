@@ -204,7 +204,8 @@ module.exports = function ChartsCtrl(
         if (d.y - left_points[index-1].y < 14){
           d.y = left_points[index-1].y + 14
         }
-        d.x = Math.max(-Math.abs(d.x - index*30),-180)
+        d.x = Math.max(-Math.abs(d.x - index*30),-180,-(width/2)+100)
+
         // 如果改点在内部，重新计算x坐标
         point_hash[d.name] = [d.x, d.y]
 
@@ -219,6 +220,8 @@ module.exports = function ChartsCtrl(
         if (d.y - right_points[index-1].y < 14){
           d.y = left_points[index-1].y + 14
         }
+        d.x = Math.min(d.x,(width/2)-100)
+
         // 如果x距离太近，需要调整一下
         point_hash[d.name] = [d.x, d.y]
       }
@@ -232,12 +235,12 @@ module.exports = function ChartsCtrl(
       var y = points[1];
 
       if(x<0){
-        if (Math.abs(x)+70>width/2){
-          x = -(width/2)+70
+        if (Math.abs(x)+100>width/2){
+          x = -(width/2)+100
         }
       }else{
-        if (Math.abs(x)+80>=width/2){
-          x = width/2-80
+        if (Math.abs(x)+100>=width/2){
+          x = width/2-100
         }
       }
 
