@@ -150,7 +150,7 @@ module.exports = function CommandsCtrl(
     device.usage = "automation"
     try {
       GroupService.invite(device)
-      $scope.columns.push(test)
+      $scope.columns.splice(0, 0, test)
       $scope.control = ControlService.create(device, device.channel)
       $scope.control.startTest(test)
     } catch(err) {
