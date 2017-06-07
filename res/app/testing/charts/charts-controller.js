@@ -22,7 +22,7 @@ module.exports = function ChartsCtrl(
   $scope.getStatData = function(params){
     $http({
       method:'post',
-      url:'/api/v1/testing/pie/model/',
+      url:'/api/v1/testing/pie/manufacturer/',
       data: params
     }).success(function(response){
       var stat = response['stat']
@@ -124,8 +124,8 @@ module.exports = function ChartsCtrl(
   };
 
   // 初始化画布
-  var width = 500
-  var height = 500
+  var width = 540
+  var height = 540
 
   // 定义默认颜色
   var colors = d3.range(100).map(d3.scale.category20())
@@ -204,7 +204,7 @@ module.exports = function ChartsCtrl(
         if (d.y - left_points[index-1].y < 14){
           d.y = left_points[index-1].y + 14
         }
-        d.x = Math.max(-Math.abs(d.x - index*30),-180,-(width/2)+100)
+        d.x = Math.max(-Math.abs(d.x - index*30),-(width/2)+120)
 
         // 如果改点在内部，重新计算x坐标
         point_hash[d.name] = [d.x, d.y]
@@ -220,7 +220,7 @@ module.exports = function ChartsCtrl(
         if (d.y - right_points[index-1].y < 14){
           d.y = left_points[index-1].y + 14
         }
-        d.x = Math.min(d.x,(width/2)-100)
+        d.x = Math.min(d.x,(width/2)-120)
 
         // 如果x距离太近，需要调整一下
         point_hash[d.name] = [d.x, d.y]
@@ -234,15 +234,15 @@ module.exports = function ChartsCtrl(
       var x = points[0];
       var y = points[1];
 
-      if(x<0){
-        if (Math.abs(x)+100>width/2){
-          x = -(width/2)+100
-        }
-      }else{
-        if (Math.abs(x)+100>=width/2){
-          x = width/2-100
-        }
-      }
+      //if(x<0){
+      //  if (Math.abs(x)+100>width/2){
+      //    x = -(width/2)+100
+      //  }
+      //}else{
+      //  if (Math.abs(x)+100>=width/2){
+      //    x = width/2-100
+      //  }
+      //}
 
       return "translate("+x+","+y+")"
 
