@@ -150,7 +150,7 @@ module.exports = function CommandsCtrl(
     device.usage = "automation"
     try {
       GroupService.invite(device)
-      $scope.columns.push(test)
+      $scope.columns.splice(0, 0, test)
       $scope.control = ControlService.create(device, device.channel)
       $scope.control.startTest(test)
     } catch(err) {
@@ -158,8 +158,7 @@ module.exports = function CommandsCtrl(
     }
   }
 
-  // 监听测试任务执行的状态
-  socket.on('testing.status',function(data){
+  testStatusChanged = function(data) {
     console.log(data)
 
     // 根据返回的数据，查询是那一条测试记录
@@ -178,5 +177,15 @@ module.exports = function CommandsCtrl(
       }
     }
     $scope.$apply()
+  }
+
+  // 监听测试任务执行的状态
+  socket.on('testing.status',testStatusChanged)
+
+  // @hy 2017-06-04 remove event hanlder during destroying
+  // Refer to https://stackoverflow.com/questions/26983696/angularjs-does-destroy-remove-event-listeners
+  $scope.$on('$destroy', function() {
+    socket.removeListener("testing.status", testStatusChanged)
   })
+
 }

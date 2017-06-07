@@ -124,13 +124,13 @@ module.exports = function ChartsCtrl(
   };
 
   // 初始化画布
-  var width = 400
-  var height = 400
+  var width = 500
+  var height = 500
 
   // 定义默认颜色
   var colors = d3.range(100).map(d3.scale.category20())
 
-  var outerRadius = width/3
+  var outerRadius = 150
   var innerTadius = 0
   var arc = d3.svg.arc().innerRadius(innerTadius).outerRadius(outerRadius)
 
@@ -140,7 +140,7 @@ module.exports = function ChartsCtrl(
       dataset = [['暂无数据',0.01]]
       var colors = ['#dddddd']
     }else{
-      var colors = d3.range(30).map(d3.scale.category20())
+      var colors = d3.range(100).map(d3.scale.category20())
     }
     var pie = d3.layout.pie().value(function(d){return d[1]})
     var pie_data = pie(dataset)
@@ -159,35 +159,131 @@ module.exports = function ChartsCtrl(
         d3.select(this).transition().duration(500).attr('fill','#666666')
       })
     arcs.append("path").attr("fill",function(d,i){return colors[i]}).attr('d',function(d){return arc(d)})
+
+    // 假设label的长度为100，高度为20 ,计算每个label的位置，进行label碰撞检测，和边缘碰撞检测
+    // label合理的范围在，图像之外的空白区域
+    var label_points = [];
+    arcs.append('text').attr('class','pie-label').text(function(d){
+      var x = arc.centroid(d)[0]*2.4
+      var y = arc.centroid(d)[1]*2.4
+      label_points.push({
+        name : d.data[0],
+        x : x,
+        y : y
+      })
+    }).attr('fill','#ffffff')
+
+    // 将label_points拆分成两部分， x>0 和 x <0
+
+    var left_points = [];
+    var right_points = [];
+    label_points.forEach(function(d){
+      if (d.x >0){
+        right_points.push(d)
+      }else{
+        left_points.push(d)
+      }
+    });
+
+    // 排序操作
+    left_points.sort(function(a,b){
+      return a.y - b.y
+    })
+    right_points.sort(function(a,b){
+      return a.y - b.y
+    })
+
+    var point_hash = {}
+    // 上下点之间的距离
+    left_points.forEach(function(d,index){
+      console.log('===',d)
+      if (index==0){
+        point_hash[d.name] = [d.x, d.y]
+      }else{
+        // 比较
+        if (d.y - left_points[index-1].y < 14){
+          d.y = left_points[index-1].y + 14
+        }
+        d.x = Math.max(-Math.abs(d.x - index*30),-180,-(width/2)+100)
+
+        // 如果改点在内部，重新计算x坐标
+        point_hash[d.name] = [d.x, d.y]
+
+      }
+    })
+
+    right_points.forEach(function(d,index){
+      if (index==0){
+        point_hash[d.name] = [d.x, d.y]
+      }else{
+        // 比较
+        if (d.y - right_points[index-1].y < 14){
+          d.y = left_points[index-1].y + 14
+        }
+        d.x = Math.min(d.x,(width/2)-100)
+
+        // 如果x距离太近，需要调整一下
+        point_hash[d.name] = [d.x, d.y]
+      }
+    })
+
     arcs.append('text').attr('transform',function(d){
-      var x = arc.centroid(d)[0]*1.4
-      var y = arc.centroid(d)[1]*1.4
+      console.log('xxx',d.data[0])
+      var points = point_hash[d.data[0]];
+      console.log(points)
+      var x = points[0];
+      var y = points[1];
+
+      if(x<0){
+        if (Math.abs(x)+100>width/2){
+          x = -(width/2)+100
+        }
+      }else{
+        if (Math.abs(x)+100>=width/2){
+          x = width/2-100
+        }
+      }
+
       return "translate("+x+","+y+")"
+
+    }).attr('text-anchor',function(d){
+      var x = arc.centroid(d)[0]*2.4
+      console.log(d)
+      if (x>20){
+        return 'start'
+      }else if(-20<=x && x<=20){
+        return 'middle'
+      }else{
+        return 'end'
+      }
     }).text(function(d){
       var percent = Number(d.value)/d3.sum(dataset,function(d){return d[1]})*100
-      return percent.toFixed(1)+'%'
-    }).attr('fill','#ffffff')
+      return d.data[0] + '(' + percent.toFixed(1)+'%)'
+    })
+
     arcs.append("line").attr('stroke','#666666')
       .attr('x1',function(d){return arc.centroid(d)[0]*2})
       .attr('y1',function(d){return arc.centroid(d)[1]*2})
-      .attr('x2',function(d){return arc.centroid(d)[0]*2.2})
-      .attr('y2',function(d){return arc.centroid(d)[1]*2.2})
+      .attr('x2',function(d){
+        var points = point_hash[d.data[0]];
+        console.log(points)
+        var x = points[0];
+        return x
+      })
+      .attr('y2',function(d){
+        var points = point_hash[d.data[0]];
+        console.log(points)
+        var y = points[1];
 
-    arcs.append('text').attr('transform',function(d){
-      var x = arc.centroid(d)[0]*2.5
-      var y = arc.centroid(d)[1]*2.5
-      return "translate("+x+","+y+")"
-    }).attr('text-anchor','middle').text(function(d){
-      console.log('d',d);
-      return d.data[0]
-    })
+        return y
+      })
   }
 
   $scope.drawBarChart = function(lables,dataset,panel){
     // 定义图表的间距
     var margin = {top: 30, right: 30, bottom: 30, left: 100}
     var w = 500 - margin.left - margin.right
-    var h = dataset.length*20 - margin.top - margin.bottom;
+    var h = Math.max(350,dataset.length*14) - margin.top - margin.bottom;
 
     // 定义x轴和y轴
     var y = d3.scale.ordinal()
