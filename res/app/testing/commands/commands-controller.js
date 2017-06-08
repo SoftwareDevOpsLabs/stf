@@ -89,7 +89,7 @@ module.exports = function CommandsCtrl(
     // 获取所有选中的设备
     var test_command = $scope.test_command
     if (!test_command){
-      alert('输入测试命令！')
+      alert('测试命令不能为空！')
       return
     }
 
