@@ -327,7 +327,7 @@ module.exports = function ChartsCtrl(
       .enter().append("rect")
       .attr("class", "bar")
       .attr("y", function(d,i) {
-        return  i*(h/dataset.length)
+        return  y(lables[i])
       })
       .attr("height", y.rangeBand())
       .attr("x", function(d) { return 0; })
