@@ -31,9 +31,15 @@ module.exports = function ChartsCtrl(
       $scope.manufacturer_stat = stat
     })
 
+    // 若选择了测试类型，按测试场景分组
+    // 若未选择测试类型，则按测试类型分组
+    var groupBy = "name"
+    if (typeof params.test_type != "undefined" && params.test_type)
+      groupBy = "scenario"
+
     $http({
       method:'post',
-      url:'/api/v1/testing/pie/name/',
+      url:  '/api/v1/testing/pie/' + groupBy + '/',
       data: params
     }).success(function(response){
       var stat = response['stat']
@@ -71,12 +77,17 @@ module.exports = function ChartsCtrl(
       $scope.types = response['data']['types']
     })
 
+  thisDay = new Date()
+  start_time = new Date(thisDay.getFullYear(), thisDay.getMonth(), 1)
   // 定义默认的参数
   var default_params = {
-    'start_time': 0,
+    'start_time': start_time.getTime(),
     'end_time': new Date().getTime(),
     'test_type': ''
   }
+
+  $scope.start_time = start_time
+
   // 获取默认的数据
   $scope.getStatData(default_params)
 
@@ -88,7 +99,7 @@ module.exports = function ChartsCtrl(
     var test_type = $scope.test_type
 
     // 检查开始时间和结束时间
-    if (start_time>end_time){
+    if (start_time > end_time){
       alert('开始时间不能大于结束时间')
       return
     }
@@ -174,7 +185,6 @@ module.exports = function ChartsCtrl(
     }).attr('fill','#ffffff')
 
     // 将label_points拆分成两部分， x>0 和 x <0
-
     var left_points = [];
     var right_points = [];
     label_points.forEach(function(d){
@@ -196,7 +206,7 @@ module.exports = function ChartsCtrl(
     var point_hash = {}
     // 上下点之间的距离
     left_points.forEach(function(d,index){
-      console.log('===',d)
+      // console.log('===',d)
       if (index==0){
         point_hash[d.name] = [d.x, d.y]
       }else{
@@ -228,9 +238,9 @@ module.exports = function ChartsCtrl(
     })
 
     arcs.append('text').attr('transform',function(d){
-      console.log('xxx',d.data[0])
+      // console.log('xxx',d.data[0])
       var points = point_hash[d.data[0]];
-      console.log(points)
+      // console.log(points)
       var x = points[0];
       var y = points[1];
 
@@ -248,7 +258,7 @@ module.exports = function ChartsCtrl(
 
     }).attr('text-anchor',function(d){
       var x = arc.centroid(d)[0]*2.4
-      console.log(d)
+      // console.log(d)
       if (x>20){
         return 'start'
       }else if(-20<=x && x<=20){
@@ -266,13 +276,13 @@ module.exports = function ChartsCtrl(
       .attr('y1',function(d){return arc.centroid(d)[1]*2})
       .attr('x2',function(d){
         var points = point_hash[d.data[0]];
-        console.log(points)
+        // console.log(points)
         var x = points[0];
         return x
       })
       .attr('y2',function(d){
         var points = point_hash[d.data[0]];
-        console.log(points)
+        // console.log(points)
         var y = points[1];
 
         return y
@@ -289,7 +299,7 @@ module.exports = function ChartsCtrl(
     var y = d3.scale.ordinal()
       .rangeRoundBands([0,h],0.1,0);
 
-    console.log('label',lables)
+    // console.log('label',lables)
     y.domain(lables.map(function(d) { return d; }));
 
     var x = d3.scale.linear()
