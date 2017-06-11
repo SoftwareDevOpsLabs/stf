@@ -115,7 +115,7 @@ module.exports = function CommandsCtrl(
   // 发送开始测试命令
   $scope.sendTestCommand = function(device,groupId){
     // 在前端构造测试对象，解析用户输入的测试命令
-    var command_params = $scope.test_command.split(' ')
+    var command_params = $scope.test_command.split(/\s+/)
     var test =
     { id: calculateId(device)
       , group: groupId
