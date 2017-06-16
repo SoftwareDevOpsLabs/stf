@@ -243,17 +243,6 @@ module.exports = function ChartsCtrl(
       // console.log(points)
       var x = points[0];
       var y = points[1];
-
-      //if(x<0){
-      //  if (Math.abs(x)+100>width/2){
-      //    x = -(width/2)+100
-      //  }
-      //}else{
-      //  if (Math.abs(x)+100>=width/2){
-      //    x = width/2-100
-      //  }
-      //}
-
       return "translate("+x+","+y+")"
 
     }).attr('text-anchor',function(d){
