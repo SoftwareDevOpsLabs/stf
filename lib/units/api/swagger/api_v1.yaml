@@ -497,7 +497,7 @@ paths:
 
   '/stat/{name}/':
     x-swagger-router-controller: stat
-    get:
+    post:
       summary: Get All user stat
       description: user stat
       operationId: loadUserDeviceStat
