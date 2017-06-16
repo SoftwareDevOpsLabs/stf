@@ -25,6 +25,8 @@ tags:
     description: Device Operations
   - name: testing
     description: Testing Operations
+  - name: stat
+    description: Testing Operations
 paths:
   /user:
     x-swagger-router-controller: user
@@ -474,6 +476,39 @@ paths:
       tags:
         - testing
       parameters:
+        - name: fields
+          in: query
+          description: >-
+            Fields query parameter takes a comma seperated list of fields. Only
+            listed field will be return in response
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Testing types
+          schema:
+            $ref: '#/definitions/DeviceResponse'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - accessTokenAuth: []
+
+  '/stat/{name}/':
+    x-swagger-router-controller: stat
+    get:
+      summary: Get All user stat
+      description: user stat
+      operationId: loadUserDeviceStat
+      tags:
+        - stat
+      parameters:
+        - name: name
+          in: path
+          description: chart name
+          required: true
+          type: string
         - name: fields
           in: query
           description: >-

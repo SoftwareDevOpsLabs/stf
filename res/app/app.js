@@ -14,6 +14,7 @@ require.ensure([], function(require) {
     require('./menu').name,
     require('./settings').name,
     require('./testing').name,
+    require('./statistics').name,
     require('./docs').name,
     require('./user').name,
     require('./../common/lang').name,
