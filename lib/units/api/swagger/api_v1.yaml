@@ -516,6 +516,12 @@ paths:
             listed field will be return in response
           required: false
           type: string
+        - name: filters
+          in: body
+          description: filters
+          required: true
+          schema:
+            $ref: '#/definitions/QueryTestingPayload'
       responses:
         '200':
           description: Testing types

@@ -35,8 +35,7 @@ module.exports = function UserStatCtrl(
   // 定义默认的参数
   var default_params = {
     'start_time': 0,
-    'end_time': new Date().getTime(),
-    'test_type': ''
+    'end_time': new Date().getTime()
   }
   // 获取默认的数据
   $scope.getStatData(default_params)
