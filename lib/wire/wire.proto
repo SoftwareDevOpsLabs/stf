@@ -80,6 +80,7 @@ enum MessageType {
   ConnectStoppedMessage      = 93;
   StartTestMessage           = 94;
   StopTestMessage            = 95;
+  TestStatusMessage          = 96;   // @HY 2017-06-10 added for device plugin testing
 }
 
 message ConnectStartedMessage {
@@ -568,14 +569,26 @@ message RotationEvent {
   required int32 rotation = 2;
 }
 
-
+// @HY 2017-06-10 added for device plugin testing
 message StartTestMessage{
   required string serial = 1;
-  required string tester = 2;
+  required string testID = 2;
   required string command= 3;
+  required uint32 timeout = 4;
+  required string statusCheckCommand = 5;
+  required string stopTestCommand = 6;
 }
 
 message StopTestMessage{
   required string serial = 1;
-  required string tester = 2;
+  required string testID = 2;
+  required string command = 3;
 }
+
+message TestStatusMessage{
+  required string serial = 1;
+  required string testID = 2;
+  required string status = 3;
+  optional string channel = 4;
+}
+

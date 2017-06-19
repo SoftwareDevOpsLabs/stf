@@ -23,6 +23,7 @@ module.exports = function CommandsCtrl(
   $scope.test_scenario=""
   $scope.test_package=""
   $scope.test_command=""
+  $scope.run_env = "device"
 
 
   // Get all the test template from DB
@@ -133,6 +134,7 @@ module.exports = function CommandsCtrl(
       , manufacturer: device.manufacturer
       , version: device.version
       , display: device.display.height+'*'+device.display.width
+      , run_env: $scope.run_env
     }
 
     // @HY 2017-05-14 if device is not usable, just return
