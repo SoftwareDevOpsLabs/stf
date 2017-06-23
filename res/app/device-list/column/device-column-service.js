@@ -286,6 +286,18 @@ module.exports = function DeviceColumnService($filter, gettext) {
         return device.owner ? device.enhancedUserProfileUrl : ''
       }
     })
+    , romStatus: TextCell({  // @HY 2017-06-23 Show device update state: new device or rom updated
+      title: gettext('RomStatus')
+      , value: function(device) {
+        return device.romStatus ? device.romStatus : ''
+      }
+    })
+    , nickname: TextCell({  // @HY 2017-06-23 Show nickname of device
+      title: gettext('Nickname')
+      , value: function(device) {
+        return device.nickname ? device.nickname : ''
+      }
+    })
   }
 }
 
@@ -627,6 +639,7 @@ function DeviceStatusCell(options) {
   , compare: (function() {
       var order = {
         using: 10
+      , automation: 15   // @HY 2017-06-23 add an order number for devices in automation status
       , available: 20
       , busy: 30
       , ready: 40
