@@ -22,7 +22,7 @@ module.exports = function ControlServiceFactory(
     }
 
     function keySender(type, fixedKey) {
-      return function(key) {
+      return function (key) {
         if (typeof key === 'string') {
           sendOneWay(type, {
             key: key
@@ -39,52 +39,52 @@ module.exports = function ControlServiceFactory(
       }
     }
 
-    this.gestureStart = function(seq) {
+    this.gestureStart = function (seq) {
       sendOneWay('input.gestureStart', {
         seq: seq
       })
     }
 
-    this.gestureStop = function(seq) {
+    this.gestureStop = function (seq) {
       sendOneWay('input.gestureStop', {
         seq: seq
       })
     }
 
-    this.touchDown = function(seq, contact, x, y, pressure) {
+    this.touchDown = function (seq, contact, x, y, pressure) {
       sendOneWay('input.touchDown', {
         seq: seq
-      , contact: contact
-      , x: x
-      , y: y
-      , pressure: pressure
+        , contact: contact
+        , x: x
+        , y: y
+        , pressure: pressure
       })
     }
 
-    this.touchMove = function(seq, contact, x, y, pressure) {
+    this.touchMove = function (seq, contact, x, y, pressure) {
       sendOneWay('input.touchMove', {
         seq: seq
-      , contact: contact
-      , x: x
-      , y: y
-      , pressure: pressure
+        , contact: contact
+        , x: x
+        , y: y
+        , pressure: pressure
       })
     }
 
-    this.touchUp = function(seq, contact) {
+    this.touchUp = function (seq, contact) {
       sendOneWay('input.touchUp', {
         seq: seq
-      , contact: contact
+        , contact: contact
       })
     }
 
-    this.touchCommit = function(seq) {
+    this.touchCommit = function (seq) {
       sendOneWay('input.touchCommit', {
         seq: seq
       })
     }
 
-    this.touchReset = function(seq) {
+    this.touchReset = function (seq) {
       sendOneWay('input.touchReset', {
         seq: seq
       })
@@ -98,27 +98,27 @@ module.exports = function ControlServiceFactory(
     this.menu = keySender('input.keyPress', 'menu')
     this.back = keySender('input.keyPress', 'back')
 
-    this.type = function(text) {
+    this.type = function (text) {
       return sendOneWay('input.type', {
         text: text
       })
     }
 
-    this.paste = function(text) {
+    this.paste = function (text) {
       return sendTwoWay('clipboard.paste', {
         text: text
       })
     }
 
-    this.copy = function() {
+    this.copy = function () {
       return sendTwoWay('clipboard.copy')
     }
 
     //@TODO: Refactor this please
     var that = this
-    this.getClipboardContent = function() {
-      that.copy().then(function(result) {
-        $rootScope.$apply(function() {
+    this.getClipboardContent = function () {
+      that.copy().then(function (result) {
+        $rootScope.$apply(function () {
           if (result.success) {
             if (result.lastData) {
               that.clipboardContent = result.lastData
@@ -132,179 +132,182 @@ module.exports = function ControlServiceFactory(
       })
     }
 
-    this.shell = function(command) {
+    this.shell = function (command) {
       return sendTwoWay('shell.command', {
         command: command
-      , timeout: 10000
+        , timeout: 10000
       })
     }
 
-    this.identify = function() {
+    this.identify = function () {
       return sendTwoWay('device.identify')
     }
 
-    this.install = function(options) {
+    this.install = function (options) {
       return sendTwoWay('device.install', options)
     }
 
-    this.uninstall = function(pkg) {
+    this.uninstall = function (pkg) {
       return sendTwoWay('device.uninstall', {
         packageName: pkg
       })
     }
 
-    this.reboot = function() {
+    this.reboot = function () {
       return sendTwoWay('device.reboot')
     }
 
-    this.rotate = function(rotation, lock) {
+    this.rotate = function (rotation, lock) {
       return sendOneWay('display.rotate', {
         rotation: rotation,
         lock: lock
       })
     }
 
-    this.testForward = function(forward) {
+    this.testForward = function (forward) {
       return sendTwoWay('forward.test', {
         targetHost: forward.targetHost
-      , targetPort: Number(forward.targetPort)
+        , targetPort: Number(forward.targetPort)
       })
     }
 
-    this.createForward = function(forward) {
+    this.createForward = function (forward) {
       return sendTwoWay('forward.create', {
         id: forward.id
-      , devicePort: Number(forward.devicePort)
-      , targetHost: forward.targetHost
-      , targetPort: Number(forward.targetPort)
+        , devicePort: Number(forward.devicePort)
+        , targetHost: forward.targetHost
+        , targetPort: Number(forward.targetPort)
       })
     }
 
-    this.removeForward = function(forward) {
+    this.removeForward = function (forward) {
       return sendTwoWay('forward.remove', {
         id: forward.id
       })
     }
 
-    this.startLogcat = function(filters) {
+    this.startLogcat = function (filters) {
       return sendTwoWay('logcat.start', {
         filters: filters
       })
     }
 
-    this.stopLogcat = function() {
+    this.stopLogcat = function () {
       return sendTwoWay('logcat.stop')
     }
 
-    this.startRemoteConnect = function() {
+    this.startRemoteConnect = function () {
       return sendTwoWay('connect.start')
     }
 
-    this.stopRemoteConnect = function() {
+    this.stopRemoteConnect = function () {
       return sendTwoWay('connect.stop')
     }
 
-    this.openBrowser = function(url, browser) {
+    this.openBrowser = function (url, browser) {
       return sendTwoWay('browser.open', {
         url: url
-      , browser: browser ? browser.id : null
+        , browser: browser ? browser.id : null
       })
     }
 
-    this.clearBrowser = function(browser) {
+    this.clearBrowser = function (browser) {
       return sendTwoWay('browser.clear', {
         browser: browser.id
       })
     }
 
-    this.openStore = function() {
+    this.openStore = function () {
       return sendTwoWay('store.open')
     }
 
-    this.screenshot = function() {
+    this.screenshot = function () {
       return sendTwoWay('screen.capture')
     }
 
-    this.fsretrieve = function(file) {
+    this.fsretrieve = function (file) {
       return sendTwoWay('fs.retrieve', {
         file: file
       })
     }
 
-    this.fslist = function(dir) {
+    this.fslist = function (dir) {
       return sendTwoWay('fs.list', {
         dir: dir
       })
     }
 
-    this.checkAccount = function(type, account) {
+    this.checkAccount = function (type, account) {
       return sendTwoWay('account.check', {
         type: type
-      , account: account
+        , account: account
       })
     }
 
-    this.removeAccount = function(type, account) {
+    this.removeAccount = function (type, account) {
       return sendTwoWay('account.remove', {
         type: type
-      , account: account
+        , account: account
       })
     }
 
-    this.addAccountMenu = function() {
+    this.addAccountMenu = function () {
       return sendTwoWay('account.addmenu')
     }
 
-    this.addAccount = function(user, password) {
+    this.addAccount = function (user, password) {
       return sendTwoWay('account.add', {
         user: user
-      , password: password
+        , password: password
       })
     }
 
-    this.getAccounts = function(type) {
+    this.getAccounts = function (type) {
       return sendTwoWay('account.get', {
         type: type
       })
     }
 
-    this.getSdStatus = function() {
+    this.getSdStatus = function () {
       return sendTwoWay('sd.status')
     }
 
-    this.setRingerMode = function(mode) {
+    this.setRingerMode = function (mode) {
       return sendTwoWay('ringer.set', {
         mode: mode
       })
     }
 
-    this.getRingerMode = function() {
+    this.getRingerMode = function () {
       return sendTwoWay('ringer.get')
     }
 
-    this.setWifiEnabled = function(enabled) {
+    this.setWifiEnabled = function (enabled) {
       return sendTwoWay('wifi.set', {
         enabled: enabled
       })
     }
 
-    this.getWifiStatus = function() {
+    this.getWifiStatus = function () {
       return sendTwoWay('wifi.get')
     }
 
     //TODO @chenhao 添加测试命令
-    this.startTest = function(test) {
+    this.startTest = function (test) {
       // @hy 2017-05-17 replace above json string to below test var
       return sendOneWay('startTest', test)
     }
     //TODO @chenhao 添加停止测试命令
-    this.stopTest = function(test) {
-      return sendOneWay('stopTest',{
-        id : test.id
-      })
+    this.stopTest = function (test) {
+      console.log(test)
+      var payload = {
+        id: test.id
+        , serial: test.serial
+        , channel: test.channel
+        , package: test.package
+      }
+      return sendOneWay('stopTest', payload)
     }
-
-    window.cc = this
   }
 
   controlService.create = function(target, channel) {

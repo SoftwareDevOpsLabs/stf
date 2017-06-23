@@ -32,6 +32,7 @@ table.table.table-hover.dataTable.ng-table
         i(ng-if='column.status=="Testing"').fa.fa-spinner.fa-spin.fa-1x.fa-fw
         i(ng-if='column.status=="Stop"').fa.fa-stop.color-red
         i(ng-if='column.status=="Failed"').fa.fa-times.color-red
+        i(ng-if='column.status=="Timeout"').fa.fa-clock-o.color-red
         i(ng-if='column.status=="Finish"').fa.fa-check.color-green
       td
         <!--a(ng-if='column.status!="Testing"', ng-click='showReport(this)') 查看报告 @HY 2017-05-10 we can check report anytime-->

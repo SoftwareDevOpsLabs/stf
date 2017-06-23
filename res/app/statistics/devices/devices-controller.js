@@ -40,7 +40,7 @@ module.exports = function DeviceStatCtrl(
 
   // 定义默认的参数
   var default_params = {
-    'start_time': 0,
+    'start_time': (new Date(new Date().setHours(0,0,0,0))).getTime(),
     'end_time': new Date().getTime(),
     'test_type': ''
   }
@@ -52,7 +52,6 @@ module.exports = function DeviceStatCtrl(
     // 检查开始时间和结束时间的输入
     var start_time = $scope.start_time
     var end_time = $scope.end_time
-    var test_type = $scope.test_type
 
     // 检查开始时间和结束时间
     if (start_time>end_time){
@@ -60,15 +59,9 @@ module.exports = function DeviceStatCtrl(
       return
     }
 
-    // 检查测试类型
-    if (!test_type){
-      alert('请选择测试类型')
-      return
-    }
     var params = {
-      'start_time': start_time.getTime(),
-      'end_time': end_time.getTime(),
-      'test_type': test_type
+      'start_time': (new Date(start_time.setHours(0,0,0,0))).getTime(),
+      'end_time': (new Date(end_time.setHours(23,59,59,59))).getTime()
     }
 
     // 获取统计图的数据

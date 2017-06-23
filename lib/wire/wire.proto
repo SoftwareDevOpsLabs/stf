@@ -575,7 +575,7 @@ message StartTestMessage{
   required string testID = 2;
   required string command= 3;
   required uint32 timeout = 4;
-  required string statusCheckCommand = 5;
+  required string package = 5;
   required string stopTestCommand = 6;
   required string channel = 7;
 }
@@ -583,13 +583,15 @@ message StartTestMessage{
 message StopTestMessage{
   required string serial = 1;
   required string testID = 2;
-  required string command = 3;
+  required string package = 3;
+  required string channel = 4;
 }
 
 message TestStatusMessage{
   required string serial = 1;
   required string testID = 2;
   required string status = 3;
-  optional string channel = 4;
+  required double endTime = 4;
+  optional string channel = 5;
 }
 

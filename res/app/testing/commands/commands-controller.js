@@ -106,15 +106,14 @@ module.exports = function CommandsCtrl(
       return
     }
 
-    var groupId = new Date().getTime()
-    // 运行测试命令
+    var groupId = Math.random().toString(10).slice(3,13) // @HY 2017-06-22 generate random number
     selected_devices.forEach(function(obj){
-      $scope.sendTestCommand(obj,groupId)
+      $scope.sendTestCommand(obj, groupId)
     })
   }
 
   // 发送开始测试命令
-  $scope.sendTestCommand = function(device,groupId){
+  $scope.sendTestCommand = function(device, groupId){
     // 在前端构造测试对象，解析用户输入的测试命令
     var command_params = $scope.test_command.split(/\s+/)
     var test =
@@ -124,7 +123,7 @@ module.exports = function CommandsCtrl(
       , scenario: $scope.test_scenario||'未定义' // @hy 2017-05-17 add new field 'scenario'
       , user: $scope.user.name
       , serial: device.serial
-      , start: new Date().getTime()
+      , start: new Date().getTime() // TODO: @HY 2017-06-22 generate start time at server side
       , end: ''
       , status: 'Testing'
       , message: 'ok'
@@ -135,6 +134,7 @@ module.exports = function CommandsCtrl(
       , version: device.version
       , display: device.display.height+'*'+device.display.width
       , run_env: $scope.run_env
+      , channel: device.channel
     }
 
     // @HY 2017-05-14 if device is not usable, just return
@@ -161,13 +161,13 @@ module.exports = function CommandsCtrl(
   }
 
   testStatusChanged = function(data) {
-    console.log(data)
 
     // 根据返回的数据，查询是那一条测试记录
     var testID = data['id']
     var status = data['status']
     var end = data['endTime']
     var logcat = data['logcat']||""
+
     // $scope.columns.forEach(function(obj){
     for (var i = 0; i < $scope.columns.length; i++) {
       obj = $scope.columns[i]
@@ -178,6 +178,7 @@ module.exports = function CommandsCtrl(
         break;
       }
     }
+
     $scope.$apply()
   }
 
