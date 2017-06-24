@@ -292,14 +292,12 @@ module.exports = function ControlServiceFactory(
       return sendTwoWay('wifi.get')
     }
 
-    //TODO @chenhao 添加测试命令
     this.startTest = function (test) {
       // @hy 2017-05-17 replace above json string to below test var
       return sendOneWay('startTest', test)
     }
-    //TODO @chenhao 添加停止测试命令
+
     this.stopTest = function (test) {
-      console.log(test)
       var payload = {
         id: test.id
         , serial: test.serial
