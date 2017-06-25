@@ -24,6 +24,7 @@ module.exports = function CommandsCtrl(
   $scope.test_package=""
   $scope.test_command=""
   $scope.run_env = "device"
+  $scope.test_timeout = 0
 
 
   // Get all the test template from DB
@@ -125,6 +126,7 @@ module.exports = function CommandsCtrl(
       , serial: device.serial
       , start: new Date().getTime() // TODO: @HY 2017-06-22 generate start time at server side
       , end: ''
+      , timeout: $scope.test_timeout
       , status: 'Testing'
       , message: 'ok'
       , package: $scope.test_package
@@ -151,6 +153,9 @@ module.exports = function CommandsCtrl(
     // @HY 2017-05-09: change device's usage to automation
     device.usage = "automation"
     try {
+      console.log("+++ Start test")
+      console.log($scope.test_package)
+      console.log(test)
       GroupService.invite(device)
       $scope.columns.splice(0, 0, test)
       $scope.control = ControlService.create(device, device.channel)

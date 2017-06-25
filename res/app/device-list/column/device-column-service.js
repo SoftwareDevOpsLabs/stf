@@ -626,7 +626,8 @@ function DeviceStatusCell(options) {
     }
   , compare: (function() {
       var order = {
-        using: 10
+        automation: 5  // @HY, 2017-06-25 Issue #633
+        , using: 10
       , available: 20
       , busy: 30
       , ready: 40
