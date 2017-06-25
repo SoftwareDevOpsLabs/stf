@@ -1,19 +1,45 @@
 div.page-controller(ng-controller='TemplateCtrl')
 
-  div.page-title 测试分类(*)
-  input.form-control.name-input(type='text',ng-model='test_group',list="groupList",ng-change="LoadTestGroup(test_group)")
-  datalist(id="groupList")
-    option(value=" ")
-    option(ng-repeat='template in templates', ng-value='template.group')
+  div.row
+    div.col-md-3
+      div.page-title 测试分类(*)
+      input.form-control.name-input(type='text',ng-model='test_group',list="groupList", ng-change="LoadTestGroup(test_group)")
+      datalist#groupList
+        option(ng-repeat='template in templates', ng-value='template.group')
+    div.col-md-3
+      div.page-title 测试场景(*)
+      input.form-control.name-input(type='text',ng-model='test_scenario',list="scenario",ng-change="LoadTestScenario(test_scenario)")
+      datalist#scenario
+        option(ng-repeat='scenario in scenarios', ng-value='scenario.scenario')
 
-  div.page-title 测试场景(*)
-  input.form-control.name-input(type='text',ng-model='test_scenario',list="scenario",ng-change="LoadTestScenario(test_scenario)")
-  datalist#scenario
-    option(value=" ")
-    option(ng-repeat='scenario in scenarios', ng-value='scenario.scenario')
+  div.row
+    div.page-title 测试工具执行环境
+    button(type='button', ng-model='run_env', uib-btn-radio="'device'").btn.btn-sm.btn-default-outline 手机设备
+    button(type='button', ng-model='run_env', uib-btn-radio="'server'").btn.btn-sm.btn-default-outline STF 服务器
 
-  div.page-title 测试命令(*)
-    p 设备的serial编号用{SN}替换, 包名用{PKG}替换 如 adb -s {SN} shell ls /data/data/{PKG}
-    input.form-control(type='text',ng-model='test_command')
+  div.row
+    div.col-md-3
+      <!-- @hy 2017-06-04, add package name -->
+      div.page-title(ng-if='run_env=="device"') 测试工具包名(*)
+      input.form-control.name-input(type='text',ng-model='$parent.test_package',ng-if='run_env=="device"')
 
-  div.btn.btn-primary(ng-click='save_template()') 保存
+
+      <!-- @hy 2017-06-25, add test package name -->
+      div.page-title(ng-if='run_env=="server"') APP包名
+      input.form-control.name-input(type='text',ng-model='$parent.test_package',ng-if='run_env=="server"')
+
+
+    div.col-md-3
+      <!-- @hy 2017-06-25, add timeout for test running -->
+      div.page-title  超时时间（秒）
+      input.form-control.name-input(type='number',ng-model='test_timeout')
+
+  div.row
+    div
+      <!-- @hy 2017-05-08, add note below -->
+      div.page-title 测试命令(*)
+      p(ng-if='run_env=="server"') 设备的serial编号用{SN}替换, 包名用{PKG}替换 如 adb -s {SN} shell ls /data/data/{PKG}
+      input.form-control(type='text',ng-model='test_command')
+
+  div.row
+    div.btn.btn-primary(ng-click='save_template()') 保存

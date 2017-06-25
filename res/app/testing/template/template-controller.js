@@ -16,14 +16,18 @@ module.exports = function TemplateCtrl(
   $scope.currentTemplate = {}
   $scope.test_scenario = ""
   $scope.test_group = ""
+  $scope.run_env = "device"
+  $scope.test_timeout = 0
+  $scope.test_package = ''
 
   // @hy 2017-05-10: set default value of test command
-  $scope.test_command = 'python2.7 pulltest/newpull.py {SN} 1 1 1'
+  $scope.test_command = ''
 
   $scope.save_template = function() {
     if ($scope.test_group) $scope.test_group.trim()
     if ($scope.test_scenario) $scope.test_scenario.trim()
     if ($scope.test_command) $scope.test_command.trim()
+    if ($scope.test_package) $scope.test_package.trim()
 
     if (typeof $scope.test_group === 'undefined' || $scope.test_group == "")  {
       alert('"测试分类"不能为空！')
@@ -32,6 +36,11 @@ module.exports = function TemplateCtrl(
 
     if (typeof $scope.test_scenario === 'undefined' || $scope.test_scenario == "")  {
       alert('"测试场景"不能为空！')
+      return
+    }
+
+    if ($scope.run_env === "device" && (typeof $scope.test_package === 'undefined' || $scope.test_package == ""))  {
+      alert('"测试工具包名"不能为空！')
       return
     }
 
@@ -48,6 +57,9 @@ module.exports = function TemplateCtrl(
         ,group: $scope.test_group
         ,scenario: $scope.test_scenario
         ,command: $scope.test_command
+        ,package: $scope.test_package
+        ,timeout: $scope.test_timeout
+        ,run_env: $scope.run_env
     });
 
   }
@@ -108,6 +120,9 @@ module.exports = function TemplateCtrl(
     $scope.scenarios.forEach(function(item) {
       if (item.scenario === scenario) {
         $scope.test_command = item['command']
+        $scope.test_package = item['package'] || ''
+        $scope.test_timeout = item['timeout'] || ''
+        $scope.run_env = item['run_env'] || 'server'
         $scope.currentTemplate = item
         return
       }

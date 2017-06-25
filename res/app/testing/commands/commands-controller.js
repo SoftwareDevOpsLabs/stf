@@ -61,6 +61,10 @@ module.exports = function CommandsCtrl(
     $scope.scenarios.forEach(function(item) {
       if (item.scenario === scenario) {
         $scope.test_command = item['command']
+        $scope.test_command = item['command']
+        $scope.test_package = item['package'] || ''
+        $scope.test_timeout = item['timeout'] || ''
+        $scope.run_env   = item['run_env'] || 'server'
         return
       }
     })
@@ -154,7 +158,6 @@ module.exports = function CommandsCtrl(
     device.usage = "automation"
     try {
       console.log("+++ Start test")
-      console.log($scope.test_package)
       console.log(test)
       GroupService.invite(device)
       $scope.columns.splice(0, 0, test)

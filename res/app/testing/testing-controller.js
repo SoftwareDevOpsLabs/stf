@@ -6,7 +6,7 @@ module.exports = function TestingCtrl(
 
   $scope.testingTabs = [
     {
-      title: "列表",
+      title: "执行",
       icon: 'fa fa-list-ul',
       templateUrl: 'testing/commands/commands.pug'
     },{

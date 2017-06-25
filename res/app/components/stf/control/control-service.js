@@ -298,13 +298,7 @@ module.exports = function ControlServiceFactory(
     }
 
     this.stopTest = function (test) {
-      var payload = {
-        id: test.id
-        , serial: test.serial
-        , channel: test.channel
-        , package: test.package
-      }
-      return sendOneWay('stopTest', payload)
+      return sendOneWay('stopTest', test)
     }
   }
 
