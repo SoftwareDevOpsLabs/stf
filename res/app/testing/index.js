@@ -5,7 +5,8 @@ module.exports = angular.module('testing', [
   require('./history').name,
   require('./devices').name,
   require('./columns').name,
-  require('./template').name
+  require('./template').name,
+  require('./testcloud').name
 
 ])
   .config(function($routeProvider) {
