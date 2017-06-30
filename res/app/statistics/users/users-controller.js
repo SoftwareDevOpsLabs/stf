@@ -11,8 +11,18 @@ module.exports = function UserStatCtrl(
 
   $scope.devices = [];
 
-  $scope.start_time = new Date();
-  $scope.end_time = new Date();
+  // @chenhao 从前端存储中过去用户之前设置的参数
+  var cached_params = sessionStorage.getItem('STAT_USER_PARAMS');
+  var start_time = (new Date(new Date().setHours(0,0,0,0))).getTime();
+  var end_time = new Date().getTime();
+  if (cached_params){
+    var data = JSON.parse(cached_params);
+    start_time = data['start_time'];
+    end_time = data['end_time'];
+  }
+
+  $scope.start_time = new Date(start_time);
+  $scope.end_time = new Date(end_time);
   $scope.format = "yyyy/MM/dd";
   $scope.altInputFormats = ['yyyy/M!/d!'];
   $scope.options = {
@@ -20,6 +30,8 @@ module.exports = function UserStatCtrl(
   };
 
   $scope.getStatData = function(params){
+    //@chenhao 缓存每次请求的参数
+    sessionStorage.setItem('STAT_USER_PARAMS', JSON.stringify(params));
     $http({
       method:'post',
       url:'/api/v1/stat/name/',
@@ -32,10 +44,9 @@ module.exports = function UserStatCtrl(
     })
   };
 
-  // 定义默认的参数
   var default_params = {
-    'start_time': (new Date(new Date().setHours(0,0,0,0))).getTime(),
-    'end_time': new Date().getTime()
+    'start_time': start_time,
+    'end_time': end_time
   }
   // 获取默认的数据
   $scope.getStatData(default_params)
