@@ -1,0 +1,19 @@
+div.page-controller(ng-controller='TestcloudCtrl')
+
+.col-md-12-x.packery-item
+  .widget-container.fluid-height
+    .heading
+      stacked-icon(icon='fa-tablet', color='color-blue')
+      span  公有测试云
+    .widget-content.padded-small
+      table.table.table-hover.table-condensed.dataTable.ng-table
+        thead
+          tr
+            td 名称
+            td 网址
+            td 所属公司
+        tbody
+          tr(ng-repeat='item in clouds')
+            td(ng-bind='item.name')
+            td(ng-bind='item.URL')
+            td(ng-bind='item.company')
