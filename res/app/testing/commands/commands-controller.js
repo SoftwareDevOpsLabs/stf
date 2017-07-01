@@ -11,21 +11,51 @@ module.exports = function CommandsCtrl(
   $scope.control = ControlService.create($scope.tracker.devices, '*ALL')
 
   // @hy 2017-05-10: set default value of test command
-  $scope.test_command = 'python2.7 pulltest/newpull.py {SN} 1 1 1'
+  var cached_params = sessionStorage.getItem('TEST_COMMAND_PARAMS')
 
-  $scope.devices = []
-  $scope.user = UserService.currentUser
-  console.log('当前用户',$scope.user)
+  if (cached_params) {
+    var data = JSON.parse(cached_params)
+    $scope.test_command = data.test_command
+    $scope.devices = data.devices
+    $scope.user = data.user
+    $scope.templates = data.templates
+    $scope.scenarios = data.scenarios
+    $scope.test_name = data.test_name
+    $scope.test_scenario= data.test_scenario
+    $scope.test_package= data.test_package
+    $scope.run_env = data.run_env
+    $scope.test_timeout = data.test_timeout
+  } else {
+    $scope.test_command = 'python2.7 pulltest/newpull.py {SN} 1 1 1'
+    $scope.devices = []
+    $scope.user = UserService.currentUser
+    console.log('当前用户',$scope.user)
+    $scope.templates = []
+    $scope.scenarios = []
+    $scope.test_name = ""
+    $scope.test_scenario=""
+    $scope.test_package=""
+    $scope.run_env = "device"
+    $scope.test_timeout = 0
+  }
 
-  $scope.templates = []
-  $scope.scenarios = []
-  $scope.test_name = ""
-  $scope.test_scenario=""
-  $scope.test_package=""
-  $scope.test_command=""
-  $scope.run_env = "device"
-  $scope.test_timeout = 0
+  var storeLocalData = function () {
 
+    var data = {
+       test_command: $scope.test_command,
+       devices:      $scope.devices,
+       user:         $scope.user,
+       templates:    $scope.templates,
+       scenarios:    $scope.scenarios,
+       test_name:    $scope.test_name,
+       test_scenario:$scope.test_scenario,
+       test_package: $scope.test_package,
+       run_env:      $scope.run_env,
+       test_timeout: $scope.test_timeout,
+    }
+
+    sessionStorage.setItem('TEST_COMMAND_PARAMS', JSON.stringify(data))
+  }
 
   // Get all the test template from DB
   $http.get('/api/v1/testTemplates/active')
@@ -196,6 +226,8 @@ module.exports = function CommandsCtrl(
   // @hy 2017-06-04 remove event hanlder during destroying
   // Refer to https://stackoverflow.com/questions/26983696/angularjs-does-destroy-remove-event-listeners
   $scope.$on('$destroy', function() {
+    storeLocalData()
+
     socket.removeListener("testing.status", testStatusChanged)
   })
 
