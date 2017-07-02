@@ -5,7 +5,6 @@ module.exports = function ChartsCtrl(
   $http
 ) {
 
-
   // @hy 2017-05-10: set default value of test command
   var cached_params = sessionStorage.getItem('TEST_CHART_PARAMS')
   if (cached_params) {
@@ -360,4 +359,5 @@ module.exports = function ChartsCtrl(
   $scope.$on('$destroy', function() {
     storeLocalData()
   })
+
 }
