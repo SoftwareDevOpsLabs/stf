@@ -1,25 +1,53 @@
 require('d3');
 module.exports = function ChartsCtrl(
   $scope,
-  DeviceService,
-  ControlService,
   socket,
   $http
 ) {
-  $scope.tracker = DeviceService.trackAll($scope)
-  $scope.control = ControlService.create($scope.tracker.devices, '*ALL')
 
-  $scope.devices = [];
 
-  $scope.start_time = new Date();
-  $scope.end_time = new Date();
+  // @hy 2017-05-10: set default value of test command
+  var cached_params = sessionStorage.getItem('TEST_CHART_PARAMS')
+  if (cached_params) {
+    var data = JSON.parse(cached_params)
+    $scope.start_time = new Date(data.start_time)
+    $scope.end_time = new Date(data.end_time)
+    $scope.test_type = data.test_type
+  }
+  else {
+    $scope.start_time = new Date();
+    $scope.end_time = new Date();
+  }
+
   $scope.format = "yyyy/MM/dd";
   $scope.altInputFormats = ['yyyy/M!/d!'];
   $scope.options = {
     showWeeks: false
   };
 
+  var storeLocalData = function () {
+
+    var data = {
+      start_time: $scope.start_time,
+      end_time:   $scope.end_time,
+      test_type:  $scope.test_type,
+    }
+
+    sessionStorage.setItem('TEST_CHART_PARAMS', JSON.stringify(data))
+  }
+
   $scope.getStatData = function(params){
+
+    var start_time = new Date(params.start_time)
+    start_time.setHours(0,0,0,0)
+
+    var end_time = new Date(params.end_time)
+    end_time.setHours(23,59,59,59)
+
+    params.start_time = start_time.getTime()
+    params.end_time = end_time.getTime()
+
+
     $http({
       method:'post',
       url:'/api/v1/testing/pie/manufacturer/',
@@ -81,12 +109,10 @@ module.exports = function ChartsCtrl(
   start_time = new Date(thisDay.getFullYear(), thisDay.getMonth(), 1)
   // 定义默认的参数
   var default_params = {
-    'start_time': start_time.getTime(),
-    'end_time': new Date().getTime(),
-    'test_type': ''
+    'start_time': $scope.start_time.getTime(),
+    'end_time':   $scope.end_time.getTime(),
+    'test_type':  $scope.test_type||''
   }
-
-  $scope.start_time = start_time
 
   // 获取默认的数据
   $scope.getStatData(default_params)
@@ -96,7 +122,7 @@ module.exports = function ChartsCtrl(
     // 检查开始时间和结束时间的输入
     var start_time = $scope.start_time
     var end_time = $scope.end_time
-    var test_type = $scope.test_type
+    var test_type = $scope.test_type||''
 
     // 检查开始时间和结束时间
     if (start_time > end_time){
@@ -104,15 +130,10 @@ module.exports = function ChartsCtrl(
       return
     }
 
-    // 检查测试类型
-    if (!test_type){
-      alert('请选择测试类型')
-      return
-    }
     var params = {
       'start_time': start_time.getTime(),
-      'end_time': end_time.getTime(),
-      'test_type': test_type
+      'end_time':   end_time.getTime(),
+      'test_type':  test_type
     }
 
     // 获取统计图的数据
@@ -333,4 +354,10 @@ module.exports = function ChartsCtrl(
       .attr("width", function(d) { return x(d); })
       .attr("fill", function(d,i) { return colors[i]; });
   }
+
+  // @hy 2017-06-04 remove event hanlder during destroying
+  // Refer to https://stackoverflow.com/questions/26983696/angularjs-does-destroy-remove-event-listeners
+  $scope.$on('$destroy', function() {
+    storeLocalData()
+  })
 }

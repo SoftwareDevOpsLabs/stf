@@ -7,6 +7,16 @@ module.exports = function HistoryCtrl(
 
   // 获取历史数据
   $scope.getHistoryList = function(params){
+
+    var start_time = new Date(params.start_time)
+    start_time.setHours(0,0,0,0)
+
+    var end_time = new Date(params.end_time)
+    end_time.setHours(23,59,59,59)
+
+    params.start_time = start_time.getTime()
+    params.end_time = end_time.getTime()
+
     // 发送请求，按照过滤条件查询
     $http({
       method:'post',
@@ -31,8 +41,8 @@ module.exports = function HistoryCtrl(
 
   if (cached_params) {
     var data = JSON.parse(cached_params)
-    $scope.start_time = data.start_time
-    $scope.end_time = data.end_time
+    $scope.start_time = new Date(data.start_time)
+    $scope.end_time = new Date(data.end_time)
     $scope.test_type = data.test_type
 
     default_params = {
@@ -47,8 +57,8 @@ module.exports = function HistoryCtrl(
     thisDay = new Date()
     // new Date(year, month, day [, hour, minute, second, millisecond ])
     start_time = new Date(thisDay.getFullYear(), thisDay.getMonth(), 1)
-    $scope.start_time = start_time;
-    $scope.end_time = new Date();
+    $scope.start_time = start_time
+    $scope.end_time = new Date()
 
     default_params = {
       'start_time': start_time.getTime(),
@@ -78,14 +88,6 @@ module.exports = function HistoryCtrl(
       alert('开始时间不能大于结束时间')
       return
     }
-
-    // 检查测试类型
-    // 测试类型为空时，查询条件为所有的测试类型
-    /*if (!test_type){
-      alert('请选择测试类型')
-      return
-    }
-    */
 
     var params = {
       'start_time': start_time.getTime(),

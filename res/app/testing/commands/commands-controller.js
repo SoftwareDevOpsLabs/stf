@@ -16,7 +16,6 @@ module.exports = function CommandsCtrl(
   if (cached_params) {
     var data = JSON.parse(cached_params)
     $scope.test_command = data.test_command
-    $scope.devices = data.devices
     $scope.user = data.user
     $scope.templates = data.templates
     $scope.scenarios = data.scenarios
@@ -24,10 +23,9 @@ module.exports = function CommandsCtrl(
     $scope.test_scenario= data.test_scenario
     $scope.test_package= data.test_package
     $scope.run_env = data.run_env
-    $scope.test_timeout = data.test_timeout
+    $scope.test_timeout = parseInt(data.test_timeout)
   } else {
     $scope.test_command = 'python2.7 pulltest/newpull.py {SN} 1 1 1'
-    $scope.devices = []
     $scope.user = UserService.currentUser
     console.log('当前用户',$scope.user)
     $scope.templates = []
@@ -38,6 +36,9 @@ module.exports = function CommandsCtrl(
     $scope.run_env = "device"
     $scope.test_timeout = 0
   }
+
+  // leave devices as a empty array
+  $scope.devices = []
 
   var storeLocalData = function () {
 

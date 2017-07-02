@@ -1,14 +1,11 @@
 module.exports = function TemplateCtrl(
   $scope,
   DeviceService,
-  ControlService,
   GroupService,
   UserService,
   socket,
   $http
 ) {
-  $scope.tracker = DeviceService.trackAll($scope)
-  $scope.control = ControlService.create($scope.tracker.devices, '*ALL')
   $scope.user = UserService.currentUser
 
   $scope.templates = [{group:""}]
@@ -22,6 +19,50 @@ module.exports = function TemplateCtrl(
 
   // @hy 2017-05-10: set default value of test command
   $scope.test_command = ''
+
+
+  // @hy 2017-05-10: set default value of test command
+  var cached_params = sessionStorage.getItem('TEST_TEMPLATE_PARAMS')
+
+  if (cached_params) {
+    var data = JSON.parse(cached_params)
+
+    $scope.templates = data.templates
+    $scope.scenarios = data.scenarios
+    $scope.currentTemplate = data.currentTemplate
+    $scope.test_scenario = data.test_scenario
+    $scope.test_group = data.test_group
+    $scope.run_env = data.run_env
+    $scope.test_timeout = parseInt(data.test_timeout)
+    $scope.test_package = data.test_package
+    $scope.test_command = data.test_command
+  } else {
+    $scope.templates = [{group:""}]
+    $scope.scenarios = [{scenario:""}]
+    $scope.currentTemplate = {}
+    $scope.test_scenario = ""
+    $scope.test_group = ""
+    $scope.run_env = "device"
+    $scope.test_timeout = 0
+    $scope.test_package = ''
+    $scope.test_command = ''
+  }
+
+  var storeLocalData = function () {
+    var data = {}
+    data.templates = $scope.templates
+    data.scenarios = $scope.scenarios
+    data.currentTemplate = $scope.currentTemplate
+    data.test_scenario = $scope.test_scenario
+    data.test_group = $scope.test_group
+    data.run_env = $scope.run_env
+    data.test_timeout = $scope.test_timeout
+    data.test_package = $scope.test_package
+    data.test_command = $scope.test_command
+
+    sessionStorage.setItem('TEST_TEMPLATE_PARAMS', JSON.stringify(data))
+  }
+
 
   $scope.save_template = function() {
     if ($scope.test_group) $scope.test_group.trim()
@@ -107,9 +148,9 @@ module.exports = function TemplateCtrl(
 
     $scope.templates.forEach(function(template) {
       if (template.group === group) {
-        $scope.test_scenario=""
-        $scope.test_command=""
-        $scope.scenarios = template['reduction']
+        $scope.test_scenario = ""
+        $scope.test_command  = ""
+        $scope.scenarios     = template['reduction']
         return
       }
     })
@@ -144,6 +185,8 @@ module.exports = function TemplateCtrl(
   getTestTemplates()
 
   $scope.$on('$destroy', function() {
+    storeLocalData() // @HY 2017-07-02 save current settings to local storage
+
     socket.removeListener("testing.testcase.saved", testcaseSaved)
     socket.removeListener("testing.testcase.error", testcaseSaveFailed)
   })

@@ -12,7 +12,8 @@ module.exports = function DeviceStatCtrl(
   $scope.devices = [];
 
   // @chenhao 从前端存储中过去用户之前设置的参数
-  var cached_params = sessionStorage.getItem('STAT_DEVICE_PARAMS');
+  var cached_params = sessionStorage.getItem('TEST_STAT_DEVICE_PARAMS');
+
   var start_time = (new Date(new Date().setHours(0,0,0,0))).getTime();
   var end_time = new Date().getTime();
   if (cached_params){
