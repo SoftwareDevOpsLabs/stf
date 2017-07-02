@@ -48,7 +48,6 @@ module.exports = function DeviceColumnService($filter, gettext) {
   , releasedAt: DateCell({
       title: gettext('Released')
     , value: function(device) {
-        return device.releasedAt ? new Date(device.releasedAt) : null
       }
     })
   , version: TextCell({
@@ -286,10 +285,24 @@ module.exports = function DeviceColumnService($filter, gettext) {
         return device.owner ? device.enhancedUserProfileUrl : ''
       }
     })
-    , romStatus: TextCell({  // @HY 2017-06-23 Show device update state: new device or rom updated
+    , romStatus: RomStatusCell({  // @HY 2017-06-23 Show device update state: new device or rom updated
       title: gettext('RomStatus')
       , value: function(device) {
-        return device.romStatus ? device.romStatus : ''
+        var thisDay = new Date()
+
+        // if ROM is updated within a week, call it "UPDATE" device
+        var romUpdatedDate = device.romUpdatedAt ? new Date(device.romUpdatedAt) : null
+        if (romUpdatedDate !== null && thisDay - romUpdatedDate <= 7*24*3600*1000) {
+          return 'ROM更新'
+        }
+
+        // if the device has appeared in STF for less than two week, call it "NEW" device
+        var createdDate = device.createdAt ? new Date(device.createdAt) : null
+        if (createdDate !== null && thisDay - createdDate <= 2*7*24*3600*1000) {
+            return '新上线机型'
+        }
+
+        return ''
       }
     })
     , nickname: TextCell({  // @HY 2017-06-23 Show nickname of device
@@ -692,5 +705,54 @@ function DeviceNoteCell(options) {
   , filter: function(item, filter) {
       return filterIgnoreCase(options.value(item), filter.query)
     }
+  })
+}
+
+function RomStatusCell(options) {
+  var stateClasses = {
+    new: 'state-device-new btn-primary'
+    , update: 'state-rom-new btn-primary-outline'
+    , none: 'state-rom-none btn-warning-outline'
+  }
+  console.log(options)
+
+  return _.defaults(options, {
+    title: options.title
+    , defaultOrder: 'asc'
+    , build: function() {
+      var td = document.createElement('td')
+      var a = document.createElement('a')
+      a.appendChild(document.createTextNode(''))
+      td.appendChild(a)
+      return td
+    }
+    , update: function(td, device) {
+      var a = td.firstChild
+      var t = a.firstChild
+
+      a.className = 'btn btn-xs device-status ' +
+        (stateClasses[device.state] || 'btn-default-outline')
+
+      if (device.usable && !device.using) {
+        a.href = '#!/control/' + device.serial
+      }
+      else {
+        a.removeAttribute('href')
+      }
+
+      t.nodeValue = options.value(device)
+
+      return td
+    }
+    , compare: (function() {
+      var order = {
+          new:    10
+        , update: 20
+        , none:   30
+      }
+      return function(deviceA, deviceB) {
+        return order[deviceA.state] - order[deviceB.state]
+      }
+    })()
   })
 }
