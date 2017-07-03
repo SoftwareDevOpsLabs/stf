@@ -14,6 +14,10 @@ module.exports = function RomCtrl($scope) {
     $scope.rom.paths = path.split('/')
   }*/
 
+  $scope.refreshRom = function refreshRom(rom) {
+     alert(rom)
+  }
+
   var getRomList = function getRomList() {
     var model = $scope.device.model||''
 
@@ -29,7 +33,7 @@ module.exports = function RomCtrl($scope) {
     */
 
     result = $scope.control.romlist(model)
-    $scope.rom.romlist = result.romList
+    $scope.rom.romList = result.romList
 
     // $scope.$digest()
   }

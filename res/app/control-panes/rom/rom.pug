@@ -18,15 +18,16 @@ div.page-controller(ng-controller='RomCtrl')
         th
           div(translate) Operation
     tbody
-      tr(ng-repeat='r in rom.romlist')
+      tr(ng-repeat='r in rom.romList')
         td
           span {{r.uiVer}}
         td
           span
         td
-          span {{r.ftpDownload | basename}}
+          a(ng-href='{{r.ftpDownload}}') {{r.ftpDownload|basename}}
         td
-          span {{r.updateLog | basename}}
+          a(ng-href='{{r.updateLog}}') {{r.updateLog|basename|unescape}}
         td
-          button.btn.btn-sm.btn-primary-outline
+          button.btn.btn-primary.btn-xs(
+           ng-click='refreshRom(r)', ng-show='r.ftpDownload|isNotEmpty')
             span 刷机

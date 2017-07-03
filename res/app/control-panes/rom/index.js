@@ -6,42 +6,29 @@ module.exports = angular.module('stf.rom', [])
       require('./rom.pug')
     )
   }])
-  .filter('fileIsDir', function() {
-    return function(m) {
-      var mode = m
-      if (mode !== null) {
-        mode = parseInt(mode, 10)
-        mode -= (mode & 0777)
-        return (mode === 040000) || (mode === 0120000)
-      }
-    }
-  })
-  .filter('formatFileSize', function() {
-    return function(size) {
-      var formattedSize
-      if (size < 1024) {
-        formattedSize = size + ' B'
-      } else if (size >= 1024 && size < 1024 * 1024) {
-        formattedSize = Math.round(size / 1024, 1) + ' Kb'
-      } else {
-        formattedSize = Math.round(size / (1024 * 1024), 1) + ' Mb'
-      }
-      return formattedSize
-    }
-  })
-  .filter('formatFileDate', function() {
-    return function(inputString) {
-      var input = new Date(inputString)
-      return input instanceof Date ?
-        input.toISOString().substring(0, 19).replace('T', ' ') :
-        (input.toLocaleString || input.toString).apply(input)
-    }
-  })
+  // reverse-find the basename beginning with last slash but one
   .filter('basename', function() {
-    return function(path) {}
-      console.log('++++++++++++++++++++basename+++++++++++++++++')
-      var base = new String(path).substring(str.lastIndexOf('/') + 1);
+    return function(path) {
+      var slashCnt = 0
+      var i = path.length - 1
+      for (; i >= 0; i--) {
+         if (path[i] === '/')
+           slashCnt++
+        if (slashCnt === 2)
+          break
+      }
+      var base = new String(path).substring(i + 1);
       return base
+    }
   })
-
+  .filter('unescape', function () {
+    return function(str) {
+      return decodeURI(str)
+    }
+  })
+  .filter('isNotEmpty', function () {
+    return function (str) {
+      return str.length !== 0
+    }
+  })
   .controller('RomCtrl', require('./rom-controller'))
