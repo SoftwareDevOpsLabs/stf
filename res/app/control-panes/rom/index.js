@@ -6,25 +6,6 @@ module.exports = angular.module('stf.rom', [])
       require('./rom.pug')
     )
   }])
-  .filter('formatPermissionMode', function() {
-    return function(mode) {
-      if (mode !== null) {
-        var res = []
-        var s = ['x', 'w', 'r']
-        for (var i = 0; i < 3; i++) {
-          for (var j = 0; j < 3; j++) {
-            if ((mode >> (i * 3 + j)) & 1 !== 0) {
-              res.unshift(s[j])
-            } else {
-              res.unshift('-')
-            }
-          }
-        }
-        res.unshift(mode & 040000 ? 'd' : '-')
-        return res.join('')
-      }
-    }
-  })
   .filter('fileIsDir', function() {
     return function(m) {
       var mode = m
@@ -55,6 +36,12 @@ module.exports = angular.module('stf.rom', [])
         input.toISOString().substring(0, 19).replace('T', ' ') :
         (input.toLocaleString || input.toString).apply(input)
     }
+  })
+  .filter('basename', function() {
+    return function(path) {}
+      console.log('++++++++++++++++++++basename+++++++++++++++++')
+      var base = new String(path).substring(str.lastIndexOf('/') + 1);
+      return base
   })
 
   .controller('RomCtrl', require('./rom-controller'))

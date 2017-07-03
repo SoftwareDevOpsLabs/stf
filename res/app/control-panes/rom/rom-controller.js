@@ -1,54 +1,46 @@
 module.exports = function RomCtrl($scope) {
+  console.log("+++++++++++++++++ Rom Ctrl +++++++++++++++")
+
   $scope.rom = {
-    search: '',
-    files: [],
-    paths: []
+    romList: [],
   }
 
+  /*
   $scope.getAbsolutePath = function() {
     return ('/' + $scope.rom.paths.join('/')).replace(/\/\/+/g, '/')
   }
 
   function resetPaths(path) {
     $scope.rom.paths = path.split('/')
-  }
+  }*/
 
-  var listDir = function listDir() {
-    var path = $scope.getAbsolutePath()
-    $scope.rom.search = path
+  var getRomList = function getRomList() {
+    var model = $scope.device.model||''
 
-    $scope.control.fslist(path)
+    /*
+    $scope.control.romlist(model)
       .then(function(result) {
-        $scope.romr.files = result.body
+        $scope.rom.romlist = result.romList
         $scope.$digest()
       })
       .catch(function(err) {
         throw new Error(err.message)
       })
+    */
+
+    result = $scope.control.romlist(model)
+    $scope.rom.romlist = result.romList
+
+    // $scope.$digest()
   }
 
+  /*
   $scope.dirEnterLocation = function() {
     if ($scope.rom.search) {
       resetPaths($scope.rom.search)
       listDir()
       $scope.rom.search = $scope.getAbsolutePath()
     }
-  }
-
-  $scope.dirEnter = function(name) {
-    if (name) {
-      $scope.rom.paths.push(name)
-    }
-    listDir()
-    $scope.rom.search = $scope.getAbsolutePath()
-  }
-
-  $scope.dirUp = function() {
-    if ($scope.rom.paths.length !== 0) {
-      $scope.rom.paths.pop()
-    }
-    listDir()
-    $scope.rom.search = $scope.getAbsolutePath()
   }
 
   $scope.getFile = function(file) {
@@ -63,7 +55,8 @@ module.exports = function RomCtrl($scope) {
         throw new Error(err.message)
       })
   }
+  */
 
   // Initialize
-  listDir($scope.dir)
+  getRomList()
 }
