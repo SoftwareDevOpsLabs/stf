@@ -296,9 +296,9 @@ module.exports = function DeviceColumnService($filter, gettext) {
           return 'ROM更新'
         }
 
-        // if the device has appeared in STF for less than two week, call it "NEW" device
+        // if the device has appeared in STF for less than one week, call it "NEW" device
         var createdDate = device.createdAt ? new Date(device.createdAt) : null
-        if (createdDate !== null && thisDay - createdDate <= 2*7*24*3600*1000) {
+        if (createdDate !== null && thisDay - createdDate <= 1*7*24*3600*1000) {
             return '新上线机型'
         }
 
