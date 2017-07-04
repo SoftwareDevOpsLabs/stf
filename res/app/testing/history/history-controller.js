@@ -29,6 +29,7 @@ module.exports = function HistoryCtrl(
   // 读取当前用户所有历史的测试记录
   // @HY 2017-05-29 默认查询当月的测试记录
   thisDay = new Date()
+
   // new Date(year, month, day [, hour, minute, second, millisecond ])
   start_time = new Date(thisDay.getFullYear(), thisDay.getMonth(), 1)
   var default_params = {
@@ -60,14 +61,6 @@ module.exports = function HistoryCtrl(
       alert('开始时间不能大于结束时间')
       return
     }
-
-    // 检查测试类型
-    // 测试类型为空时，查询条件为所有的测试类型
-    /*if (!test_type){
-      alert('请选择测试类型')
-      return
-    }
-    */
 
     var params = {
       'start_time': start_time.getTime(),

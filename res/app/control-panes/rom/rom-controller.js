@@ -5,61 +5,27 @@ module.exports = function RomCtrl($scope) {
     romList: [],
   }
 
-  /*
-  $scope.getAbsolutePath = function() {
-    return ('/' + $scope.rom.paths.join('/')).replace(/\/\/+/g, '/')
-  }
-
-  function resetPaths(path) {
-    $scope.rom.paths = path.split('/')
-  }*/
-
   $scope.refreshRom = function refreshRom(rom) {
      alert(rom)
+     $scope.control.shell(command)
+      .progressed(function(result) {
+        $scope.result = result
+        $scope.data = result.data.join('')
+        $scope.$digest()
+      })
+       .then(function(result) {
+        $scope.result = result
+        $scope.data = result.data.join('')
+        $scope.$digest()
+      })
   }
 
   var getRomList = function getRomList() {
     var model = $scope.device.model||''
 
-    /*
-    $scope.control.romlist(model)
-      .then(function(result) {
-        $scope.rom.romlist = result.romList
-        $scope.$digest()
-      })
-      .catch(function(err) {
-        throw new Error(err.message)
-      })
-    */
-
     result = $scope.control.romlist(model)
     $scope.rom.romList = result.romList
-
-    // $scope.$digest()
   }
-
-  /*
-  $scope.dirEnterLocation = function() {
-    if ($scope.rom.search) {
-      resetPaths($scope.rom.search)
-      listDir()
-      $scope.rom.search = $scope.getAbsolutePath()
-    }
-  }
-
-  $scope.getFile = function(file) {
-    var path = $scope.getAbsolutePath() + '/' + file
-    $scope.control.fsretrieve(path)
-      .then(function(result) {
-        if (result.body) {
-          location.href = result.body.href + '?download'
-        }
-      })
-      .catch(function(err) {
-        throw new Error(err.message)
-      })
-  }
-  */
 
   // Initialize
   getRomList()
