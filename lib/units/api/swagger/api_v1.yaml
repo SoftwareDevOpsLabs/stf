@@ -534,6 +534,33 @@ paths:
       security:
         - accessTokenAuth: []
 
+  '/rom/':
+    x-swagger-router-controller: rom
+    get:
+      summary: Rom info
+      description: Return device metadata and rom list
+      operationId: getRomList
+      tags:
+        - rom
+      parameters:
+        - name: model
+          in: query
+          description: >-
+             Device model, which is used to query rom info from Gripper
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Rom List
+          schema:
+            $ref: '#/definitions/RomResponse'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - accessTokenAuth: []
+
 
   /swagger.json:
     x-swagger-pipe: swagger_raw
@@ -575,6 +602,12 @@ definitions:
         type: string
       serial:
         type: string
+  RomResponse:
+    required:
+      - romlist
+    properties:
+      romlist:
+         type: object
 
   QueryTestingPayload:
     description: payload object for query testings
@@ -591,6 +624,15 @@ definitions:
       test_type:
         description: type
         type: string
+
+  QueryRomPayload:
+      description: payload object for query Rom Info
+      required:
+        - model
+      properties:
+        model:
+          description: device model
+          type: string
 
   AddUserDevicePayload:
     description: payload object for adding device to user

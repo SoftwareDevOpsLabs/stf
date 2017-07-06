@@ -1,45 +1,41 @@
-.widget-container.fluid-height(ng-controller='RomCtrl').stf-explorer
-  .heading
+div.page-controller(ng-controller='RomCtrl')
 
-    form.input-group.form-inline(name='romForm', ng-submit='dirEnterLocation()')
-      span.input-group-btn
-        button.btn.btn-primary-outline(ng-click='dirUp()')
-          i.fa.fa-level-up
-      input(type='text', ng-model='rom.search',
-      ng-enter='dirEnterLocation()'
-      autocorrect='off', autocapitalize='off', spellcheck='false').form-control
-      span.input-group-btn
-        button.btn.btn-primary-outline(type='submit')
-          i.fa.fa-play
+  div
+    stacked-icon(icon='fa-tablet', color='color-blue')
+    span
+      b ROM列表
 
-  .widget-content.padded.selectable
-    table.table.table-hover.table-condensed.dataTable.ng-table
-      thead
-        tr
-          th
-            div(translate) Name
-          th
-            div(translate) Size
-          th
-            div(translate) Date
-          th
-            div(translate) Operation
-      tbody
-        tr.header(ng-repeat='f in explorer.files | filter:search | orderBy: ["-mode|fileIsDir", "+name"]')
-          td
-            button.btn.btn-sm.btn-primary-outline(
-            ng-click='dirEnter(f.name)', ng-show='f.mode|fileIsDir')
-              span
-                i.fa.fa-folder-open
-              span {{f.name}}
+  div
+    span
+      b 注意：
+      刷机之前需要将设备WIFI连接改成“360-wireless-test"
 
-            button.btn.btn-sm.btn-primary-outline(
-            ng-click='getFile(f.name)', ng-hide='f.mode|fileIsDir')
-              span
-                i.fa.fa-file-o
-              span {{f.name}}
-          td
-            span(ng-show='f.mode|fileIsDir') -
-            span(ng-hide='f.mode|fileIsDir') {{f.size|formatFileSize}}
-          td
-            span {{f.mtime|formatFileDate}}
+  br
+
+  table.table.table-hover.table-condensed.dataTable.ng-table
+    thead
+      tr
+        th
+          div(translate) Version
+        th
+          div(translate) Date
+        th
+          div(translate) DownloadLocation
+        th
+          div(translate) UpdateLog
+        th
+          div(translate) Operation
+    tbody
+      tr(ng-repeat='r in rom.romlist')
+        td
+          span {{r.uiVer}}
+        td
+          span
+        td
+          a(ng-href='{{r.ftpDownload}}') {{r.ftpDownload|basename}}
+        td
+          a(ng-href='{{r.updateLog}}') {{r.updateLog|basename|unescape}}
+        td
+          button.btn.btn-sm.btn-primary-outline(
+            ng-click='refreshRom(r)', ng-show='r.ftpDownload|isNotEmpty')
+            span 刷机

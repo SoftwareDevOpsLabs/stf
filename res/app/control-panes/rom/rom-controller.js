@@ -1,69 +1,44 @@
-module.exports = function RomCtrl($scope) {
+module.exports = function RomCtrl($scope,
+                                  $http) {
+  console.log("+++++++++++++++++ Rom Ctrl +++++++++++++++")
+
   $scope.rom = {
-    search: '',
-    files: [],
-    paths: []
+    romlist: [],
   }
 
-  $scope.getAbsolutePath = function() {
-    return ('/' + $scope.rom.paths.join('/')).replace(/\/\/+/g, '/')
-  }
+  $scope.refreshRom = function refreshRom(rom) {
+     var command = "am instrument -w -r -e debug false -e class com.qihoo.caes.FlashPhone#testOTAUpgrade"
+                     + " -e Loop 1 -e nickname Pro6 " + " -e url " + rom.ftpDownload + " com.qihoo.test/android.support.test.runner.AndroidJUnitRunner&"
 
-  function resetPaths(path) {
-    $scope.rom.paths = path.split('/')
-  }
+      console.log(command)
 
-  var listDir = function listDir() {
-    var path = $scope.getAbsolutePath()
-    $scope.rom.search = path
-
-    $scope.control.fslist(path)
-      .then(function(result) {
-        $scope.romr.files = result.body
+      var oneHour = 3600*1000  // timeout for rom refresh is one hour
+      $scope.control.shell(command, oneHour)
+      .progressed(function(result) {
+        console.log(result)
+        $scope.result = result
+        $scope.data = result.data.join('')
         $scope.$digest()
       })
-      .catch(function(err) {
-        throw new Error(err.message)
+       .then(function(result) {
+         console.log(result)
+        $scope.result = result
+        $scope.data = result.data.join('')
+        $scope.$digest()
       })
   }
 
-  $scope.dirEnterLocation = function() {
-    if ($scope.rom.search) {
-      resetPaths($scope.rom.search)
-      listDir()
-      $scope.rom.search = $scope.getAbsolutePath()
-    }
-  }
-
-  $scope.dirEnter = function(name) {
-    if (name) {
-      $scope.rom.paths.push(name)
-    }
-    listDir()
-    $scope.rom.search = $scope.getAbsolutePath()
-  }
-
-  $scope.dirUp = function() {
-    if ($scope.rom.paths.length !== 0) {
-      $scope.rom.paths.pop()
-    }
-    listDir()
-    $scope.rom.search = $scope.getAbsolutePath()
-  }
-
-  $scope.getFile = function(file) {
-    var path = $scope.getAbsolutePath() + '/' + file
-    $scope.control.fsretrieve(path)
-      .then(function(result) {
-        if (result.body) {
-          location.href = result.body.href + '?download'
-        }
-      })
-      .catch(function(err) {
-        throw new Error(err.message)
+  // Get rom list for specific model
+  var getRomList = function(params) {
+    $http.get('/api/v1/rom/?model=' + escape(params.model))
+      .then(function (response) {
+        console.log(response)
+        $scope.rom.romlist = response['data']['romlist'] || []
       })
   }
 
   // Initialize
-  listDir($scope.dir)
+  var model = $scope.device ? $scope.device.model : ''
+  getRomList({model:model})
+
 }

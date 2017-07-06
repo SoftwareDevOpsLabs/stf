@@ -7,3 +7,10 @@
   .widget-content.padded
     .form-inline
       textarea(readonly, rows='1', ng-model='debugCommand', msd-elastic, text-focus-select).form-control.remote-debug-textarea
+      br
+      p
+       b 使用说明:
+      p 1. 在本地机器的命令行窗口输入上述adb连接命令
+      p 2. STF页面将会会弹出授权窗口，点击确认
+      p 3. 在本地机器输入命令adb devices查看远程设备名(IP+端口)
+      p 4. 在开发测试工具中使用远程设备
