@@ -12,8 +12,8 @@ module.exports = function RomCtrl($scope,
 
       console.log(command)
 
-      var timeout = 3600*1000  // timeout for rom refresh is one hour
-      $scope.control.shell(command, timeout)
+      var oneHour = 3600*1000  // timeout for rom refresh is one hour
+      $scope.control.shell(command, oneHour)
       .progressed(function(result) {
         console.log(result)
         $scope.result = result
