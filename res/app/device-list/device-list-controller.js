@@ -27,17 +27,17 @@ module.exports = function DeviceListCtrl(
       name: 'name'
     , selected: true
     }
-   	
+
   // @HY 2017-06-23 add nickname and rom status into device list
-  , {  
+  , {
       name: 'nickname'
     , selected: false
     }
-  , {  
+  , {
       name: 'romStatus'
-    , selected: false
+    , selected: true
     }
-   
+
   , {
       name: 'serial'
     , selected: true   // @hy, 2017-05-09: false ==> true
@@ -116,7 +116,7 @@ module.exports = function DeviceListCtrl(
     }
   , {
       name: 'provider'
-    , selected: true
+    , selected: false
     }
     ,{
       name: 'presenceChangedAt'

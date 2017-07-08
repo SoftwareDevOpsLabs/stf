@@ -287,6 +287,11 @@ module.exports = function DeviceColumnService($filter, gettext) {
     })
     , romStatus: RomStatusCell({  // @HY 2017-06-23 Show device update state: new device or rom updated
       title: gettext('RomStatus')
+      , value: function (status) {
+        return status
+          ? $filter('translate')(status)
+          : ''
+      }
     })
     , nickname: TextCell({  // @HY 2017-06-23 Show nickname of device
       title: gettext('Nickname')
@@ -692,10 +697,32 @@ function DeviceNoteCell(options) {
 }
 
 function RomStatusCell(options) {
-  var stateClasses = {
-    new: 'btn  state-device-new color-green'
-    , update: 'btn device-status  state-rom-new color-yellow'
-    , none: 'btn device-status  state-rom-none '
+  var strNew = "NEW DEVICE"
+  var strUpdate = "ROM UPDATE"
+  var strNone = "NONE"
+
+  var stateClasses = {}
+  stateClasses[strNew] = 'state-device-new color-green'
+  stateClasses[strUpdate] = 'device-status  state-rom-new color-yellow'
+  stateClasses[strNone] = 'device-status  state-rom-none'
+
+
+  var getRomStatus = function romStatus(device) {
+    var thisDay = new Date()
+
+    // if ROM is updated within a week, mark it as "UPDATE" device
+    var romUpdatedDate = device.romUpdatedAt ? new Date(device.romUpdatedAt) : null
+    if (romUpdatedDate !== null && thisDay - romUpdatedDate <= 7 * 24 * 3600 * 1000) {
+      return strUpdate
+    }
+
+    // if the device has appeared in STF for less than one week, call it "NEW" device
+    var createdDate = device.createdAt ? new Date(device.createdAt) : null
+    if (createdDate !== null && thisDay - createdDate <= 1 * 7 * 24 * 3600 * 1000) {
+      return strNew
+    }
+
+    return strNone
   }
 
   return _.defaults(options, {
@@ -720,36 +747,24 @@ function RomStatusCell(options) {
         a.removeAttribute('href')
       }
 
-
       var value = ''
-      var thisDay = new Date()
-
-      // if ROM is updated within a week, call it "UPDATE" device
-      var romUpdatedDate = device.romUpdatedAt ? new Date(device.romUpdatedAt) : null
-      if (romUpdatedDate !== null && thisDay - romUpdatedDate <= 7*24*3600*1000) {
-        a.className = stateClasses.update
-        value =  'ROM更新'
+      var status = getRomStatus(device)
+      if (status !== strNone) {
+        a.className = stateClasses[status]
+        value = options.value(status)
       }
-
-      // if the device has appeared in STF for less than one week, call it "NEW" device
-      var createdDate = device.createdAt ? new Date(device.createdAt) : null
-      if (createdDate !== null && thisDay - createdDate <= 1*7*24*3600*1000) {
-        a.className = stateClasses.new
-        value = '新上线机型'
-      }
-
       t.nodeValue = value
 
       return td
     }
     , compare: (function() {
-      var order = {
-          new:    10
-        , update: 20
-        , none:   30
-      }
-      return function(deviceA, deviceB) {
-        return order[deviceA.state] - order[deviceB.state]
+      var order = {}
+      order[strNew] = 10
+      order[strUpdate] = 20
+      order[strNone] = 30
+
+      return function(device1, device2) {
+        return order[getRomStatus(device1)] - order[getRomStatus(device2)]
       }
     })()
   })
