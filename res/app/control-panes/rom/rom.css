@@ -1,0 +1,15 @@
+.rom-process{
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+.rom-process-item .process-time{
+  font-size: 14px;
+  color: #666;
+  display: inline-block;
+  padding: 0px 15px;
+}
+.rom-process-item .process-msg{
+  color: #007aff;
+  font-size: 13px;
+}

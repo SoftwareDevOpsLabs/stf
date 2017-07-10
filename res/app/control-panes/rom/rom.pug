@@ -39,3 +39,9 @@ div.page-controller(ng-controller='RomCtrl')
           button.btn.btn-sm.btn-primary-outline(
             ng-click='refreshRom(r)', ng-show='r.ftpDownload|isNotEmpty')
             span 刷机
+
+  div.rom-process-wrapper
+    ul.rom-process
+      li.rom-process-item(ng-repeat='log in logs')
+        span.process-time(ng-bind='log.time')
+        span.process-msg(ng-bind='log.msg')

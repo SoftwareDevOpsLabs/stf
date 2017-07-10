@@ -47,28 +47,6 @@ module.exports = function ChartsCtrl(
       $scope.drawPieChart(stat,panel)
       $scope.scene_stat = stat
     })
-
-    $http({
-      method:'post',
-      url:'/api/v1/testing/bar/user/',
-      data: params
-    }).success(function(response){
-      var labels = response['labels']
-      var dataset = response['dataset']
-      var panel = 'bar_chart_user'
-      $scope.drawBarChart(labels,dataset,panel);
-    })
-
-    $http({
-      method:'post',
-      url:'/api/v1/testing/bar/model/',
-      data: params
-    }).success(function(response){
-      var labels = response['labels']
-      var dataset = response['dataset']
-      var panel = 'bar_chart_device'
-      $scope.drawBarChart(labels,dataset,panel)
-    })
   };
 
   // 获取所有的测试类型
