@@ -95,8 +95,8 @@ module.exports = function UserStatCtrl(
 
   $scope.drawBarChart = function(lables,dataset,panel){
     // 定义图表的间距
-    var margin = {top: 30, right: 30, bottom: 30, left: 100}
-    var w = 500 - margin.left - margin.right
+    var margin = {top: 30, right: 100, bottom: 30, left: 100}
+    var w = 600 - margin.left - margin.right
     var h = Math.max(350,dataset.length*14) - margin.top - margin.bottom;
 
     // 定义x轴和y轴
@@ -147,5 +147,8 @@ module.exports = function UserStatCtrl(
       .attr("x", function(d) { return 0; })
       .attr("width", function(d) { return x(d); })
       .attr("fill", function(d,i) { return colors[i]; });
+
+    svg.append('text').attr('x',w+10).attr('y',h+5).text('单位(H)')
+    svg.append('text').attr('x',-20).attr('y',-10).text('用户名')
   }
 }

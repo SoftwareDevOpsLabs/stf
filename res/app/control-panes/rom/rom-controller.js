@@ -1,7 +1,5 @@
 module.exports = function RomCtrl($scope,
                                   $http) {
-  console.log("+++++++++++++++++ Rom Ctrl +++++++++++++++")
-
   $scope.rom = {
     romlist: [],
   }
