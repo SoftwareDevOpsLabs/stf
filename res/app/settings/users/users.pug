@@ -1,0 +1,9 @@
+div(ng-controller='UsersCtrl')
+  table
+
+
+  h1 用户组
+  div(ng-repeat='user in user_list')
+    h2(ng-bind='user.name')
+    h2(ng-bind='user.email')
+    h2(ng-bind='user.tags')

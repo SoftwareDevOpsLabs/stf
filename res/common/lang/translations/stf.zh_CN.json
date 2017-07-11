@@ -372,6 +372,8 @@
     "Yes": "是",
     "You (or someone else) kicked the device.": "你 (或別人) 已移出了该设备。",
     "Testing" : "测试",
-    "Statistics" : "统计"
+    "Statistics" : "统计",
+    "Users" : "用户",
+    "Providers" : "设备组"
   }
 }

@@ -49,6 +49,48 @@ paths:
             $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
+  /users:
+    x-swagger-router-controller: user
+    get:
+      summary: Get All User List
+      description: >-
+        The User Profile endpoint returns information about current authorized
+        user
+      operationId: getUserList
+      tags:
+        - user
+      responses:
+        '200':
+          description: Current User Profile information
+          schema:
+            $ref: '#/definitions/UserListResponse'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - accessTokenAuth: []
+  /servers:
+    x-swagger-router-controller: user
+    get:
+      summary: Get All User List
+      description: >-
+        The User Profile endpoint returns information about current authorized
+        user
+      operationId: getServerList
+      tags:
+        - user
+      responses:
+        '200':
+          description: Current User Profile information
+          schema:
+            $ref: '#/definitions/ServerListResponse'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - accessTokenAuth: []
   /user/devices:
     x-swagger-router-controller: user
     get:
@@ -286,7 +328,7 @@ paths:
             $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
-  /testings/{status}:
+  '/testings/{status}':
     x-swagger-router-controller: testing
     post:
       summary: Testing List
@@ -324,7 +366,7 @@ paths:
             $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
-  /testTemplates/{status}:
+  '/testTemplates/{status}':
     x-swagger-router-controller: testing
     get:
       summary: Testing List
@@ -388,7 +430,6 @@ paths:
             $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
-
   '/testing/pie/{name}/':
     x-swagger-router-controller: testing
     post:
@@ -427,7 +468,6 @@ paths:
             $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
-
   '/testing/bar/{name}/':
     x-swagger-router-controller: testing
     post:
@@ -466,8 +506,7 @@ paths:
             $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
-
-  '/testing/types/':
+  /testing/types/:
     x-swagger-router-controller: testing
     get:
       summary: Get All Test Types
@@ -494,7 +533,6 @@ paths:
             $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
-
   '/stat/{name}/':
     x-swagger-router-controller: stat
     post:
@@ -533,8 +571,7 @@ paths:
             $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
-
-  '/rom/':
+  /rom/:
     x-swagger-router-controller: rom
     get:
       summary: Rom info
@@ -545,8 +582,7 @@ paths:
       parameters:
         - name: model
           in: query
-          description: >-
-             Device model, which is used to query rom info from Gripper
+          description: 'Device model, which is used to query rom info from Gripper'
           required: true
           type: string
       responses:
@@ -560,8 +596,6 @@ paths:
             $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
-
-
   /swagger.json:
     x-swagger-pipe: swagger_raw
 definitions:
@@ -570,6 +604,18 @@ definitions:
       - user
     properties:
       user:
+        type: object
+  UserListResponse:
+    required:
+      - users
+    properties:
+      users:
+        type: object
+  ServerListResponse:
+    required:
+      - servers
+    properties:
+      servers:
         type: object
   AccessTokensResponse:
     required:
@@ -607,8 +653,7 @@ definitions:
       - romlist
     properties:
       romlist:
-         type: object
-
+        type: object
   QueryTestingPayload:
     description: payload object for query testings
     required:
@@ -624,16 +669,14 @@ definitions:
       test_type:
         description: type
         type: string
-
   QueryRomPayload:
-      description: payload object for query Rom Info
-      required:
-        - model
-      properties:
-        model:
-          description: device model
-          type: string
-
+    description: payload object for query Rom Info
+    required:
+      - model
+    properties:
+      model:
+        description: device model
+        type: string
   AddUserDevicePayload:
     description: payload object for adding device to user
     required:
