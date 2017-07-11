@@ -3,10 +3,13 @@ module.exports = function RomCtrl($scope,
   console.log("+++++++++++++++++ Rom Ctrl +++++++++++++++")
 
   $scope.rom = {
-    romlist: []
+    romlist: [],
   }
 
-  $scope.logs = []
+  $scope.logs = [
+    {'time': '2017-07-10 12:22:51','msg':'正在初始化程序...'},
+    {'time': '2017-07-10 12:22:51','msg':'程序安装完毕。'},
+  ]
 
   $scope.refreshRom = function refreshRom(rom) {
      var command = "am instrument -w -r -e debug false -e class com.qihoo.caes.FlashPhone#testOTAUpgrade"
