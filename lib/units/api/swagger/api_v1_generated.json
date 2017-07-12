@@ -104,6 +104,54 @@
         ]
       }
     },
+    "/user/tags/": {
+      "x-swagger-router-controller": "user",
+      "post": {
+        "summary": "Set User Tags",
+        "description": "The User Profile endpoint returns information about current authorized user",
+        "operationId": "setUserTags",
+        "tags": [
+          "user"
+        ],
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "description": "user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/QueryTestingPayload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current User Profile information",
+            "schema": {
+              "$ref": "#/definitions/UserListResponse"
+            }
+          },
+          "default": {
+            "description": "Unexpected Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "accessTokenAuth": []
+          }
+        ]
+      }
+    },
     "/servers": {
       "x-swagger-router-controller": "user",
       "get": {

@@ -1,6 +1,7 @@
 module.exports = function UsersCtrl(
   $scope,
-  $http
+  $http,
+  UserTagsModalService
 ) {
   console.log('xxxxxUser')
 
@@ -12,5 +13,11 @@ module.exports = function UsersCtrl(
     var users = response['users']
     $scope.user_list = users
   })
+
+  // 修改tag的信息
+  $scope.setUserTags = function(obj){
+    var user = obj.user
+    UserTagsModalService.open(user)
+  }
 
 }

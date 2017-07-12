@@ -1,9 +1,18 @@
-div(ng-controller='UsersCtrl')
-  table
-
-
-  h1 用户组
-  div(ng-repeat='user in user_list')
-    h2(ng-bind='user.name')
-    h2(ng-bind='user.email')
-    h2(ng-bind='user.tags')
+div.users-controller(ng-controller='UsersCtrl')
+  div
+    input.form-control.users-search(placeholder='搜索用户')
+    button.btn.btn-primary(ng-click='submitQuery()') 查询
+  table.table.table-hover.dataTable.ng-table
+    thead
+      tr
+        th.header.sortable 用户名
+        th.header.sortable 邮箱
+        th.header.sortable 标签
+        th.header.sortable 操作
+    tbody
+      tr(ng-repeat='user in user_list')
+        td(ng-bind='user.name')
+        td(ng-bind='user.email')
+        td(ng-bind='user.tags')
+        td
+          button.btn.btn-primary.btn-sm(ng-click='setUserTags(this)') 修改

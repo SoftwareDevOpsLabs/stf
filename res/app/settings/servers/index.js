@@ -1,3 +1,4 @@
+require('./servers.css')
 module.exports = angular.module('settings-servers', [
   require('stf/settings').name
 ])
