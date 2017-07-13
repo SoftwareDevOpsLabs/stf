@@ -148,7 +148,7 @@ module.exports = function UserStatCtrl(
       .attr("width", function(d) { return x(d); })
       .attr("fill", function(d,i) { return colors[i]; })
       .on('mouseover',function(){
-        alert('ddd')
+
       })
       .on('mouseout',function(){
 
