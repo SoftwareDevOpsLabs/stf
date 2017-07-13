@@ -1,7 +1,9 @@
 div.users-controller(ng-controller='UsersCtrl')
-  div
-    input.form-control.users-search(placeholder='搜索用户')
-    button.btn.btn-primary(ng-click='submitQuery()') 查询
+  div.users-search-box
+    span.users-search-icon
+     i(ng-if='!query').fa.fa-search
+     i(ng-if='query',ng-click='clearSearchInput()').fa.fa-times-circle
+    input.form-control.users-search(placeholder='搜索用户',ng-model='query')
   table.table.table-hover.dataTable.ng-table
     thead
       tr
@@ -10,7 +12,7 @@ div.users-controller(ng-controller='UsersCtrl')
         th.header.sortable 标签
         th.header.sortable 操作
     tbody
-      tr(ng-repeat='user in user_list')
+      tr(ng-repeat='user in user_list| filter:query')
         td(ng-bind='user.name')
         td(ng-bind='user.email')
         td(ng-bind='user.tags')

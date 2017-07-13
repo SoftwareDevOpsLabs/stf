@@ -107,7 +107,7 @@ module.exports = function DeviceStatCtrl(
     var y = d3.scale.ordinal()
       .rangeRoundBands([0,h],0.1,0);
 
-    console.log('label',lables)
+    // console.log('label',lables)
     y.domain(lables.map(function(d) { return d; }));
 
     var x = d3.scale.linear()
@@ -145,12 +145,18 @@ module.exports = function DeviceStatCtrl(
       .enter().append("rect")
       .attr("class", "bar")
       .attr("y", function(d,i) {
-        return  i*(h/dataset.length)
+        return  y(lables[i])
       })
       .attr("height", y.rangeBand())
       .attr("x", function(d) { return 0; })
       .attr("width", function(d) { return x(d); })
-      .attr("fill", function(d,i) { return colors[i]; });
+      .attr("fill", function(d,i) { return colors[i]; })
+      .on('mouseover',function(){
+
+      })
+      .on('mouseout',function(){
+
+      });
 
     svg.append('text').attr('x',w+10).attr('y',h+5).text('单位(H)')
     svg.append('text').attr('x',-20).attr('y',-10).text('厂商名')

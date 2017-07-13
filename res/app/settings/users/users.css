@@ -3,9 +3,20 @@
   background-color: #fff;
 }
 .users-search{
-  width: 200px;
+  width: 260px;
   display: inline-block;
   margin-right: 15px;
+}
+.users-search-icon{
+  position: absolute;
+  display: inline-block;
+  padding: 0px 5px;
+  left: 230px;
+  top: 7px;
+}
+.users-search-box{
+  position: relative;
+  padding-bottom: 15px;
 }
 table .header{
   font-size: 13px;

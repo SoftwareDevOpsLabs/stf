@@ -20,4 +20,9 @@ module.exports = function UsersCtrl(
     UserTagsModalService.open(user)
   }
 
+  // 清空搜索框
+  $scope.clearSearchInput = function(){
+    $scope.query = '';
+  }
+
 }
