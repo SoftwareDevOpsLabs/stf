@@ -1,29 +1,51 @@
-module.exports = function RomCtrl($scope,
-                                  $http) {
+module.exports = function RomCtrl(
+  $scope,
+  $http,
+  $filter
+) {
   $scope.rom = {
-    romlist: [],
+    romlist: []
   }
+
+  // 是否显示日志
+  $scope.show_win = true
+
+  $scope.logs = []
 
   $scope.refreshRom = function refreshRom(rom) {
      var command = "am instrument -w -r -e debug false -e class com.qihoo.caes.FlashPhone#testOTAUpgrade"
                      + " -e Loop 1 -e nickname Pro6 " + " -e url " + rom.ftpDownload + " com.qihoo.test/android.support.test.runner.AndroidJUnitRunner&"
 
-      console.log(command)
+      // 初始化刷机消息
+      var time = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss')
+      $scope.logs.push({'msg':command,'time':time})
+      $scope.show_win = true
 
+      console.log(command)
       var oneHour = 3600*1000  // timeout for rom refresh is one hour
       $scope.control.shell(command, oneHour)
       .progressed(function(result) {
         console.log(result)
-        $scope.result = result
-        $scope.data = result.data.join('')
-        $scope.$digest()
+          //@hy TODO 数据格式和上面定义的$scope.logs 一致
+        var log = result['lastData']
+        var time = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss')
+        if (log){
+          $scope.logs.push({'msg':log,'time':time})
+        }
       })
        .then(function(result) {
          console.log(result)
-        $scope.result = result
-        $scope.data = result.data.join('')
-        $scope.$digest()
+        var log = result['lastData']
+        var time = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss')
+        if (log){
+          $scope.logs.push({'msg':log,'time':time})
+        }
       })
+  }
+
+  // 隐藏刷机窗口
+  $scope.hideLogWin = function () {
+    $scope.show_win = false
   }
 
   // Get rom list for specific model

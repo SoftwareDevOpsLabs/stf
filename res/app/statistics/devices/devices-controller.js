@@ -153,6 +153,6 @@ module.exports = function DeviceStatCtrl(
       .attr("fill", function(d,i) { return colors[i]; });
 
     svg.append('text').attr('x',w+10).attr('y',h+5).text('单位(H)')
-    svg.append('text').attr('x',-20).attr('y',-10).text('设备名')
+    svg.append('text').attr('x',-20).attr('y',-10).text('厂商名')
   }
 }

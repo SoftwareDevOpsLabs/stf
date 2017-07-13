@@ -146,7 +146,13 @@ module.exports = function UserStatCtrl(
       .attr("height", y.rangeBand())
       .attr("x", function(d) { return 0; })
       .attr("width", function(d) { return x(d); })
-      .attr("fill", function(d,i) { return colors[i]; });
+      .attr("fill", function(d,i) { return colors[i]; })
+      .on('mouseover',function(){
+        alert('ddd')
+      })
+      .on('mouseout',function(){
+
+      });
 
     svg.append('text').attr('x',w+10).attr('y',h+5).text('单位(H)')
     svg.append('text').attr('x',-20).attr('y',-10).text('用户名')

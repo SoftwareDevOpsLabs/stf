@@ -10,6 +10,16 @@ module.exports = function SettingsCtrl($scope, gettext) {
       title: gettext('Keys'),
       icon: 'fa-key fa-fw',
       templateUrl: 'settings/keys/keys.pug'
+    },
+    {
+      title: gettext('Users'),
+      icon: 'fa fa-users',
+      templateUrl: 'settings/users/users.pug'
+    },
+    {
+      title: gettext('Providers'),
+      icon: 'fa fa-server',
+      templateUrl: 'settings/servers/servers.pug'
     }
     /*,
     {
