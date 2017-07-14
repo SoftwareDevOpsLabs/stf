@@ -4,5 +4,6 @@ module.exports = angular.module('stf.modals', [
   require('./version-update').name,
   require('./add-adb-key-modal').name,
   require('./testing-report-modal').name,
-  require('./user-tags-modal').name
+  require('./user-tags-modal').name,
+  require('./server-tags-modal').name,
 ])

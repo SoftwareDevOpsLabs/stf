@@ -127,7 +127,7 @@
             "description": "user",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/QueryTestingPayload"
+              "$ref": "#/definitions/QueryUserTagsPayload"
             }
           }
         ],
@@ -155,11 +155,59 @@
     "/servers": {
       "x-swagger-router-controller": "user",
       "get": {
-        "summary": "Get All User List",
+        "summary": "Get All Server List",
         "description": "The User Profile endpoint returns information about current authorized user",
         "operationId": "getServerList",
         "tags": [
           "user"
+        ],
+        "responses": {
+          "200": {
+            "description": "Current User Profile information",
+            "schema": {
+              "$ref": "#/definitions/ServerListResponse"
+            }
+          },
+          "default": {
+            "description": "Unexpected Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "accessTokenAuth": []
+          }
+        ]
+      }
+    },
+    "/server/tags/": {
+      "x-swagger-router-controller": "user",
+      "post": {
+        "summary": "Set Server Tags",
+        "description": "The User Profile endpoint returns information about current authorized user",
+        "operationId": "setServerTags",
+        "tags": [
+          "user"
+        ],
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "server",
+            "in": "body",
+            "description": "server",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/QueryServerTagsPayload"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -1024,6 +1072,45 @@
         },
         "test_type": {
           "description": "type",
+          "type": "string"
+        }
+      }
+    },
+    "QueryUserTagsPayload": {
+      "description": "payload object for query testings",
+      "required": [
+        "email",
+        "tags"
+      ],
+      "properties": {
+        "email": {
+          "description": "user email",
+          "type": "string"
+        },
+        "tags": {
+          "description": "user tags",
+          "type": "string"
+        }
+      }
+    },
+    "QueryServerTagsPayload": {
+      "description": "payload object for query testings",
+      "required": [
+        "name",
+        "note",
+        "tags"
+      ],
+      "properties": {
+        "name": {
+          "description": "provider name",
+          "type": "string"
+        },
+        "note": {
+          "description": "server note",
+          "type": "string"
+        },
+        "tags": {
+          "description": "user tags",
           "type": "string"
         }
       }

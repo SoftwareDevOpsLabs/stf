@@ -93,7 +93,7 @@ paths:
           description: user
           required: true
           schema:
-            $ref: '#/definitions/QueryTagsPayload'
+            $ref: '#/definitions/QueryUserTagsPayload'
       responses:
         '200':
           description: Current User Profile information
@@ -108,7 +108,7 @@ paths:
   /servers:
     x-swagger-router-controller: user
     get:
-      summary: Get All User List
+      summary: Get All Server List
       description: >-
         The User Profile endpoint returns information about current authorized
         user
@@ -126,6 +126,43 @@ paths:
             $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
+
+  /server/tags/:
+    x-swagger-router-controller: user
+    post:
+      summary: Set Server Tags
+      description: >-
+        The User Profile endpoint returns information about current authorized
+        user
+      operationId: setServerTags
+      tags:
+        - user
+      parameters:
+        - name: fields
+          in: query
+          description: >-
+            Fields query parameter takes a comma seperated list of fields. Only
+            listed field will be return in response
+          required: false
+          type: string
+        - name: server
+          in: body
+          description: server
+          required: true
+          schema:
+            $ref: '#/definitions/QueryServerTagsPayload'
+      responses:
+        '200':
+          description: Current User Profile information
+          schema:
+            $ref: '#/definitions/ServerListResponse'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - accessTokenAuth: []
+
   /user/devices:
     x-swagger-router-controller: user
     get:
@@ -704,7 +741,7 @@ definitions:
       test_type:
         description: type
         type: string
-  QueryTagsPayload:
+  QueryUserTagsPayload:
     description: payload object for query testings
     required:
       - email
@@ -716,6 +753,23 @@ definitions:
       tags:
         description: user tags
         type: string
+  QueryServerTagsPayload:
+    description: payload object for query testings
+    required:
+      - name
+      - note
+      - tags
+    properties:
+      name:
+        description: provider name
+        type: string
+      note:
+        description: server note
+        type: string
+      tags:
+        description: user tags
+        type: string
+
   QueryRomPayload:
     description: payload object for query Rom Info
     required:
