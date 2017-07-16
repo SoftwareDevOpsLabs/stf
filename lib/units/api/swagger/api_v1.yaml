@@ -669,14 +669,6 @@ definitions:
       test_type:
         description: type
         type: string
-  QueryRomPayload:
-    description: payload object for query Rom Info
-    required:
-      - model
-    properties:
-      model:
-        description: device model
-        type: string
   AddUserDevicePayload:
     description: payload object for adding device to user
     required:
