@@ -697,8 +697,8 @@ function DeviceNoteCell(options) {
 }
 
 function RomStatusCell(options) {
-  var strNew = "NEW DEVICE"
-  var strUpdate = "ROM UPDATE"
+  var strNew = "NEW_DEVICE"
+  var strUpdate = "ROM_UPDATE"
   var strNone = "NONE"
 
   var stateClasses = {}
