@@ -13,6 +13,10 @@ module.exports = function StatisticsCtrl(
       title: "设备",
       icon: 'fa fa-plug',
       templateUrl: 'statistics/devices/devices.pug'
+    },{
+      title: "测试",
+      icon: 'fa fa-cloud',
+      templateUrl: 'statistics/tests/tests.pug'
     }
   ]
 }

@@ -1,1 +1,21 @@
-h1 设备组
+div.servers-controller(ng-controller='ServersCtrl')
+  div.servers-search-box
+    span.servers-search-icon
+     i(ng-if='!query').fa.fa-search
+     i(ng-if='query',ng-click='clearSearchInput()').fa.fa-times-circle
+    input.form-control.servers-search(placeholder='搜索provider',ng-model='query')
+  table.table.table-hover.dataTable.ng-table
+    thead
+      tr
+        th.header.sortable Provider名
+        th.header.sortable 标签
+        th.header.sortable 备注
+        th.header.sortable 操作
+    tbody
+      tr(ng-repeat='server in server_list| filter:query')
+        td(ng-bind='server.name')
+        td(ng-bind='server.tags')
+        td(ng-bind='server.note')
+        td
+          button.btn.btn-primary.btn-sm(ng-click='setServerTags(this)') 修改
+
