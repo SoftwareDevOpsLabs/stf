@@ -3,10 +3,8 @@ module.exports = function RomCtrl(
   $http,
   $filter
 ) {
-  console.log("+++++++++++++++++ Rom Ctrl +++++++++++++++")
-
   $scope.rom = {
-    romlist: [],
+    romlist: []
   }
 
   // 是否显示日志
