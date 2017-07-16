@@ -17,7 +17,7 @@
   text-align: center;
 }
 .chart_container h5{
-  margin-top: 20px;
+  margin-top: 30px;
 }
 .manufacturer-cell{
   border: 1px solid #ddd;
@@ -50,19 +50,19 @@
 .date-input .btn.btn-primary{
   margin: 0px;
 }
-.filter-item{
+#chart_panel .filter-item{
   display: flex;
 }
-.filter-item .date-item,
-.filter-item .type-item{
+#chart_panel .filter-item .date-item,
+#chart_panel .filter-item .type-item{
   width: 360px;
 }
-.filter-item .submit-item{
+#chart_panel .filter-item .submit-item{
   flex: 1;
   padding-top: 25px;
 }
 
-.date-item-title{
+#chart_panel .date-item-title{
   display: inline-block;
   padding: 6px 2px;
   font-weight: bold;

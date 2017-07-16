@@ -11,6 +11,10 @@ module.exports = function DeviceStatCtrl(
 
   $scope.devices = [];
 
+  $scope.types = ['厂商','机型','系统','Provider'];
+
+  $scope.active_type_index = 0;
+
   // @chenhao 从前端存储中过去用户之前设置的参数
   var cached_params = sessionStorage.getItem('STAT_DEVICE_PARAMS');
   var start_time = (new Date(new Date().setHours(0,0,0,0))).getTime();
@@ -44,12 +48,6 @@ module.exports = function DeviceStatCtrl(
     })
   };
 
-  // 获取所有的测试类型
-  $http.get('/api/v1/testing/types/')
-    .then(function(response) {
-      $scope.types = response['data']['types']
-    })
-
   // 定义默认的参数
   var default_params = {
     'start_time': start_time,
@@ -57,6 +55,13 @@ module.exports = function DeviceStatCtrl(
   }
   // 获取默认的数据
   $scope.getStatData(default_params)
+
+
+  // 切换维度type的显示
+  $scope.showActiveType = function (obj) {
+    var type_index = obj.$index
+    $scope.active_type_index = type_index
+  }
 
   // 根据条件查询统计图的信息
   $scope.submitQuery = function(){
@@ -100,8 +105,8 @@ module.exports = function DeviceStatCtrl(
   $scope.drawBarChart = function(lables,dataset,panel){
     // 定义图表的间距
     var margin = {top: 30, right: 100, bottom: 30, left: 100}
-    var w = 600 - margin.left - margin.right
-    var h = Math.max(350,dataset.length*14) - margin.top - margin.bottom;
+    var w = 700 - margin.left - margin.right
+    var h = Math.max(400,dataset.length*14) - margin.top - margin.bottom;
 
     // 定义x轴和y轴
     var y = d3.scale.ordinal()
