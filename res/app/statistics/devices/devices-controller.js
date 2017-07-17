@@ -11,6 +11,12 @@ module.exports = function DeviceStatCtrl(
 
   $scope.devices = [];
 
+  var TYPE_HASH = {
+    '0':'manufacturer',
+    '1':'model',
+    '2':'version',
+    '3':'provider'
+  }
   $scope.types = ['厂商','机型','系统','Provider'];
 
   $scope.active_type_index = 0;
@@ -36,9 +42,10 @@ module.exports = function DeviceStatCtrl(
   $scope.getStatData = function(params){
     //@chenhao 缓存每次请求的参数
     sessionStorage.setItem('STAT_DEVICE_PARAMS', JSON.stringify(params));
+    var type = TYPE_HASH[$scope.active_type_index]
     $http({
       method:'post',
-      url:'/api/v1/stat/manufacturer/',
+      url:'/api/v1/stat/'+type+'/',
       data: params
     }).success(function(response){
       var labels = response['labels']
@@ -61,6 +68,7 @@ module.exports = function DeviceStatCtrl(
   $scope.showActiveType = function (obj) {
     var type_index = obj.$index
     $scope.active_type_index = type_index
+    $scope.submitQuery()
   }
 
   // 根据条件查询统计图的信息
@@ -163,7 +171,8 @@ module.exports = function DeviceStatCtrl(
 
       });
 
+    var type_name = $scope.types[parseInt($scope.active_type_index)]
     svg.append('text').attr('x',w+10).attr('y',h+5).text('单位(H)')
-    svg.append('text').attr('x',-20).attr('y',-10).text('厂商名')
+    svg.append('text').attr('x',-20).attr('y',-10).text(type_name)
   }
 }
