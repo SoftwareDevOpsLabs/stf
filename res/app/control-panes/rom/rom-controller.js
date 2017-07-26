@@ -12,9 +12,12 @@ module.exports = function RomCtrl(
 
   $scope.logs = []
 
+  var model = $scope.device ? $scope.device.model : ''
+
   $scope.refreshRom = function refreshRom(rom) {
-     var command = "am instrument -w -r -e debug false -e class com.qihoo.caes.FlashPhone#testOTAUpgrade"
-                     + " -e Loop 1 -e nickname Pro6 " + " -e url " + rom.ftpDownload + " com.qihoo.test/android.support.test.runner.AndroidJUnitRunner&"
+
+      var command = "am instrument -w -r -e debug false -e class com.qihoo.caes.FlashPhone#testOTAUpgrade"
+        + " -e Loop 1 -e nickname " + " '" + model + "' " + " -e url " + rom.ftpDownload + " com.qihoo.test/android.support.test.runner.AndroidJUnitRunner&"
 
       // 初始化刷机消息
       var time = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss')
@@ -57,8 +60,6 @@ module.exports = function RomCtrl(
       })
   }
 
-  // Initialize
-  var model = $scope.device ? $scope.device.model : ''
   getRomList({model:model})
 
 }

@@ -3,6 +3,7 @@ module.exports = angular.module('statistics', [
   ,require('./users').name
   ,require('./devices').name
   ,require('./tests').name
+  ,require('./times').name
 ])
   .config(function($routeProvider) {
 

@@ -1,0 +1,55 @@
+#chart_panel_full{
+  text-align: center;
+}
+#chart_panel_full .filter-item{
+  border-bottom: none;
+}
+.chart_container{
+  width: 100%;
+  text-align: center;
+}
+.chart-types .chart-type-item{
+  display: inline-block;
+  background-color: #fff;
+  color: #666;
+  text-align: center;
+  padding: 6px 20px;
+  margin: 3px 0px;
+  cursor: pointer;
+  border: 1px solid #f1f1f1;
+}
+.chart-types .chart-type-item:hover{
+  background-color: #ddd;
+  color: #333;
+  border-color: #ddd;
+}
+.chart-types .chart-type-item.active{
+  background-color: #167FFC;
+  color: #fff;
+  border-color: #337ab7;
+}
+.query-filter-item{
+  padding: 15px;
+  background-color: #f5f5f5;
+}
+.query-filter-item .date-item{
+  width: 410px;
+  display: inline-block;
+}
+.query-filter-item .submit-item{
+  float: right;
+}
+
+
+.filter-item{
+  margin-bottom: 0px;
+}
+.date-item-title{
+  display: inline-block;
+  width: 80px;
+  font-size: 13px;
+  font-weight: normal;
+  float: left;
+  color: #888;
+  line-height: 24px;
+}

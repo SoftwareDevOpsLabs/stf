@@ -6,6 +6,11 @@ module.exports = function StatisticsCtrl(
 
   $scope.testingTabs = [
     {
+      title: "概览",
+      icon: 'fa fa-bar-chart',
+      templateUrl: 'statistics/times/times.pug'
+    },
+    {
       title: "用户",
       icon: 'fa fa-users',
       templateUrl: 'statistics/users/users.pug'

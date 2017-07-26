@@ -1,4 +1,4 @@
-//require('./charts.css')
+require('./devices.css')
 
 module.exports = angular.module('statistics.devices', [
   require('stf/socket').name
