@@ -103,7 +103,7 @@ module.exports = function UserStatCtrl(
   // 定义默认颜色
   var colors = d3.range(100).map(d3.scale.category20())
 
-  $scope.drawBarChart = function(stats,panel){
+  $scope.drawBarChart = function(dataset,panel){
     // 定义图表的间距
     var margin = {top: 30, right: 100, bottom: 30, left: 100}
     var w = 1200 - margin.left - margin.right
@@ -116,10 +116,6 @@ module.exports = function UserStatCtrl(
     // 计算处理时间相关的数据
     var start_time_domain = new Date(start_time.setHours(0,0,0,0))
     var end_time_domain = new Date(end_time.setHours(23,59,59,59))
-
-    // 计算这段时间里面的月份
-    var start_timestamp = start_time_domain.getTime()
-    var end_timestamp = end_time_domain.getTime()
 
     var niceType = d3.time.day
     var niceFormat = "%m-%d"
@@ -157,59 +153,25 @@ module.exports = function UserStatCtrl(
       .scale(xScale)
       .orient("bottom")
       .ticks(niceType, 1)
-      .tickFormat(d3.time.format(niceFormat));
+      .tickFormat(d3.time.format(niceFormat))
+      .outerTickSize(10);
 
     svg.append("g")
       .attr("class", "x axis")
-      .attr("transform", "translate(0, " + h + ")")
+      .attr("transform", "translate(40, " + h + ")")
       .call(xAxis);
 
-    var tickItems = d3.selectAll('g.tick text')[0]
-    var ticks = tickItems.map(function(tick){return tick.innerHTML})
-    console.log(ticks)
-    // 根据刻度，补全数据的位置
-    var statHash = {}
-    var filterFormat = ''
-    switch(tickType){
-      case 0 :
-        filterFormat = "MM-dd"
-        break;
-      case 1 :
-        filterFormat = "MM-dd"
-        break;
-      case 2 :
-        filterFormat = "yyyy-MM"
-        break;
-      case 3 :
-        filterFormat = "yyyy"
-        break;
-    }
-    for(var i=0;i<stats.length;i++){
-      var name = stats[i].name
-      var long = stats[i].long
-      var tmp_name = new Date(name)
-      console.log(tmp_name)
-      var format_date = $filter('date')(tmp_name,filterFormat);
-      console.log(format_date)
-      statHash[format_date] = long
-    }
+    var tickSize = d3.selectAll('g.tick text')[0].length
 
-    var dataset = []
-    ticks.forEach(function(tick){
-      var long = 0
-      if(statHash.hasOwnProperty(tick)){
-        long = statHash[tick]
-      }
-      dataset.push(long)
-    })
-    console.log(dataset)
+    var barWidth = w/tickSize
+    var barPadding = 6
 
 
     // 定义x轴和y轴
-    var yScale = d3.scale.ordinal()
+    var yScale = d3.scale.linear()
       .range([0,h])
       .domain([d3.max(dataset, function(d) {
-        return d;
+        return d.long;
       }),0]);
 
     var yAxis = d3.svg.axis()
@@ -221,23 +183,25 @@ module.exports = function UserStatCtrl(
       .call(yAxis);
 
 
+    // 获取初始位置
+    //var startX = xScale(new Date(dataset[0].time))
     svg.selectAll(".bar")
       .data(dataset)
       .enter()
       .append("rect")
       .attr("class", "bar")
-      .attr("x", function(d,i) {
-        return i*(w/ticks.length);
+      .attr("x", function(d) {
+        console.log('x 轴的坐标',xScale(new Date(d.time)))
+        return xScale(new Date(d.time))+barPadding/2+barWidth/2;
       })
       .attr("width", function(d) {
-        return w/ticks.length;
+        return w/tickSize-barPadding;
       })
       .attr("y", function(d,i) {
-        return  h- d
+        return  yScale(d.long)
       })
       .attr("height", function(d,i){
-        console.log('高度', yScale(d))
-        return d
+        return h-yScale(d.long)
       })
       .attr("fill", function(d,i) { return colors[i]; })
       .on('mouseover',function(){
@@ -247,7 +211,8 @@ module.exports = function UserStatCtrl(
 
       });
 
-    svg.append('text').attr('x',w+10).attr('y',h+5).text('时间')
-    svg.append('text').attr('x',-20).attr('y',-10).text('单位(H)')
+
+    svg.append('text').attr('x',w+25).attr('y',h+20).text('时间轴')
+    svg.append('text').attr('x',-20).attr('y',-15).text('单位(H)')
   }
 }
