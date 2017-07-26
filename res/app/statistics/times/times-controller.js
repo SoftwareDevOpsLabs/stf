@@ -161,9 +161,9 @@ module.exports = function UserStatCtrl(
       .attr("transform", "translate(40, " + h + ")")
       .call(xAxis);
 
-    var tickSize = d3.selectAll('g.tick text')[0].length
+    var tickSize = d3.selectAll('g.tick text')[0]
 
-    var barWidth = w/tickSize
+    var barWidth = w/tickSize.length
     var barPadding = 6
 
 
@@ -181,21 +181,17 @@ module.exports = function UserStatCtrl(
     svg.append("g")
       .attr("class", "y axis")
       .call(yAxis);
-
-
-    // 获取初始位置
-    //var startX = xScale(new Date(dataset[0].time))
+    
     svg.selectAll(".bar")
       .data(dataset)
       .enter()
       .append("rect")
       .attr("class", "bar")
       .attr("x", function(d) {
-        console.log('x 轴的坐标',xScale(new Date(d.time)))
-        return xScale(new Date(d.time))+barPadding/2+barWidth/2;
+        return xScale(new Date(d.time))+40-barWidth/2;
       })
       .attr("width", function(d) {
-        return w/tickSize-barPadding;
+        return w/tickSize.length-barPadding;
       })
       .attr("y", function(d,i) {
         return  yScale(d.long)
