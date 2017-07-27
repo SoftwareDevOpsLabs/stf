@@ -12,7 +12,7 @@ module.exports = function UserStatCtrl(
 
   $scope.devices = [];
 
-  $scope.types = ['日','周','月','年'];
+  $scope.types = ['日','周','月'];
   $scope.tickTypes = ['day','week','month','year'];
 
   $scope.active_type_index = 0;
@@ -163,9 +163,8 @@ module.exports = function UserStatCtrl(
 
     var tickSize = d3.selectAll('g.tick text')[0]
 
-    var barWidth = w/tickSize.length
+    var barWidth = Math.min(w/tickSize.length,40)
     var barPadding = 6
-
 
     // 定义x轴和y轴
     var yScale = d3.scale.linear()
@@ -181,7 +180,7 @@ module.exports = function UserStatCtrl(
     svg.append("g")
       .attr("class", "y axis")
       .call(yAxis);
-    
+
     svg.selectAll(".bar")
       .data(dataset)
       .enter()
@@ -191,7 +190,7 @@ module.exports = function UserStatCtrl(
         return xScale(new Date(d.time))+40-barWidth/2;
       })
       .attr("width", function(d) {
-        return w/tickSize.length-barPadding;
+        return barWidth-barPadding;
       })
       .attr("y", function(d,i) {
         return  yScale(d.long)
