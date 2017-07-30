@@ -12,8 +12,8 @@ module.exports = function UserStatCtrl(
 
   $scope.devices = [];
 
-  $scope.types = ['日','周','月'];
-  $scope.tickTypes = ['day','week','month','year'];
+  $scope.types = ['日','月','年'];
+  $scope.tickTypes = ['hours','day','month'];
 
   $scope.active_type_index = 0;
 
@@ -114,27 +114,27 @@ module.exports = function UserStatCtrl(
 
     var tickType = $scope.active_type_index
     // 计算处理时间相关的数据
-    var start_time_domain = new Date(start_time.setHours(0,0,0,0))
-    var end_time_domain = new Date(end_time.setHours(23,59,59,59))
 
     var niceType = d3.time.day
     var niceFormat = "%m-%d"
     switch(tickType){
       case 0 :
+        var start_time_domain = new Date(start_time.setMinutes(0,0))
+        var end_time_domain = new Date(end_time.setMinutes(59,59))
+        niceType = d3.time.hours
+        niceFormat = "%H:%M"
+        break;
+      case 1 :
+        var start_time_domain = new Date(start_time.setHours(0,0,0,0))
+        var end_time_domain = new Date(end_time.setHours(23,59,59,59))
         niceType = d3.time.day
         niceFormat = "%m-%d"
         break;
-      case 1 :
-        niceType = d3.time.week
-        niceFormat = "%m-%d"
-        break;
       case 2 :
+        var start_time_domain = new Date(start_time.setDate(1))
+        var end_time_domain = new Date(end_time.setDate(31))
         niceType = d3.time.month
         niceFormat = "%Y-%m"
-        break;
-      case 3 :
-        niceType = d3.time.year
-        niceFormat = "%Y"
         break;
     }
 
