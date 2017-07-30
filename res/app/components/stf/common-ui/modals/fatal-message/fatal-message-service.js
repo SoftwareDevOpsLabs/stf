@@ -71,7 +71,6 @@ module.exports =
 
       modalInstance.result.then(function() {
       }, function() {
-
       })
     }
 
