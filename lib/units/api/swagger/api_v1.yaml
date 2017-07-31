@@ -814,8 +814,6 @@ definitions:
     description: payload object for query testings
     required:
       - name
-      - note
-      - tags
     properties:
       name:
         description: provider name
