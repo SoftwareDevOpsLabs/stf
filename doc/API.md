@@ -1,4 +1,4 @@
-# STF API
+                # STF API
 
 ## Overview
 
@@ -500,7 +500,7 @@ var client = new Swagger({
 
 var serial = process.argv.slice(2)[0]
 
-client.then(function(api) {  
+client.then(function(api) {
   return api.user.getUserDevices({
     serial: serial
   , fields: 'serial,present,ready,using,owner'

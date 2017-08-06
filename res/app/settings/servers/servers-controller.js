@@ -3,7 +3,6 @@ module.exports = function ServersCtrl(
   $http,
   ServerTagsModalService
 ) {
-  console.log('-----server')
   $http({
     method:'get',
     url:'/api/v1/servers/',

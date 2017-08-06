@@ -3,8 +3,6 @@ module.exports = function UsersCtrl(
   $http,
   UserTagsModalService
 ) {
-  console.log('xxxxxUser')
-
   $http({
     method:'get',
     url:'/api/v1/users/',
