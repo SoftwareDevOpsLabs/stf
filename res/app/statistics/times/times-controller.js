@@ -256,7 +256,7 @@ module.exports = function UserStatCtrl(
       .attr("y", 0)
       .attr("width", w)
       .attr("height", h)
-      .attr("fill","#f5f5f5")
+      .attr("fill","#ffffff")
 
     panel.selectAll(".bar")
       .data(dataset)
