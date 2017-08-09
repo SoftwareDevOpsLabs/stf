@@ -122,7 +122,8 @@ module.exports = function UserStatCtrl(
 
     var niceType;
     var niceFormat;
-    var drugable = false;
+    var niceUnit;
+    var dragable = false;
     var slider_width = 0;
     // 根据tickType计算绘图的时间起点和终点，是否能够拖动等
     switch(tickType){
@@ -132,33 +133,36 @@ module.exports = function UserStatCtrl(
         var end_ms = new Date(end_time.setMinutes(59,59)).getTime()
         if (end_ms-start_ms > DAY_MS){
           slider_width = w/(end_ms-start_ms)*DAY_MS
-          drugable = true;
+          dragable = true;
           end_ms = start_ms + DAY_MS
         }
         niceType = d3.time.hours
         niceFormat = "%H:%M"
+        niceUnit = DAY_MS
         break;
       case 1 :
-        var start_ms = new Date(start_time.setHours(0,0,0,0))
-        var end_ms = new Date(end_time.setHours(23,59,59,59))
+        var start_ms = new Date(start_time.setHours(0,0,0,0)).getTime()
+        var end_ms = new Date(end_time.setHours(23,59,59,59)).getTime()
         if (end_ms-start_ms > MONTH_MS){
           slider_width = w/(end_ms-start_ms)*MONTH_MS
-          drugable = true;
+          dragable = true;
           end_ms = start_ms + MONTH_MS
         }
         niceType = d3.time.day
         niceFormat = "%m-%d"
+        niceUnit = MONTH_MS
         break;
       case 2 :
-        var start_ms = new Date(start_time.setDate(1))
-        var end_ms = new Date(end_time.setDate(31))
+        var start_ms = new Date(start_time.setDate(1)).getTime()
+        var end_ms = new Date(end_time.setDate(31)).getTime()
         if (end_ms-start_ms > YEAR_MS){
           slider_width = w/(end_ms-start_ms)*YEAR_MS
-          drugable = true;
+          dragable = true;
           end_ms = start_ms + YEAR_MS
         }
         niceType = d3.time.month
         niceFormat = "%Y-%m"
+        niceUnit = YEAR_MS
         break;
     }
 
@@ -187,7 +191,7 @@ module.exports = function UserStatCtrl(
         console.log(offset_x)
         latest_offset_x = offset_x
         // 根据x轴的offset来对应时间的变化比例
-        var offset_scale = Math.abs(offset_x)/w * DAY_MS;
+        var offset_scale = Math.abs(offset_x)/w * niceUnit;
         if (offset_x>0){
           var offset_start_ms = start_ms-offset_scale;
           var offset_end_ms = end_ms-offset_scale;
@@ -209,8 +213,10 @@ module.exports = function UserStatCtrl(
       }).on('drag',function(d){
         console.log('最近一次距离',latest_offset_x)
         var all_offset = latest_offset_x+d3.event.x
-        d3.select(this).attr('transform','translate('+all_offset+',0)')
-        offset_x = all_offset
+        if (dragable){
+          d3.select(this).attr('transform','translate('+all_offset+',0)')
+          offset_x = all_offset
+        }
       })
 
     d3.select('#'+panel).select('svg').remove()
@@ -271,7 +277,11 @@ module.exports = function UserStatCtrl(
       .append("rect")
       .attr("class", "bar")
       .attr("x", function(d) {
-        var time = new Date(d.time).getTime()+1000*60*60*8
+        if (tickType == 0){
+          var time = new Date(d.time).getTime()+1000*60*60*8
+        }else{
+          var time = d.time
+        }
         return xScale(new Date(time))+40-barWidth/2;
       })
       .attr("width", function(d) {
