@@ -1,0 +1,21 @@
+.chart-title{
+  padding-top: 20px;
+  font-size: 18px;
+}
+.slide{
+  cursor: move;
+}
+.start_ms{
+  font-size: 14px;
+  font-weight: normal;
+  color: #167FFC;
+  display: inline-block;
+  padding: 5px 10px;
+}
+.end_ms{
+  font-size: 14px;
+  font-weight: normal;
+  color: #167FFC;
+  display: inline-block;
+  padding: 5px 10px;
+}

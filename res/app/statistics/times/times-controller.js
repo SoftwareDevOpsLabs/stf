@@ -162,6 +162,9 @@ module.exports = function UserStatCtrl(
         break;
     }
 
+    $scope.start_ms = start_ms
+    $scope.end_ms = end_ms
+
     var xScale = d3.time.scale()
       .domain([start_ms, end_ms])
       .range([0, w])
@@ -193,6 +196,10 @@ module.exports = function UserStatCtrl(
           var offset_end_ms = end_ms+offset_scale;
         }
         console.log(offset_start_ms,offset_end_ms)
+        $scope.start_ms = offset_start_ms
+        $scope.end_ms = offset_end_ms
+        $scope.$apply()
+
         xScale.domain([offset_start_ms, offset_end_ms])
         svg.select('.x.axis').call(xAxis);
 
