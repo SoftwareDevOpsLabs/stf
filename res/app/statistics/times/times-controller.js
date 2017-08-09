@@ -104,7 +104,7 @@ module.exports = function UserStatCtrl(
   var colors = d3.range(100).map(d3.scale.category20())
 
   // 定义时间常量
-  var DAY_MS = 1000*60*60*8;
+  var DAY_MS = 1000*60*60*24;
   var MONTH_MS = DAY_MS*30;
   var YEAR_MS = MONTH_MS*12;
 
@@ -136,7 +136,7 @@ module.exports = function UserStatCtrl(
           end_ms = start_ms + DAY_MS
         }
         niceType = d3.time.hours
-        niceFormat = "%Y-%m-%d %H:%M"
+        niceFormat = "%H:%M"
         break;
       case 1 :
         var start_ms = new Date(start_time.setHours(0,0,0,0))
