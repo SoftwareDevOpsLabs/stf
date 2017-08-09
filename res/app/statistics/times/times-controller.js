@@ -123,6 +123,7 @@ module.exports = function UserStatCtrl(
     var niceType;
     var niceFormat;
     var drugable = false;
+    var slider_width = 0;
     // 根据tickType计算绘图的时间起点和终点，是否能够拖动等
     switch(tickType){
       case 0 :
@@ -130,6 +131,7 @@ module.exports = function UserStatCtrl(
         var start_ms = new Date(start_time.setMinutes(0,0)).getTime()
         var end_ms = new Date(end_time.setMinutes(59,59)).getTime()
         if (end_ms-start_ms > DAY_MS){
+          slider_width = w/(end_ms-start_ms)*DAY_MS
           drugable = true;
           end_ms = start_ms + DAY_MS
         }
@@ -140,6 +142,7 @@ module.exports = function UserStatCtrl(
         var start_ms = new Date(start_time.setHours(0,0,0,0))
         var end_ms = new Date(end_time.setHours(23,59,59,59))
         if (end_ms-start_ms > MONTH_MS){
+          slider_width = w/(end_ms-start_ms)*MONTH_MS
           drugable = true;
           end_ms = start_ms + MONTH_MS
         }
@@ -150,6 +153,7 @@ module.exports = function UserStatCtrl(
         var start_ms = new Date(start_time.setDate(1))
         var end_ms = new Date(end_time.setDate(31))
         if (end_ms-start_ms > YEAR_MS){
+          slider_width = w/(end_ms-start_ms)*YEAR_MS
           drugable = true;
           end_ms = start_ms + YEAR_MS
         }
@@ -163,6 +167,7 @@ module.exports = function UserStatCtrl(
       .range([0, w])
 
     var offset_x;
+    var latest_offset_x = 0;
     var drag = d3.behavior.drag()
       .origin(function(d,i){
         var t = d3.select(this);
@@ -173,11 +178,11 @@ module.exports = function UserStatCtrl(
         console.log(t)
 
       }).on('dragstart',function(d){
-        offset_x = 0
 
       }).on('dragend',function(d){
         // 拖拽完成之后坐标轴的变化，首先需要知道拖拽的位移
         console.log(offset_x)
+        latest_offset_x = offset_x
         // 根据x轴的offset来对应时间的变化比例
         var offset_scale = Math.abs(offset_x)/w * DAY_MS;
         if (offset_x>0){
@@ -191,9 +196,14 @@ module.exports = function UserStatCtrl(
         xScale.domain([offset_start_ms, offset_end_ms])
         svg.select('.x.axis').call(xAxis);
 
+        // 改变画布背景的位置
+        svg.select('.slide').attr('x',-offset_x+40)
+
       }).on('drag',function(d){
-        d3.select(this).attr('transform','translate('+d3.event.x+',0)')
-        offset_x = d3.event.x
+        console.log('最近一次距离',latest_offset_x)
+        var all_offset = latest_offset_x+d3.event.x
+        d3.select(this).attr('transform','translate('+all_offset+',0)')
+        offset_x = all_offset
       })
 
     d3.select('#'+panel).select('svg').remove()
@@ -230,10 +240,6 @@ module.exports = function UserStatCtrl(
       .scale(yScale)
       .orient("left")
 
-    svg.append("g")
-      .attr("class", "y axis")
-      .call(yAxis);
-
     // 添加画布，用来绘制bar
     var panel = svg.append("g")
       .attr('class','panel')
@@ -242,6 +248,15 @@ module.exports = function UserStatCtrl(
       .attr('width',w)
       .attr('height',h)
       .call(drag);
+
+    // 添加拖拽的bar
+    panel.append('rect')
+      .attr("class", "slide")
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("width", w)
+      .attr("height", h)
+      .attr("fill","#f5f5f5")
 
     panel.selectAll(".bar")
       .data(dataset)
@@ -269,16 +284,9 @@ module.exports = function UserStatCtrl(
 
       });
 
-    // 添加拖拽的bar
-    panel.append('rect')
-      .attr("class", "slide")
-      .attr("x", w)
-      .attr("y", -15)
-      .attr("rx", 5)
-      .attr("ry", 5)
-      .attr("width", 100)
-      .attr("height", 10)
-      .attr("fill","#dddddd")
+    svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis);
 
     svg.append('text').attr('x',w+25).attr('y',h+20).text('时间轴')
     svg.append('text').attr('x',-20).attr('y',-15).text('单位(H)')
