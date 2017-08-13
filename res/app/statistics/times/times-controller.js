@@ -210,6 +210,23 @@ module.exports = function UserStatCtrl(
         // 改变画布背景的位置
         svg.select('.slide').attr('x',-offset_x+40)
 
+        // 隐藏不在可是区域的bar
+        svg.selectAll('.bar')
+          .attr('fill',function(d,i){
+            if (tickType == 0){
+              var time = new Date(d.time).getTime()+1000*60*60*8
+            }else{
+              var time = d.time
+            }
+            console.log('x的坐标:',xScale(new Date(time)))
+            console.log('位移:',offset_x)
+            if (xScale(new Date(time))<0 || xScale(new Date(time)) > w){
+              return '#ffffff'
+            }else{
+              return colors[i];
+            }
+          })
+
       }).on('drag',function(d){
         console.log('最近一次距离',latest_offset_x)
         var all_offset = latest_offset_x+d3.event.x
@@ -293,7 +310,9 @@ module.exports = function UserStatCtrl(
       .attr("height", function(d,i){
         return h-yScale(d.long)
       })
-      .attr("fill", function(d,i) { return colors[i]; })
+      .attr("fill", function(d,i) {
+        return colors[i];
+      })
       .on('mouseover',function(){
 
       })
