@@ -162,8 +162,6 @@ module.exports = function DeviceServiceFactory($http, socket, EnhanceDeviceServi
     }
 
     function addListener(event) {
-      // console.log("+++++++++++addListener++++++++++++++++")
-      // console.log(event.data)
       var device = get(event.data)
       if (device) {
         modify(device, event.data)
@@ -178,8 +176,6 @@ module.exports = function DeviceServiceFactory($http, socket, EnhanceDeviceServi
     }
 
     function changeListener(event) {
-      // console.log("+++++++++++changeListener++++++++++++++++")
-      // console.log(event.data)
       var device = get(event.data)
       if (device) {
         modify(device, event.data)

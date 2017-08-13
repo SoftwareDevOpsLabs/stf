@@ -134,8 +134,10 @@ module.exports = function DeviceListCtrl(
       name: 'owner'
     , selected: true
     }
-
-
+    , {
+      name: 'listOfflineDevices'
+      , selected: false
+    }
   ]
 
   $scope.columns = defaultColumns

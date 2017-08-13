@@ -24,6 +24,11 @@
           button(type='button', ng-model='$root.platform', uib-btn-radio="'web'", translate).btn.btn-sm.btn-default-outline Web
           button(type='button', ng-model='$root.platform', uib-btn-radio="'native'", translate).btn.btn-sm.btn-default-outline Native
 
+      li
+        a(ng-href='/#!/user/{{currentUser.name}}')
+          i.fa.fa-user.fa-fw
+          | {{currentUser.name}}
+
       li(ng-show='!$root.basicMode')
         a(ng-href='/#!/help', accesskey='6')
           i.fa.fa-question-circle.fa-fw

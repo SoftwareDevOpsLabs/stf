@@ -1,1 +1,8 @@
-h1 User
+h1 用户信息
+div(pane='center', ng-controller='UserProfileCtrl')
+  .widget-container.fluid-height
+    p 姓名：{{currentUser.name}}
+    p 邮箱：{{currentUser.email}}
+    p 创建时间：{{currentUser.createdAt}}
+    p IP地址：{{currentUser.ip}}
+    p 最后一次登录时间：{{currentUser.lastLoggedInAt}}

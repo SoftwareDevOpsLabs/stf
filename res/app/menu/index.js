@@ -3,6 +3,7 @@ require('./menu.css')
 module.exports = angular.module('stf.menu', [
   require('stf/nav-menu').name,
   require('stf/settings').name,
+  require('stf/user').name, // @HY, 2017-08-13
   require('stf/common-ui/modals/external-url-modal').name,
   require('stf/native-url').name
 ])
