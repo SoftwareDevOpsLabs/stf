@@ -1,3 +1,4 @@
+require('./user.css')
 module.exports = angular.module('stf.user-profile', [])
   .config(function($routeProvider) {
 

@@ -1,6 +1,6 @@
-h1 用户信息
-div(pane='center', ng-controller='UserProfileCtrl')
+div.user-profile(pane='center', ng-controller='UserProfileCtrl')
   .widget-container.fluid-height
+    h3 用户信息
     p 姓名：{{currentUser.name}}
     p 邮箱：{{currentUser.email}}
     p 创建时间：{{currentUser.createdAt}}
