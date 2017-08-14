@@ -147,11 +147,15 @@ module.exports = function UserStatCtrl(
       .attr("x", function(d) { return 0; })
       .attr("width", function(d) { return x(d); })
       .attr("fill", function(d,i) { return colors[i]; })
-      .on('mouseover',function(){
-
+      .on('mouseover',function(d){
+        svg.append('text')
+          .attr('id','tooltip')
+          .text(d.toFixed(2)+'小时')
+          .attr('x',parseFloat(d3.select(this).attr('width'))+5)
+          .attr('y',parseFloat(d3.select(this).attr('y'))+ y.rangeBand()/2)
       })
       .on('mouseout',function(){
-
+        d3.select('#tooltip').remove()
       });
 
     svg.append('text').attr('x',w+10).attr('y',h+5).text('单位(H)')
