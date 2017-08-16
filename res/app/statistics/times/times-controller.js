@@ -108,6 +108,32 @@ module.exports = function UserStatCtrl(
   var MONTH_MS = DAY_MS*30;
   var YEAR_MS = MONTH_MS*12;
 
+  // 定义时间取整和格式转化的函数,将时间字符串转化成为对应的整月，整日，整小时
+  $scope.timeScaleAdapter = function (str) {
+    var tick_type = $scope.active_type_index;
+    // 格式化字符串得到一个时间对应，转化为本地时间
+
+    var local_time = new Date(str).getTime()+1000*60*60*8;
+    var time_scale;
+    switch(tick_type){
+      case 0 :
+            //
+            time_scale = new Date(local_time).setMinutes(0,0);
+            break;
+      case 1:
+            //
+            time_scale = new Date(local_time).setHours(0,0,0,0);
+            break;
+      case 2:
+            //
+            time_scale = new Date(local_time).setDate(1);
+            break;
+
+    }
+
+    return time_scale;
+  }
+
   $scope.drawBarChart = function(dataset,panel){
     // 定义图表的间距
     var margin = {top: 30, right: 100, bottom: 30, left: 100};
@@ -213,14 +239,18 @@ module.exports = function UserStatCtrl(
         // 隐藏不在可是区域的bar
         svg.selectAll('.bar')
           .attr('fill',function(d,i){
-            if (tickType == 0){
-              var time = new Date(d.time).getTime()+1000*60*60*8
+            var time_scale = $scope.timeScaleAdapter(d.time);
+            if (xScale(new Date(time_scale))<0 || xScale(new Date(time_scale)) > w){
+              return '#ffffff'
             }else{
-              var time = d.time
+              return colors[i];
             }
-            console.log('x的坐标:',xScale(new Date(time)))
-            console.log('位移:',offset_x)
-            if (xScale(new Date(time))<0 || xScale(new Date(time)) > w){
+          })
+
+        svg.selectAll('.bar-text')
+          .attr('fill',function(d,i){
+            var time_scale = $scope.timeScaleAdapter(d.time);
+            if (xScale(new Date(time_scale))<0 || xScale(new Date(time_scale)) > w){
               return '#ffffff'
             }else{
               return colors[i];
@@ -248,11 +278,11 @@ module.exports = function UserStatCtrl(
       .orient("bottom")
       .ticks(niceType, 1)
       .tickFormat(d3.time.format(niceFormat))
-      .outerTickSize(10);
+      //.outerTickSize(10);
 
     svg.append("g")
       .attr("class", "x axis")
-      .attr("transform", "translate(40, " + h + ")")
+      .attr("transform", "translate(0, " + h + ")")
       .call(xAxis);
 
     var tickSize = d3.selectAll('g.tick text')[0]
@@ -294,12 +324,8 @@ module.exports = function UserStatCtrl(
       .append("rect")
       .attr("class", "bar")
       .attr("x", function(d) {
-        if (tickType == 0){
-          var time = new Date(d.time).getTime()+1000*60*60*8
-        }else{
-          var time = d.time
-        }
-        return xScale(new Date(time))+40-barWidth/2;
+        var time_scale = $scope.timeScaleAdapter(d.time);
+        return xScale(time_scale)-barWidth/2;
       })
       .attr("width", function(d) {
         return barWidth-barPadding;
@@ -313,107 +339,26 @@ module.exports = function UserStatCtrl(
       .attr("fill", function(d,i) {
         return colors[i];
       })
-      .on('mouseover',function(){
 
-      })
-      .on('mouseout',function(){
-
-      });
-
-    svg.append("g")
-      .attr("class", "y axis")
-      .call(yAxis);
-
-    svg.append('text').attr('x',w+25).attr('y',h+20).text('时间轴')
-    svg.append('text').attr('x',-20).attr('y',-15).text('单位(H)')
-  }
-
-  // 绘图core
-  $scope.draw = function(config){
-    /*--config 里面的参数内容--
-    * panel 绘图的容器id
-    * type  0 天视图， 1 月视图， 2年视图
-    * start 查询起点时间
-    * end   查询终点时间
-    * scale 缩放比例
-    */
-
-    // 创建x轴比例尺，以时间刻度
-    var xScale = d3.time.scale()
-      .domain([
-        config.start,
-        config.end
-      ])
-      .range([0, w])
-
-    // 清空画布
-    d3.select('#'+config.panel).select('svg').remove()
-    var margin = config.margin
-    var svg = d3.select("#"+config.panel).append("svg")
-      .attr("width", w + margin.left + margin.right)
-      .attr("height", h + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
-
-    var xAxis = d3.svg.axis()
-      .scale(xScale)
-      .orient("bottom")
-      .ticks(niceType, 1)
-      .tickFormat(d3.time.format(niceFormat))
-      .outerTickSize(10);
-
-    svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(40, " + h + ")")
-      .call(xAxis);
-
-    var tickSize = d3.selectAll('g.tick text')[0]
-    var barWidth = Math.min(w/tickSize.length,40)
-    var barPadding = 6
-
-    // 定义x轴和y轴
-    var yScale = d3.scale.linear()
-      .range([0,h])
-      .domain([d3.max(dataset, function(d) {
-        return d.long;
-      }),0]);
-
-    var yAxis = d3.svg.axis()
-      .scale(yScale)
-      .orient("left")
-
-    svg.append("g")
-      .attr("class", "y axis")
-      .call(yAxis);
-
-    svg.selectAll(".bar")
+    panel.selectAll('.bar-text')
       .data(dataset)
       .enter()
-      .append("rect")
-      .attr("class", "bar")
+      .append('text')
+      .attr('class','bar-text')
+      .text(function(d){return d.long.toFixed(4)+'小时'})
       .attr("x", function(d) {
-        return xScale(new Date(d.time))+40-barWidth/2;
-      })
-      .attr("width", function(d) {
-        return barWidth-barPadding;
+        var time_scale = $scope.timeScaleAdapter(d.time);
+        return xScale(time_scale)-barWidth/2;
       })
       .attr("y", function(d,i) {
-        return  yScale(d.long)
+        return  yScale(d.long)-5
       })
-      .attr("height", function(d,i){
-        return h-yScale(d.long)
-      })
-      .attr("fill", function(d,i) { return colors[i]; })
-      .on('mouseover',function(){
 
-      })
-      .on('mouseout',function(){
+    svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis);
 
-      });
-
-
-    svg.append('text').attr('x',w+25).attr('y',h+20).text('时间轴')
+    svg.append('text').attr('x',w+20).attr('y',h+8).text('时间轴')
     svg.append('text').attr('x',-20).attr('y',-15).text('单位(H)')
-
   }
 }

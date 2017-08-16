@@ -164,19 +164,22 @@ module.exports = function DeviceStatCtrl(
       .attr("x", function(d) { return 0; })
       .attr("width", function(d) { return x(d); })
       .attr("fill", function(d,i) { return colors[i]; })
-      .on('mouseover',function(d){
-        svg.append('text')
-          .attr('id','tooltip')
-          .text(d.toFixed(2)+'小时')
-          .attr('x',parseFloat(d3.select(this).attr('width'))+5)
-          .attr('y',parseFloat(d3.select(this).attr('y'))+ y.rangeBand()/2)
+
+    svg.selectAll(".text")
+      .data(dataset)
+      .enter()
+      .append("text")
+      .attr("class","text")
+      .attr("x",function(d){
+        return x(d)+5
       })
-      .on('mouseout',function(){
-        d3.select('#tooltip').remove()
-      });
+      .attr("y",function(d,i){
+        return y(lables[i])+y.rangeBand()/2
+      })
+      .text(function(d){return d.toFixed(4)+"小时"})
 
     var type_name = $scope.types[parseInt($scope.active_type_index)]
-    svg.append('text').attr('x',w+10).attr('y',h+5).text('单位(H)')
+    svg.append('text').attr('x',w+10).attr('y',h+5).text('单位(小时)')
     svg.append('text').attr('x',-20).attr('y',-10).text(type_name)
   }
 }
