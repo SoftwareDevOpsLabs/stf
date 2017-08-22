@@ -39,6 +39,10 @@ module.exports = function UserStatCtrl(
     }).success(function(response){
       var labels = response['labels']
       var dataset = response['dataset']
+      labels = ['xx1','xx2','xxx3','xxx4','xxx5','xxx6','xxx7','xxx8','xxx9','xxx10','xxx11','xxx12','xxx13','xxx14','xxx15','xxx16','xxx17','xxx18','xxx19','xxx20']
+      dataset = [20,22.2,43,12,28,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5]
+
+
       var panel = 'bar_chart_user'
       $scope.drawBarChart(labels,dataset,panel)
     })
@@ -97,7 +101,7 @@ module.exports = function UserStatCtrl(
     // 定义图表的间距
     var margin = {top: 30, right: 100, bottom: 30, left: 100}
     var w = 600 - margin.left - margin.right
-    var h = Math.max(350,dataset.length*14) - margin.top - margin.bottom;
+    var h = Math.max(400,dataset.length*14) - margin.top - margin.bottom;
 
     // 定义x轴和y轴
     var y = d3.scale.ordinal()
@@ -157,9 +161,9 @@ module.exports = function UserStatCtrl(
         return x(d)+5
       })
       .attr("y",function(d,i){
-        return y(lables[i])+y.rangeBand()/2
+        return y(lables[i])+y.rangeBand()/2+5
       })
-      .text(function(d){return d.toFixed(4)+"小时"})
+      .text(function(d){return d.toFixed(2)})
 
     svg.append('text').attr('x',w+10).attr('y',h+5).text('单位(小时)')
     svg.append('text').attr('x',-20).attr('y',-10).text('设备名')

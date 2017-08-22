@@ -97,7 +97,7 @@ module.exports = function UserStatCtrl(
     // 定义图表的间距
     var margin = {top: 30, right: 100, bottom: 30, left: 100}
     var w = 600 - margin.left - margin.right
-    var h = Math.max(350,dataset.length*14) - margin.top - margin.bottom;
+    var h = Math.max(400,dataset.length*14) - margin.top - margin.bottom;
 
     // 定义x轴和y轴
     var y = d3.scale.ordinal()
@@ -157,9 +157,9 @@ module.exports = function UserStatCtrl(
         return x(d)+5
       })
       .attr("y",function(d,i){
-        return y(lables[i])+y.rangeBand()/2
+        return y(lables[i])+y.rangeBand()/2+5
       })
-      .text(function(d){return d.toFixed(4)+"小时"})
+      .text(function(d){return d.toFixed(2)})
 
     svg.append('text').attr('x',w+10).attr('y',h+5).text('单位(小时)')
     svg.append('text').attr('x',-20).attr('y',-10).text('用户名')

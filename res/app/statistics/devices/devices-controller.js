@@ -174,9 +174,9 @@ module.exports = function DeviceStatCtrl(
         return x(d)+5
       })
       .attr("y",function(d,i){
-        return y(lables[i])+y.rangeBand()/2
+        return y(lables[i])+y.rangeBand()/2+5
       })
-      .text(function(d){return d.toFixed(4)+"小时"})
+      .text(function(d){return d.toFixed(2)})
 
     var type_name = $scope.types[parseInt($scope.active_type_index)]
     svg.append('text').attr('x',w+10).attr('y',h+5).text('单位(小时)')

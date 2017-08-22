@@ -104,7 +104,8 @@ module.exports = function UserStatCtrl(
   var colors = d3.range(100).map(d3.scale.category20())
 
   // 定义时间常量
-  var DAY_MS = 1000*60*60*24;
+  var HOUR_MS = 1000*60*60;
+  var DAY_MS = HOUR_MS*24;
   var MONTH_MS = DAY_MS*30;
   var YEAR_MS = MONTH_MS*12;
 
@@ -117,20 +118,15 @@ module.exports = function UserStatCtrl(
     var time_scale;
     switch(tick_type){
       case 0 :
-            //
-            time_scale = new Date(local_time).setMinutes(0,0);
-            break;
+          time_scale = new Date(local_time).setMinutes(0,0);
+          break;
       case 1:
-            //
-            time_scale = new Date(local_time).setHours(0,0,0,0);
-            break;
+          time_scale = new Date(local_time).setHours(0,0,0,0);
+          break;
       case 2:
-            //
-            time_scale = new Date(local_time).setDate(1);
-            break;
-
+          time_scale = new Date(local_time).setDate(1);
+          break;
     }
-
     return time_scale;
   }
 
@@ -155,7 +151,7 @@ module.exports = function UserStatCtrl(
     switch(tickType){
       case 0 :
         // 天视图，如果时间间隔大于24小时，则需要拖动显示数据
-        var start_ms = new Date(start_time.setMinutes(0,0)).getTime()
+        var start_ms = new Date(start_time.setMinutes(0,0)).getTime()-HOUR_MS  // 向前一小时
         var end_ms = new Date(end_time.setMinutes(59,59)).getTime()
         if (end_ms-start_ms > DAY_MS){
           slider_width = w/(end_ms-start_ms)*DAY_MS
@@ -167,7 +163,7 @@ module.exports = function UserStatCtrl(
         niceUnit = DAY_MS
         break;
       case 1 :
-        var start_ms = new Date(start_time.setHours(0,0,0,0)).getTime()
+        var start_ms = new Date(start_time.setHours(0,0,0,0)).getTime()-DAY_MS //向前一天
         var end_ms = new Date(end_time.setHours(23,59,59,59)).getTime()
         if (end_ms-start_ms > MONTH_MS){
           slider_width = w/(end_ms-start_ms)*MONTH_MS
@@ -179,7 +175,7 @@ module.exports = function UserStatCtrl(
         niceUnit = MONTH_MS
         break;
       case 2 :
-        var start_ms = new Date(start_time.setDate(1)).getTime()
+        var start_ms = new Date(start_time.setDate(1)).getTime()- MONTH_MS  // 向前一个月
         var end_ms = new Date(end_time.setDate(31)).getTime()
         if (end_ms-start_ms > YEAR_MS){
           slider_width = w/(end_ms-start_ms)*YEAR_MS
@@ -217,6 +213,9 @@ module.exports = function UserStatCtrl(
         console.log(offset_x)
         latest_offset_x = offset_x
         // 根据x轴的offset来对应时间的变化比例
+        if (!dragable){
+          return
+        }
         var offset_scale = Math.abs(offset_x)/w * niceUnit;
         if (offset_x>0){
           var offset_start_ms = start_ms-offset_scale;
@@ -240,7 +239,7 @@ module.exports = function UserStatCtrl(
         svg.selectAll('.bar')
           .attr('fill',function(d,i){
             var time_scale = $scope.timeScaleAdapter(d.time);
-            if (xScale(new Date(time_scale))<0 || xScale(new Date(time_scale)) > w){
+            if (xScale(new Date(time_scale))<barWidth/2 || xScale(new Date(time_scale)) > w-barWidth/2){
               return '#ffffff'
             }else{
               return colors[i];
@@ -250,7 +249,7 @@ module.exports = function UserStatCtrl(
         svg.selectAll('.bar-text')
           .attr('fill',function(d,i){
             var time_scale = $scope.timeScaleAdapter(d.time);
-            if (xScale(new Date(time_scale))<0 || xScale(new Date(time_scale)) > w){
+            if (xScale(new Date(time_scale))<barWidth/2 || xScale(new Date(time_scale)) > w-barWidth/2){
               return '#ffffff'
             }else{
               return colors[i];
@@ -345,7 +344,7 @@ module.exports = function UserStatCtrl(
       .enter()
       .append('text')
       .attr('class','bar-text')
-      .text(function(d){return d.long.toFixed(4)+'小时'})
+      .text(function(d){return d.long.toFixed(2)})
       .attr("x", function(d) {
         var time_scale = $scope.timeScaleAdapter(d.time);
         return xScale(time_scale)-barWidth/2;
