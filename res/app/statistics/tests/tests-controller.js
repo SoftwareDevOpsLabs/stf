@@ -39,9 +39,8 @@ module.exports = function UserStatCtrl(
     }).success(function(response){
       var labels = response['labels']
       var dataset = response['dataset']
-      labels = ['xx1','xx2','xxx3','xxx4','xxx5','xxx6','xxx7','xxx8','xxx9','xxx10','xxx11','xxx12','xxx13','xxx14','xxx15','xxx16','xxx17','xxx18','xxx19','xxx20']
-      dataset = [20,22.2,43,12,28,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5]
-
+      //labels = ['xx1','xx2','xxx3','xxx4','xxx5','xxx6','xxx7','xxx8','xxx9','xxx10','xxx11','xxx12','xxx13','xxx14','xxx15','xxx16','xxx17','xxx18','xxx19','xxx20','xx21','xx22','xxx23','xxx24','xxx25','xxx26','xxx27','xxx28','xxx29','xxx30','xx31','xx32','xxx33','xxx34','xxx35','xxx36','xxx37','xxx38','xxx39','xxx40']
+      //dataset = [20,22.2,43,12,28,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5,1,2,3,4,5]
 
       var panel = 'bar_chart_user'
       $scope.drawBarChart(labels,dataset,panel)
@@ -101,11 +100,11 @@ module.exports = function UserStatCtrl(
     // 定义图表的间距
     var margin = {top: 30, right: 100, bottom: 30, left: 100}
     var w = 600 - margin.left - margin.right
-    var h = Math.max(400,dataset.length*14) - margin.top - margin.bottom;
+    var h = Math.max(400,dataset.length*20) - margin.top - margin.bottom;
 
     // 定义x轴和y轴
     var y = d3.scale.ordinal()
-      .rangeRoundBands([0,h],0.1,0);
+      .rangeRoundBands([0,h],0.2,0);
 
     // console.log('label',lables)
     y.domain(lables.map(function(d) { return d; }));
