@@ -114,11 +114,11 @@ module.exports = function DeviceStatCtrl(
     // 定义图表的间距
     var margin = {top: 30, right: 100, bottom: 30, left: 100}
     var w = 700 - margin.left - margin.right
-    var h = Math.max(400,dataset.length*14) - margin.top - margin.bottom;
+    var h = Math.max(400,dataset.length*20) - margin.top - margin.bottom;
 
     // 定义x轴和y轴
     var y = d3.scale.ordinal()
-      .rangeRoundBands([0,h],0.1,0);
+      .rangeRoundBands([0,h],0.2,0);
 
     // console.log('label',lables)
     y.domain(lables.map(function(d) { return d; }));

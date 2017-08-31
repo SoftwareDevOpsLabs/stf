@@ -641,7 +641,7 @@ function DeviceStatusCell(options) {
       var order = {
         using: 10
       , available: 20
-        , automation: 25   // @HY 2017-06-23 add an order number for devices in automation status
+      , automation: 25   // @HY 2017-06-23 add an order number for devices in automation status
       , busy: 30
       , ready: 40
       , preparing: 50
