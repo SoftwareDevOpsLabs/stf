@@ -1,4 +1,4 @@
-# 
+#
 # Translators:
 # JINYOUNGYOO <miss0110@naver.com>, 2015-2016
 msgid ""
@@ -312,7 +312,7 @@ msgstr "개발자 옵션"
 msgid "Device"
 msgstr "단말기"
 
-#: app/device-list/details/device-list-details-directive.js:39
+#: app/device-list/details/select-device-list-directive.js:39
 #: app/device-list/icons/device-list-icons-directive.js:123
 msgid "Device cannot get kicked from the group"
 msgstr ""

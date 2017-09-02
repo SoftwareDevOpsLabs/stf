@@ -28,7 +28,10 @@ module.exports = function EnhanceDeviceServiceFactory($filter, AppState) {
             }
             else {
               if (data.owner) {
-                data.state = 'busy'
+                if (data.usage === 'automation') // @HY 2017-08-26 show status of "automation" to all users
+                    data.state = 'automation'
+                else
+                    data.state = 'busy'
               }
               else {
                 data.state = 'available'

@@ -1,5 +1,5 @@
-module.exports = function SettingsCtrl($scope, gettext) {
-
+module.exports = function SettingsCtrl($scope, gettext, UserService) {
+  
   $scope.settingTabs = [
     {
       title: gettext('General'),
@@ -12,4 +12,27 @@ module.exports = function SettingsCtrl($scope, gettext) {
       templateUrl: 'settings/keys/keys.pug'
     }
   ]
+
+  // @HY 2017-08-06 add for authorization
+  var user = UserService.currentUser
+  if ((!!user.tags) && user.tags.indexOf('admin') >= 0) {
+    $scope.settingTabs.push({
+      title: gettext('Users'),
+      icon: 'fa fa-users',
+      templateUrl: 'settings/users/users.pug'
+    })
+    $scope.settingTabs.push({
+      title: gettext('Providers'),
+      icon: 'fa fa-server',
+      templateUrl: 'settings/servers/servers.pug'
+    })
+
+    /*,
+     {
+     title: gettext('Notifications'),
+     icon: 'a-exclamation-circle fa-fw',
+     templateUrl: 'settings/notifications/notifications.pug'
+     }
+     */
+  }
 }

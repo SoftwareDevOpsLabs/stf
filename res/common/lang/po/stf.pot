@@ -306,7 +306,7 @@ msgstr ""
 msgid "Device"
 msgstr ""
 
-#: app/device-list/details/device-list-details-directive.js:38
+#: app/device-list/details/select-device-list-directive.js:38
 #: app/device-list/icons/device-list-icons-directive.js:122
 msgid "Device cannot get kicked from the group"
 msgstr ""
@@ -560,6 +560,10 @@ msgstr ""
 
 #: app/control-panes/dashboard/install/install.html:7
 msgid "Installing app..."
+msgstr ""
+
+#: app/control-panes/dashboard/install/install.html:7
+msgid "InventoryID"
 msgstr ""
 
 #: app/components/stf/keys/add-adb-key/add-adb-key.html:1
@@ -891,6 +895,10 @@ msgstr ""
 #: app/components/stf/device/device-info-filter/index.js:24
 #: app/components/stf/device/device-info-filter/index.js:9
 msgid "Preparing"
+msgstr ""
+
+#: app/device-list/column/device-column-service.js:265
+msgid "PresentedAt"
 msgstr ""
 
 #: app/control-panes/control-panes-hotkeys-controller.js:104

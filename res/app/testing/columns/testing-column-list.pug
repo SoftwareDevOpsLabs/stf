@@ -1,0 +1,45 @@
+table.table.table-hover.dataTable.ng-table
+  thead
+    tr
+      th.header.sortable 测试ID
+      th.header.sortable 测试者
+      th.header.sortable 厂商
+      th.header.sortable 机型
+      th.header.sortable 安卓版本
+      th.header.sortable 分辨率
+      th.header.sortable 测试类型
+      th.header.sortable 场景
+      th.header.sortable 测试开始时间
+      th.header.sortable 测试结束时间
+      th.header.sortable 状态
+      th.header.sortable 报告
+      th.header.sortable Logcat
+      th.header.sortable 控制
+  tbody
+    tr(ng-repeat='column in columns')
+      td(ng-bind='column.group')
+      td(ng-bind='column.user')
+      td(ng-bind='column.manufacturer')
+      td
+        a.device-product-name-using(ng-bind='column.model',ng-href="#!/control/{{column.serial}}")
+      td(ng-bind='column.version')
+      td(ng-bind='column.display')
+      td(ng-bind='column.name')
+      td(ng-bind='column.scenario')
+      td(ng-bind='column.start | date:"yyyy-MM-dd HH:mm:ss"')
+      td(ng-bind='column.end   | date:"yyyy-MM-dd HH:mm:ss"')
+      td
+        i(ng-if='column.status=="Testing"').fa.fa-spinner.fa-spin.fa-1x.fa-fw
+        i(ng-if='column.status=="Stop"').fa.fa-stop.color-red
+        i(ng-if='column.status=="Failed"').fa.fa-times.color-red
+        i(ng-if='column.status=="Finish"').fa.fa-check.color-green
+      td
+        <!--a(ng-if='column.status!="Testing"', ng-click='showReport(this)') 查看报告 @HY 2017-05-10 we can check report anytime-->
+        a(ng-click='showReport(this)') 查看报告
+      td
+        a.device-product-name-using(ng-if='column.logcat!=""&&column.status != "Testing"',ng-href="{{column.logcat}}") 下载Logcat
+      td(ng-if='column.status=="Finish"') 已完成
+      td
+        button.btn.btn-sm.btn-danger(ng-if='column.status=="Testing"',ng-click='stopTest(this)') 停止
+    tr(ng-if='columns.length==0')
+      td(colspan=10) 暂无测试

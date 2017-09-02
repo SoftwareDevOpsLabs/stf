@@ -21,23 +21,34 @@ module.exports = function DeviceListCtrl(
     }
   , {
       name: 'model'
-    , selected: true
+    , selected: false  // @hy, 2017-05-09: true ==> false
     }
   , {
       name: 'name'
     , selected: true
     }
+
+  // @HY 2017-06-23 add nickname and rom status into device list
   , {
-      name: 'serial'
+      name: 'nickname'
     , selected: false
     }
   , {
-      name: 'operator'
+      name: 'romStatus'
     , selected: true
+    }
+
+  , {
+      name: 'serial'
+    , selected: true   // @hy, 2017-05-09: false ==> true
+    }
+  , {
+      name: 'operator'
+    , selected: false  // @hy, 2017-05-09: true ==> false
     }
   , {
       name: 'releasedAt'
-    , selected: true
+    , selected: false  // @hy, 2017-05-09: true ==> false
     }
   , {
       name: 'version'
@@ -49,15 +60,15 @@ module.exports = function DeviceListCtrl(
     }
   , {
       name: 'display'
-    , selected: false
+    , selected: true  // @hy, 2017-05-09: false ==> true
     }
   , {
       name: 'manufacturer'
-    , selected: false
+    , selected: true  // @hy, 2017-05-09: false ==> true
     }
   , {
       name: 'sdk'
-    , selected: false
+    , selected: true  // @hy, 2017-05-09: false ==> true
     }
   , {
       name: 'abi'
@@ -105,7 +116,15 @@ module.exports = function DeviceListCtrl(
     }
   , {
       name: 'provider'
-    , selected: true
+    , selected: false
+    }
+    ,{
+      name: 'presenceChangedAt'
+      ,selected: true
+    }
+    ,{
+      name: 'inventoryID'
+      ,selected: false
     }
   , {
       name: 'notes'
@@ -115,6 +134,10 @@ module.exports = function DeviceListCtrl(
       name: 'owner'
     , selected: true
     }
+    /*, {
+      name: 'listOfflineDevices'
+      , selected: false
+    }*/
   ]
 
   $scope.columns = defaultColumns
@@ -149,8 +172,8 @@ module.exports = function DeviceListCtrl(
   $scope.filter = []
 
   $scope.activeTabs = {
-    icons: true
-  , details: false
+    icons: false   // @hy, 2017-05-09: adjust default view to details view, there is no useful info in icon view
+  , details: true
   }
 
   SettingsService.bind($scope, {

@@ -1,4 +1,4 @@
-# 
+#
 # Translators:
 # Jon Liang <jonqchk@gmail.com>, 2016
 # Peng Wang <buaawp@gmail.com>, 2016
@@ -322,7 +322,7 @@ msgstr "开发者"
 msgid "Device"
 msgstr "设备"
 
-#: app/device-list/details/device-list-details-directive.js:38
+#: app/device-list/details/select-device-list-directive.js:38
 #: app/device-list/icons/device-list-icons-directive.js:122
 msgid "Device cannot get kicked from the group"
 msgstr "设备无法从该组移出"
@@ -577,6 +577,12 @@ msgstr "安装超时"
 msgid "Installing app..."
 msgstr "安装 app..."
 
+
+
+#: app/device-list/column/device-column-service.js:268
+msgid "InventoryID"
+msgstr "资产编号"
+
 #: app/components/stf/keys/add-adb-key/add-adb-key.html:1
 msgid "Key"
 msgstr "密钥"
@@ -766,6 +772,10 @@ msgstr "未充电"
 msgid "Notes"
 msgstr "标注"
 
+#: app/device-list/column/device-column-service.js:256
+msgid "Notes"
+msgstr "标注"
+
 #: app/control-panes/inspect/inspect.html:1
 msgid "Nothing to inspect"
 msgstr "无需检查"
@@ -907,6 +917,10 @@ msgstr "电源来源"
 #: app/components/stf/device/device-info-filter/index.js:9
 msgid "Preparing"
 msgstr "准备中"
+
+#: app/device-list/column/device-column-service.js:262
+msgid "PresentedAt"
+msgstr "离线时间"
 
 #: app/control-panes/control-panes-hotkeys-controller.js:104
 msgid "Press Back button"

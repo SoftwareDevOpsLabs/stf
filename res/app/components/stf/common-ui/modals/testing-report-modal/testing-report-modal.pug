@@ -1,0 +1,12 @@
+.testing-report-modal.stf-modal
+  form(ng-submit='ok()')
+    .modal-header
+      button(type='button', ng-click='cancel()').close &times;
+      h4.modal-title
+        i.fa.fa-android
+        .button-spacer
+        span(translate) 报告详情
+    .modal-body.report-item-list
+      div.report-item(ng-repeat='item in modal.items')
+        span(ng-bind='item.time | date:"yyyy-MM-dd HH:mm:ss:sss"')
+        span.report-item-message(ng-bind='item.message')

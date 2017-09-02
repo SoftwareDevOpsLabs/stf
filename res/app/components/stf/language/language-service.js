@@ -27,9 +27,9 @@ module.exports =
 
     LanguageService.settingKey = 'selectedLanguage'
     LanguageService.supportedLanguages = supportedLanguages
-    LanguageService.defaultLanguage = 'en'
-    LanguageService.detectedLanguage =
-      onlySupported(detectLanguage(), LanguageService.defaultLanguage)
+    LanguageService.defaultLanguage = 'zh_CN'  // @hy, 2017-05-16 change default language from 'en' to 'cn'
+    LanguageService.detectedLanguage = 'zh_CN' // @hy, 2017-05-28 change detected language from 'en' to 'cn'
+      // onlySupported(detectLanguage(), LanguageService.defaultLanguage)
 
     SettingsService.sync(
       LanguageService, {

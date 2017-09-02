@@ -1,0 +1,37 @@
+.device-list-details-content table {
+  white-space: nowrap;
+}
+
+.device-list-details-content .device-list-product,
+.device-list-details-content .device-list-carrier {
+  white-space: normal;
+}
+
+.device-list-details-content .progress {
+  margin-bottom: 0 !important;
+  height: 17px !important;
+}
+
+.device-list-details-content .device-status.state-available {
+  font-weight: 600;
+}
+
+
+.report-item{
+  border-bottom: 1px solid #f1f1f1;
+  padding: 4px;
+}
+.report-item .report-time{
+  font-size: 13px;
+  color: #999;
+  padding: 0px 10px;
+}
+.report-item-list{
+  height: 500px;
+  overflow-y: scroll;
+}
+.report-item-message{
+  padding: 0px 10px;
+  word-break: break-all;
+  white-space: pre-wrap;
+}

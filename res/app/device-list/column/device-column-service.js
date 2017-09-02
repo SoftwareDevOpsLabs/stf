@@ -48,7 +48,6 @@ module.exports = function DeviceColumnService($filter, gettext) {
   , releasedAt: DateCell({
       title: gettext('Released')
     , value: function(device) {
-        return device.releasedAt ? new Date(device.releasedAt) : null
       }
     })
   , version: TextCell({
@@ -258,6 +257,18 @@ module.exports = function DeviceColumnService($filter, gettext) {
         return device.provider ? device.provider.name : ''
       }
     })
+    , presenceChangedAt: DateCell({  // @HY 2017-05-28 Added to present last time the device is online
+      title: gettext('PresentedAt')
+      , value: function(device) {
+        return device.presenceChangedAt ? new Date(device.presenceChangedAt) : null
+      }
+    })
+    , inventoryID: TextCell({
+      title: gettext('InventoryID')
+      , value: function(device) {
+        return device.inventoryID ? device.inventoryID : ''
+      }
+    })
   , notes: DeviceNoteCell({
       title: gettext('Notes')
     , value: function(device) {
@@ -272,6 +283,20 @@ module.exports = function DeviceColumnService($filter, gettext) {
       }
     , link: function(device) {
         return device.owner ? device.enhancedUserProfileUrl : ''
+      }
+    })
+    , romStatus: RomStatusCell({  // @HY 2017-06-23 Show device update state: new device or rom updated
+      title: gettext('RomStatus')
+      , value: function (status) {
+        return status
+          ? $filter('translate')(status)
+          : ''
+      }
+    })
+    , nickname: TextCell({  // @HY 2017-06-23 Show nickname of device
+      title: gettext('Nickname')
+      , value: function(device) {
+        return device.nickname ? device.nickname : ''
       }
     })
   }
@@ -377,6 +402,10 @@ function DateCell(options) {
           + zeroPadTwoDigit(date.getMonth() + 1)
           + '-'
           + zeroPadTwoDigit(date.getDate())
+          + ' '   // @HY 2018-05-28 we need more exact datetime
+          + zeroPadTwoDigit(date.getHours())
+          + ':'
+          + zeroPadTwoDigit(date.getMinutes())
       }
       else {
         t.nodeValue = ''
@@ -390,8 +419,8 @@ function DateCell(options) {
     }
   , filter: (function() {
       function dateNumber(d) {
-        return d
-          ? d.getFullYear() * 10000 + d.getMonth() * 100 + d.getDate()
+        return d    // // @HY 2018-05-28 we need more exact datetime
+          ? d.getFullYear() * 1000000 + d.getMonth() * 10000 + d.getDate() + 100 * date.getHours() + date.getMinutes()
           : 0
       }
       return function(item, filter) {
@@ -612,6 +641,7 @@ function DeviceStatusCell(options) {
       var order = {
         using: 10
       , available: 20
+      , automation: 25   // @HY 2017-06-23 add an order number for devices in automation status
       , busy: 30
       , ready: 40
       , preparing: 50
@@ -663,5 +693,79 @@ function DeviceNoteCell(options) {
   , filter: function(item, filter) {
       return filterIgnoreCase(options.value(item), filter.query)
     }
+  })
+}
+
+function RomStatusCell(options) {
+  var strNew = "NEW_DEVICE"
+  var strUpdate = "ROM_UPDATE"
+  var strNone = "NONE"
+
+  var stateClasses = {}
+  stateClasses[strNew] = 'state-device-new color-green'
+  stateClasses[strUpdate] = 'device-status  state-rom-new color-yellow'
+  stateClasses[strNone] = 'device-status  state-rom-none'
+
+
+  var getRomStatus = function romStatus(device) {
+    var thisDay = new Date()
+
+    // if ROM is updated within a week, mark it as "UPDATE" device
+    var romUpdatedDate = device.romUpdatedAt ? new Date(device.romUpdatedAt) : null
+    if (romUpdatedDate !== null && thisDay - romUpdatedDate <= 7 * 24 * 3600 * 1000) {
+      return strUpdate
+    }
+
+    // if the device has appeared in STF for less than one week, call it "NEW" device
+    var createdDate = device.createdAt ? new Date(device.createdAt) : null
+    if (createdDate !== null && thisDay - createdDate <= 1 * 7 * 24 * 3600 * 1000) {
+      return strNew
+    }
+
+    return strNone
+  }
+
+  return _.defaults(options, {
+    title: options.title
+    , defaultOrder: 'asc'
+    , build: function() {
+      var td = document.createElement('td')
+      var a = document.createElement('a')
+      a.appendChild(document.createTextNode(''))
+      a.className = 'btn color-skyblue'
+      td.appendChild(a)
+      return td
+    }
+    , update: function(td, device) {
+      var a = td.firstChild
+      var t = a.firstChild
+
+      if (device.usable && !device.using) {
+        a.href = '#!/control/' + device.serial // TODO: @HY 2017-07-06 转到刷机界面
+      }
+      else {
+        a.removeAttribute('href')
+      }
+
+      var value = ''
+      var status = getRomStatus(device)
+      if (status !== strNone) {
+        a.className = stateClasses[status]
+        value = options.value(status)
+      }
+      t.nodeValue = value
+
+      return td
+    }
+    , compare: (function() {
+      var order = {}
+      order[strNew] = 10
+      order[strUpdate] = 20
+      order[strNone] = 30
+
+      return function(device1, device2) {
+        return order[getRomStatus(device1)] - order[getRomStatus(device2)]
+      }
+    })()
   })
 }

@@ -2,8 +2,10 @@ var oboe = require('oboe')
 var _ = require('lodash')
 var EventEmitter = require('eventemitter3')
 
-module.exports = function DeviceServiceFactory($http, socket, EnhanceDeviceService) {
+module.exports = function DeviceServiceFactory($http, socket, EnhanceDeviceService, UserService) {
   var deviceService = {}
+  var providers = {}
+  var userTags = []
 
   function Tracker($scope, options) {
     var devices = []
@@ -108,6 +110,57 @@ module.exports = function DeviceServiceFactory($http, socket, EnhanceDeviceServi
         .catch(function() {})
     }
 
+    // TODO: @HY 2017-08-06 need to move this function to backend component
+    function filterByAuthorizationRules(deviceData) {
+      // console.log("+++++++++++++filterByAuthorizationRules++++++++++++")
+      var isFiltered = true
+
+      // Rule 0： filter out device that's no provider data
+      if (deviceData.provider == null)
+        return true
+
+      var providerName = deviceData.provider.name
+      var provider = providers[providerName]
+
+      // Rule 1: admin is super user
+      if (userTags.indexOf('admin') >= 0) {
+        // resolve(false)
+        return false
+      }
+
+      // Rule 2: users tagged with 'blacklist' can't get any device.
+      if (userTags.indexOf('blacklist') >= 0) {
+        // resolve(true)
+        return true
+      }
+
+      // Rule 3: no provider's info in DB, so dont filter out this provider
+      if (provider == null) {
+        // resolve(false)
+        return false
+      }
+
+      // Rule 4: if provider has no tags, devices on the provider are public
+      var providerTags = provider.tags ? provider.tags.split(',') : []
+      if (providerTags.length === 0) {
+        // resolve(false)
+        return false
+      }
+
+      // Rule 5: if provider has any tag, only user who has the same tag with provider's tag
+      // can access devices on the provider
+      for (var i = 0; i < userTags.length; i++) {
+        for (var j = 0; j < providerTags.length; j++) {
+          if ((!!userTags[i]) && (!!providerTags[j])
+            && userTags[i].toUpperCase() === providerTags[j].toUpperCase()) {
+            return false
+          }
+        }
+      }
+
+      return true
+    }
+
     function addListener(event) {
       var device = get(event.data)
       if (device) {
@@ -115,7 +168,7 @@ module.exports = function DeviceServiceFactory($http, socket, EnhanceDeviceServi
         notify(event)
       }
       else {
-        if (options.filter(event.data)) {
+        if (options.filter(event.data) && filterByAuthorizationRules(event.data) === false) {
           insert(event.data)
           notify(event)
         }
@@ -132,7 +185,7 @@ module.exports = function DeviceServiceFactory($http, socket, EnhanceDeviceServi
         notify(event)
       }
       else {
-        if (options.filter(event.data)) {
+        if (options.filter(event.data) && filterByAuthorizationRules(event.data) === false) {
           insert(event.data)
           // We've only got partial data
           fetch(event.data)
@@ -164,6 +217,15 @@ module.exports = function DeviceServiceFactory($http, socket, EnhanceDeviceServi
       }
     , digest: false
     })
+
+    // @HY 2017-08-06 added for authorization
+    // code in function trackAll should be executed before changeListener and addListener
+    // so initialize variables userTags and providers at here
+    userTags = UserService.currentUser.tags ? UserService.currentUser.tags.split(',') : []
+    oboe('/api/v1/servers')
+      .node('servers[*]', function(provider) {
+         providers[provider.name] = provider
+      })
 
     oboe('/api/v1/devices')
       .node('devices[*]', function(device) {

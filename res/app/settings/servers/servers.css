@@ -1,0 +1,41 @@
+.servers-controller{
+  margin: 0px 10px;
+  padding: 15px;
+  background-color: #fff;
+}
+.servers-search{
+  width: 260px;
+  display: inline-block;
+  margin-right: 15px;
+}
+.servers-search-icon{
+  position: absolute;
+  display: inline-block;
+  padding: 0px 5px;
+  left: 230px;
+  top: 7px;
+}
+.servers-search-box{
+  position: relative;
+  padding-bottom: 15px;
+}
+table .header{
+  font-size: 13px;
+}
+.server-line{
+  padding: 5px 10px;
+}
+.server-line-title{
+  font-size: 14px;
+  display: inline-block;
+  font-weight: bold;
+  padding: 5px 0px;
+}
+.server-tags.form-control{
+  height: 80px;
+  margin: 10px 0px;
+}
+.server-tags-tip{
+  font-size: 12px;
+  color: #999;
+}

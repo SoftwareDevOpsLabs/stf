@@ -1,0 +1,41 @@
+.users-controller{
+  margin: 0px 10px;
+  padding: 15px;
+  background-color: #fff;
+}
+.users-search{
+  width: 260px;
+  display: inline-block;
+  margin-right: 15px;
+}
+.users-search-icon{
+  position: absolute;
+  display: inline-block;
+  padding: 0px 5px;
+  left: 230px;
+  top: 7px;
+}
+.users-search-box{
+  position: relative;
+  padding-bottom: 15px;
+}
+table .header{
+  font-size: 13px;
+}
+.user-line{
+  padding: 5px 10px;
+}
+.user-line-title{
+  font-size: 14px;
+  display: inline-block;
+  font-weight: bold;
+  padding: 5px 0px;
+}
+.user-tags.form-control{
+  height: 80px;
+  margin: 10px 0px;
+}
+.user-tags-tip{
+  font-size: 12px;
+  color: #999;
+}

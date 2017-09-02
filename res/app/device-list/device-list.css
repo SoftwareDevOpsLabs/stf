@@ -76,6 +76,10 @@ img.device-icon-smallest {
   border-bottom: 1px solid; /* leaving out the color inherits text color */
 }
 
+.stf-device-list .device-rom-new .device-rom-update {
+  border-bottom: 1px solid; /* leaving out the color inherits text color */
+}
+
 .stf-device-list .device-note {
 }
 

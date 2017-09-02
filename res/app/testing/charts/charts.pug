@@ -1,0 +1,36 @@
+div.page-controller(ng-controller='ChartsCtrl')
+  div.filter-item
+    div.form-group.date-item
+      div.date-item-title 开始时间
+      div.input-group.date-input
+        input.form-control(type='text',uib-datepicker-popup='{{format}}',ng-model='start_time',is-open='popup1.opened',ng-required='true',close-text='关闭',clear-text='清空',current-text='今天',datepicker-options='options',alt-input-formats='altInputFormats')
+        span.input-group-btn
+          button.btn.btn-primary(type='button',ng-click='open1()')
+            i.glyphicon.glyphicon-calendar
+    div.form-group.date-item
+      div.date-item-title 结束时间
+      div.input-group.date-input
+        input.form-control(type='text',uib-datepicker-popup='{{format}}',ng-model='end_time',is-open='popup2.opened',ng-required='true',close-text='关闭',clear-text='清空',current-text='今天',datepicker-options='options',alt-input-formats='altInputFormats')
+        span.input-group-btn
+          button.btn.btn-primary(type='button',ng-click='open2()')
+            i.glyphicon.glyphicon-calendar
+
+    div.type-item
+      div.date-item-title 测试类型
+      div.type-input-wrapper
+        input.form-control.type-input(list='types',ng-model='test_type',autofocus='autofocus')
+      datalist(id='types')
+        option(ng-repeat='type in types') {{type}}
+
+    div.submit-item
+      button.btn.btn-primary(ng-click='submitQuery()') 查询
+
+  div#chart_panel
+
+    div.chart_container
+      h5 手机厂商测试失败比例图
+      div#pie_chart_manufacturer
+
+    div.chart_container
+      h5 测试场景测试失败比例图
+      div#pie_chart_scene

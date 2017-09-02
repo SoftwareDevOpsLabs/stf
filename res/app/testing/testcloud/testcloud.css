@@ -1,0 +1,37 @@
+.page-controller{
+  background-color: #fff;
+}
+.page-title{
+  padding: 10px 0px;
+}
+.shell-input{
+  max-width: 100%;
+  padding: 10px 0px;
+}
+.name-input{
+  max-width: 300px;
+}
+.btn {
+  margin-top: 5px;
+}
+
+.stf-testcloud .table.table-testcloudcard thead > tr > th,
+.stf-testcloud .table.table-testcloudcard tbody > tr > th,
+.stf-testcloud .table.table-testcloudcard tfoot > tr > th,
+.stf-testcloud .table.table-testcloudcard thead > tr > td,
+.stf-testcloud .table.table-testcloudcard tbody > tr > td,
+.stf-testcloud .table.table-testcloudcard tfoot > tr > td {
+  border-top: 0;
+}
+
+.stf-testcloud .table-testcloudcard tbody > tr > td:first-child {
+  text-align: right;
+  margin-right: 20px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.stf-testcloud .progress {
+  margin-bottom: 0;
+  height: 15px;
+}

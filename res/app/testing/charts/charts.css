@@ -1,0 +1,98 @@
+.page-controller{
+  background-color: #fff;
+}
+.page-title{
+  padding: 10px 0px;
+}
+.shell-input{
+  max-width: 100%;
+}
+#chart_panel{
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  padding: 0px 0px 30px 0px;
+}
+#chart_panel .chart_container{
+  flex: 1;
+  text-align: center;
+}
+.chart_container h5{
+  margin-top: 30px;
+}
+.manufacturer-cell{
+  border: 1px solid #ddd;
+  min-width: 100px;
+  display: inline-block;
+  font-size: 12px;
+  padding: 2px 6px;
+}
+.manufacturer-cell .count{
+  padding: 5px;
+  color: #ff0000;
+}
+
+.axis path,
+.axis line{
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+.axis text{
+  font-size: 11px;
+}
+
+.date-input{
+  width: 300px;
+}
+.date-input .btn.btn-default{
+  margin: 1px;
+}
+.date-input .btn.btn-primary{
+  margin: 0px;
+}
+#chart_panel .filter-item{
+  display: flex;
+}
+#chart_panel .filter-item .date-item,
+#chart_panel .filter-item .type-item{
+  width: 360px;
+}
+#chart_panel .filter-item .submit-item{
+  flex: 1;
+  padding-top: 25px;
+}
+
+#chart_panel .date-item-title{
+  display: inline-block;
+  padding: 6px 2px;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.type-input{
+  width: 300px;
+}
+.type-input-wrapper{
+  position: relative;
+}
+.type-input-wrapper::before{
+  position: absolute;
+  display: inline-block;
+  width: 1px;
+  height: 1px;
+  content: '';
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 10px solid #333;
+  top: 12px;
+  left: 272px;
+}
+
+
+.filter-item{
+  background-color: #f5f5f5;
+  padding: 5px 15px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
+

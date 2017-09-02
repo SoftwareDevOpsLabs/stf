@@ -9,6 +9,12 @@
         a(ng-href='/#!/devices', accesskey='1')
           span.fa.fa-sitemap
           span(ng-if='!$root.basicMode', translate) Devices
+        a(ng-href='/#!/testing', accesskey='1')
+          span.fa.fa-bug
+          span(ng-if='!$root.basicMode', translate) Testing
+        a(ng-href='/#!/statistics', accesskey='1')
+          span.fa.fa-pie-chart
+          span(ng-if='!$root.basicMode', translate) Statistics
         a(ng-href='/#!/settings')
           span.fa.fa-gears
           span(ng-if='!$root.basicMode', translate) Settings
@@ -17,6 +23,11 @@
         .btn-group
           button(type='button', ng-model='$root.platform', uib-btn-radio="'web'", translate).btn.btn-sm.btn-default-outline Web
           button(type='button', ng-model='$root.platform', uib-btn-radio="'native'", translate).btn.btn-sm.btn-default-outline Native
+
+      li
+        a(ng-href='/#!/user/{{currentUser.name}}')
+          i.fa.fa-user.fa-fw
+          | {{currentUser.name}}
 
       li(ng-show='!$root.basicMode')
         a(ng-href='/#!/help', accesskey='6')

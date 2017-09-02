@@ -1,0 +1,47 @@
+.page-controller{
+  background-color: #fff;
+  padding: 15px;
+}
+.page-title{
+  padding: 10px 0px;
+}
+.shell-input{
+  max-width: 100%;
+}
+.date-input{
+  width: 300px;
+}
+.date-input .btn.btn-default{
+  margin: 1px;
+}
+.date-input .btn.btn-primary{
+  margin: 0px;
+}
+.filter-item{
+  display: flex;
+}
+.filter-item .date-item,
+.filter-item .type-item{
+  width: 360px;
+}
+.filter-item .submit-item{
+  flex: 1;
+  padding-top: 25px;
+}
+
+.date-item-title{
+  display: inline-block;
+  padding: 6px 2px;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.type-input{
+  width: 300px;
+}
+.filter-item{
+  background-color: #f5f5f5;
+  padding: 5px 15px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #ddd;
+}

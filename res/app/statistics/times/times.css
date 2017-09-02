@@ -1,0 +1,53 @@
+.chart-title{
+  padding-top: 20px;
+  font-size: 18px;
+}
+.slide{
+  cursor: move;
+}
+.start_ms{
+  font-size: 14px;
+  font-weight: normal;
+  color: #167FFC;
+  display: inline-block;
+  padding: 5px 10px;
+}
+.end_ms{
+  font-size: 14px;
+  font-weight: normal;
+  color: #167FFC;
+  display: inline-block;
+  padding: 5px 10px;
+}
+.axis path,
+.axis line{
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+.axis text{
+  font-size: 10px;
+  /*stroke: #333;*/
+  font-weight: 100;
+  font-family: "微软雅黑";
+  /*transform:rotate(90deg);*/
+}
+#tooltip{
+  color: #000;
+  font-size: 12px;
+}
+.label{
+  font-size: 12px;
+}
+.bar{
+  cursor: pointer;
+}
+
+#horizontal-line{
+  stroke : #999999;
+  stroke-width: 1;
+  stroke-dasharray:  5;
+}
+.axis-label{
+  font-size: 12px;
+}

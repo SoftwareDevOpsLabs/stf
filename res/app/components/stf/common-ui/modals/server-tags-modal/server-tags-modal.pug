@@ -1,0 +1,26 @@
+.testing-report-modal.stf-modal
+  form(ng-submit='ok()')
+    .modal-header
+      button(type='button', ng-click='cancel()').close &times;
+      h4.modal-title
+        i.fa.fa-android
+        .button-spacer
+        span(translate) 设置Provider权限标签
+    .modal-body
+      div.server-line
+        span.server-line-title Provider名
+        div(ng-bind='modal.server.name')
+      div.server-line
+        span.server-line-title 备注
+        textarea.server-tags.form-control(ng-model='modal.server.note')
+      div.server-line
+        span.server-line-title 标签
+        textarea.server-tags.form-control(ng-model='modal.server.tags')
+        div.server-tags-tip 温馨提示 : 标签以英文逗号分隔
+
+    .modal-footer
+      button.btn.btn-primary.pull-right(ng-click='saveServerTags(this)')
+        span(translate) OK
+
+      button.btn.btn-default.pull-right(ng-click='cancel()')
+        span(translate) Cancel

@@ -1,0 +1,11 @@
+.device-item{
+  display: inline-block;
+  padding: 5px 10px 5px 0px;
+}
+.device-item input[type='checkbox']{
+  float: left;
+  margin: 4px;
+}
+.device-item .item-name{
+  font-size: 13px;
+}

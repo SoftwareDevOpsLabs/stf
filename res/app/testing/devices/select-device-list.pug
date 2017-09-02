@@ -1,0 +1,5 @@
+div.device-item-list
+  label.device-nitem(ng-repeat='device in devices track by device.serial')
+    input(type='checkbox',ng-click='checkDeviceItem(this)')
+    span.item-name {{device.manufacturer}}-{{device.model}}-Android{{device.version}} &nbsp;
+

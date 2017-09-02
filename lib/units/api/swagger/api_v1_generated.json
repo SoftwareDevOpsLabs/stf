@@ -34,6 +34,14 @@
     {
       "name": "devices",
       "description": "Device Operations"
+    },
+    {
+      "name": "testing",
+      "description": "Testing Operations"
+    },
+    {
+      "name": "stat",
+      "description": "Testing Operations"
     }
   ],
   "paths": {
@@ -50,6 +58,162 @@
             "description": "Current User Profile information",
             "schema": {
               "$ref": "#/definitions/UserResponse"
+            }
+          },
+          "default": {
+            "description": "Unexpected Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "accessTokenAuth": []
+          }
+        ]
+      }
+    },
+    "/users": {
+      "x-swagger-router-controller": "user",
+      "get": {
+        "summary": "Get All User List",
+        "description": "The User Profile endpoint returns information about current authorized user",
+        "operationId": "getUserList",
+        "tags": [
+          "user"
+        ],
+        "responses": {
+          "200": {
+            "description": "Current User Profile information",
+            "schema": {
+              "$ref": "#/definitions/UserListResponse"
+            }
+          },
+          "default": {
+            "description": "Unexpected Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "accessTokenAuth": []
+          }
+        ]
+      }
+    },
+    "/user/tags/": {
+      "x-swagger-router-controller": "user",
+      "post": {
+        "summary": "Set User Tags",
+        "description": "The User Profile endpoint returns information about current authorized user",
+        "operationId": "setUserTags",
+        "tags": [
+          "user"
+        ],
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "description": "user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/QueryUserTagsPayload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current User Profile information",
+            "schema": {
+              "$ref": "#/definitions/UserListResponse"
+            }
+          },
+          "default": {
+            "description": "Unexpected Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "accessTokenAuth": []
+          }
+        ]
+      }
+    },
+    "/servers": {
+      "x-swagger-router-controller": "user",
+      "get": {
+        "summary": "Get All Server List",
+        "description": "The User Profile endpoint returns information about current authorized user",
+        "operationId": "getServerList",
+        "tags": [
+          "user"
+        ],
+        "responses": {
+          "200": {
+            "description": "Current User Profile information",
+            "schema": {
+              "$ref": "#/definitions/ServerListResponse"
+            }
+          },
+          "default": {
+            "description": "Unexpected Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "accessTokenAuth": []
+          }
+        ]
+      }
+    },
+    "/server/tags/": {
+      "x-swagger-router-controller": "user",
+      "post": {
+        "summary": "Set Server Tags",
+        "description": "The User Profile endpoint returns information about current authorized user",
+        "operationId": "setServerTags",
+        "tags": [
+          "user"
+        ],
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "server",
+            "in": "body",
+            "description": "server",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/QueryServerTagsPayload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current User Profile information",
+            "schema": {
+              "$ref": "#/definitions/ServerListResponse"
             }
           },
           "default": {
@@ -400,7 +564,400 @@
         ]
       }
     },
-    "/swagger.json": {}
+    "/swagger.json": {},
+    "/testings/{status}": {
+      "x-swagger-router-controller": "testing",
+      "post": {
+        "summary": "Testing List",
+        "description": "The testing list return list of testing record",
+        "operationId": "getTestingList",
+        "tags": [
+          "testing"
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "path",
+            "description": "test status",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filters",
+            "in": "body",
+            "description": "filters",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/QueryTestingPayload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Testing List",
+            "schema": {
+              "$ref": "#/definitions/DeviceResponse"
+            }
+          },
+          "default": {
+            "description": "Unexpected Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "accessTokenAuth": []
+          }
+        ]
+      }
+    },
+    "/testTemplates/{status}": {
+      "x-swagger-router-controller": "testing",
+      "get": {
+        "summary": "Testing List",
+        "description": "The testing list return list of testing record",
+        "operationId": "getTestcaseList",
+        "tags": [
+          "testing"
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "path",
+            "description": "test status",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Testing List",
+            "schema": {
+              "$ref": "#/definitions/DeviceResponse"
+            }
+          },
+          "default": {
+            "description": "Unexpected Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "accessTokenAuth": []
+          }
+        ]
+      }
+    },
+    "/testing/{id}/report/": {
+      "x-swagger-router-controller": "testing",
+      "get": {
+        "summary": "Testing Report Info",
+        "description": "The testing report info return report details of a testing",
+        "operationId": "getTestingReport",
+        "tags": [
+          "testing"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "test id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Testing Report Info",
+            "schema": {
+              "$ref": "#/definitions/DeviceResponse"
+            }
+          },
+          "default": {
+            "description": "Unexpected Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "accessTokenAuth": []
+          }
+        ]
+      }
+    },
+    "/testing/pie/{name}/": {
+      "x-swagger-router-controller": "testing",
+      "post": {
+        "summary": "Testing Chart Data",
+        "description": "The testing chart data info",
+        "operationId": "getTestingPieChart",
+        "tags": [
+          "testing"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "chart name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filters",
+            "in": "body",
+            "description": "filters",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/QueryTestingPayload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Testing Chart Data",
+            "schema": {
+              "$ref": "#/definitions/DeviceResponse"
+            }
+          },
+          "default": {
+            "description": "Unexpected Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "accessTokenAuth": []
+          }
+        ]
+      }
+    },
+    "/testing/bar/{name}/": {
+      "x-swagger-router-controller": "testing",
+      "post": {
+        "summary": "Testing Chart Data",
+        "description": "The testing chart data info",
+        "operationId": "getTestingBarChart",
+        "tags": [
+          "testing"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "chart name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filters",
+            "in": "body",
+            "description": "filters",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/QueryTestingPayload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Testing Chart Data",
+            "schema": {
+              "$ref": "#/definitions/DeviceResponse"
+            }
+          },
+          "default": {
+            "description": "Unexpected Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "accessTokenAuth": []
+          }
+        ]
+      }
+    },
+    "/testing/types/": {
+      "x-swagger-router-controller": "testing",
+      "get": {
+        "summary": "Get All Test Types",
+        "description": "The testing types",
+        "operationId": "getTestingTypes",
+        "tags": [
+          "testing"
+        ],
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Testing types",
+            "schema": {
+              "$ref": "#/definitions/DeviceResponse"
+            }
+          },
+          "default": {
+            "description": "Unexpected Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "accessTokenAuth": []
+          }
+        ]
+      }
+    },
+    "/stat/{name}/": {
+      "x-swagger-router-controller": "stat",
+      "post": {
+        "summary": "Get All user stat",
+        "description": "user stat",
+        "operationId": "loadUserDeviceStat",
+        "tags": [
+          "stat"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "chart name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "filters",
+            "in": "body",
+            "description": "filters",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/QueryTestingPayload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Testing types",
+            "schema": {
+              "$ref": "#/definitions/DeviceResponse"
+            }
+          },
+          "default": {
+            "description": "Unexpected Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "accessTokenAuth": []
+          }
+        ]
+      }
+    },
+    "/rom/": {
+      "x-swagger-router-controller": "rom",
+      "get": {
+        "summary": "Rom info",
+        "description": "Return device metadata and rom list",
+        "operationId": "getRomList",
+        "tags": [
+          "rom"
+        ],
+        "parameters": [
+          {
+            "name": "model",
+            "in": "query",
+            "description": "Device model, which is used to query rom info from Gripper",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rom List",
+            "schema": {
+              "$ref": "#/definitions/RomResponse"
+            }
+          },
+          "default": {
+            "description": "Unexpected Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "accessTokenAuth": []
+          }
+        ]
+      }
+    },
+    "/swagger.json": {
+      "x-swagger-pipe": "swagger_raw"
+    }
   },
   "definitions": {
     "UserResponse": {
@@ -409,6 +966,26 @@
       ],
       "properties": {
         "user": {
+          "type": "object"
+        }
+      }
+    },
+    "UserListResponse": {
+      "required": [
+        "users"
+      ],
+      "properties": {
+        "users": {
+          "type": "object"
+        }
+      }
+    },
+    "ServerListResponse": {
+      "required": [
+        "servers"
+      ],
+      "properties": {
+        "servers": {
           "type": "object"
         }
       }
@@ -459,6 +1036,88 @@
           "type": "string"
         },
         "serial": {
+          "type": "string"
+        }
+      }
+    },
+    "RomResponse": {
+      "required": [
+        "romlist"
+      ],
+      "properties": {
+        "romlist": {
+          "type": "object"
+        }
+      }
+    },
+    "QueryTestingPayload": {
+      "description": "payload object for query testings",
+      "required": [
+        "start_time",
+        "end_time"
+      ],
+      "properties": {
+        "start_time": {
+          "description": "start time",
+          "type": "integer"
+        },
+        "end_time": {
+          "description": "end time",
+          "type": "integer"
+        },
+        "test_type": {
+          "description": "type",
+          "type": "string"
+        }
+      }
+    },
+    "QueryUserTagsPayload": {
+      "description": "payload object for query testings",
+      "required": [
+        "email",
+        "tags"
+      ],
+      "properties": {
+        "email": {
+          "description": "user email",
+          "type": "string"
+        },
+        "tags": {
+          "description": "user tags",
+          "type": "string"
+        }
+      }
+    },
+    "QueryServerTagsPayload": {
+      "description": "payload object for query testings",
+      "required": [
+        "name",
+        "note",
+        "tags"
+      ],
+      "properties": {
+        "name": {
+          "description": "provider name",
+          "type": "string"
+        },
+        "note": {
+          "description": "server note",
+          "type": "string"
+        },
+        "tags": {
+          "description": "user tags",
+          "type": "string"
+        }
+      }
+    },
+    "QueryRomPayload": {
+      "description": "payload object for query Rom Info",
+      "required": [
+        "model"
+      ],
+      "properties": {
+        "model": {
+          "description": "device model",
           "type": "string"
         }
       }

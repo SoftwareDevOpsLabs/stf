@@ -1,0 +1,26 @@
+.testing-report-modal.stf-modal
+  form(ng-submit='ok()')
+    .modal-header
+      button(type='button', ng-click='cancel()').close &times;
+      h4.modal-title
+        i.fa.fa-android
+        .button-spacer
+        span(translate) 设置用户权限标签
+    .modal-body
+      div.user-line
+        span.user-line-title 用户名
+        div(ng-bind='modal.user.name')
+      div.user-line
+        span.user-line-title 邮箱
+        div(ng-bind='modal.user.email')
+      div.user-line
+        span.user-line-title 标签
+        textarea.user-tags.form-control(ng-model='modal.user.tags')
+        div.user-tags-tip 温馨提示 : 标签以英文逗号分隔
+
+    .modal-footer
+      button.btn.btn-primary.pull-right(ng-click='saveUserTags(this)')
+        span(translate) OK
+
+      button.btn.btn-default.pull-right(ng-click='cancel()')
+        span(translate) Cancel

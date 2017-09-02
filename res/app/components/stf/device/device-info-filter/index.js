@@ -11,7 +11,7 @@ module.exports = angular.module('stf.device-status', [])
         using: gettext('Stop Using'),
         busy: gettext('Busy'),
         available: gettext('Use'),
-        automation: gettext('Stop Automation')
+        automation: gettext('Automation') // reomve "Stop" @hy 2017-05-14 can only stop automation in testing view
       }[text] || gettext('Unknown')
     }
   })

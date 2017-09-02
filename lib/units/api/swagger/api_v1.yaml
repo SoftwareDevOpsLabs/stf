@@ -1,15 +1,15 @@
-swagger: "2.0"
+swagger: '2.0'
 info:
   version: "2.3.0"
   title: Smartphone Test Farm
   description: Control and manages real Smartphone devices from browser and restful apis
   license:
     name: Apache-2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0'
   contact:
     name: STF Team
     email: contact@openstf.io
-    url: http://openstf.io/
+    url: 'http://openstf.io/'
 basePath: /api/v1
 schemes:
   - http
@@ -24,49 +24,173 @@ tags:
     description: User Operations
   - name: devices
     description: Device Operations
+  - name: testing
+    description: Testing Operations
+  - name: stat
+    description: Testing Operations
 paths:
   /user:
     x-swagger-router-controller: user
     get:
       summary: User Profile
-      description: The User Profile endpoint returns information about current authorized user
+      description: >-
+        The User Profile endpoint returns information about current authorized
+        user
       operationId: getUser
       tags:
         - user
       responses:
-        "200":
+        '200':
           description: Current User Profile information
           schema:
-            $ref: "#/definitions/UserResponse"
+            $ref: '#/definitions/UserResponse'
         default:
           description: Unexpected Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
+  /users:
+    x-swagger-router-controller: user
+    get:
+      summary: Get All User List
+      description: >-
+        The User Profile endpoint returns information about current authorized
+        user
+      operationId: getUserList
+      tags:
+        - user
+      responses:
+        '200':
+          description: Current User Profile information
+          schema:
+            $ref: '#/definitions/UserListResponse'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - accessTokenAuth: []
+  /user/tags/:
+    x-swagger-router-controller: user
+    post:
+      summary: Set User Tags
+      description: >-
+        The User Profile endpoint returns information about current authorized
+        user
+      operationId: setUserTags
+      tags:
+        - user
+      parameters:
+        - name: fields
+          in: query
+          description: >-
+            Fields query parameter takes a comma seperated list of fields. Only
+            listed field will be return in response
+          required: false
+          type: string
+        - name: user
+          in: body
+          description: user
+          required: true
+          schema:
+            $ref: '#/definitions/QueryUserTagsPayload'
+      responses:
+        '200':
+          description: Current User Profile information
+          schema:
+            $ref: '#/definitions/UserListResponse'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - accessTokenAuth: []
+  /servers:
+    x-swagger-router-controller: user
+    get:
+      summary: Get All Server List
+      description: >-
+        The User Profile endpoint returns information about current authorized
+        user
+      operationId: getServerList
+      tags:
+        - user
+      responses:
+        '200':
+          description: Current User Profile information
+          schema:
+            $ref: '#/definitions/ServerListResponse'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - accessTokenAuth: []
+
+  /server/tags/:
+    x-swagger-router-controller: user
+    post:
+      summary: Set Server Tags
+      description: >-
+        The User Profile endpoint returns information about current authorized
+        user
+      operationId: setServerTags
+      tags:
+        - user
+      parameters:
+        - name: fields
+          in: query
+          description: >-
+            Fields query parameter takes a comma seperated list of fields. Only
+            listed field will be return in response
+          required: false
+          type: string
+        - name: server
+          in: body
+          description: server
+          required: true
+          schema:
+            $ref: '#/definitions/QueryServerTagsPayload'
+      responses:
+        '200':
+          description: Current User Profile information
+          schema:
+            $ref: '#/definitions/ServerListResponse'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - accessTokenAuth: []
+
   /user/devices:
     x-swagger-router-controller: user
     get:
       summary: User Devices
-      description: The User Devices endpoint returns device list owner by current authorized user
+      description: >-
+        The User Devices endpoint returns device list owner by current
+        authorized user
       operationId: getUserDevices
       tags:
         - user
       parameters:
         - name: fields
           in: query
-          description: Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response
+          description: >-
+            Fields query parameter takes a comma seperated list of fields. Only
+            listed field will be return in response
           required: false
           type: string
       responses:
-        "200":
+        '200':
           description: Current User Devices List
           schema:
-            $ref: "#/definitions/DeviceListResponse"
+            $ref: '#/definitions/DeviceListResponse'
         default:
           description: Unexpected Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
     post:
@@ -81,17 +205,17 @@ paths:
           description: Device to add
           required: true
           schema:
-            $ref: "#/definitions/AddUserDevicePayload"
+            $ref: '#/definitions/AddUserDevicePayload'
       responses:
-        "200":
+        '200':
           description: Add User Device Status
         default:
           description: Unexpected Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
-  /user/devices/{serial}:
+  '/user/devices/{serial}':
     x-swagger-router-controller: user
     get:
       summary: User Device
@@ -107,23 +231,28 @@ paths:
           type: string
         - name: fields
           in: query
-          description: Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response
+          description: >-
+            Fields query parameter takes a comma seperated list of fields. Only
+            listed field will be return in response
           required: false
           type: string
       responses:
-        "200":
+        '200':
           description: Device Information owned by user
           schema:
-            $ref: "#/definitions/DeviceResponse"
+            $ref: '#/definitions/DeviceResponse'
         default:
           description: Unexpected Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
     delete:
       summary: Delete User Device
-      description: The User Devices endpoint will request for device release from stf server. It will return request accepted if device is being used by current user
+      description: >-
+        The User Devices endpoint will request for device release from stf
+        server. It will return request accepted if device is being used by
+        current user
       operationId: deleteUserDeviceBySerial
       tags:
         - user
@@ -134,17 +263,15 @@ paths:
           required: true
           type: string
       responses:
-        "200":
+        '200':
           description: Delete User Device Status
         default:
           description: Unexpected Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
-  # I do know this is against REST principal to use verb as endpoint. But I feel it is more easy to
-  # understand in comparision of using PUT/PATCH
-  /user/devices/{serial}/remoteConnect:
+  '/user/devices/{serial}/remoteConnect':
     x-swagger-router-controller: user
     post:
       summary: Remote Connect
@@ -159,19 +286,21 @@ paths:
           required: true
           type: string
       responses:
-        "200":
+        '200':
           description: Remote Connect User Device Request Status
           schema:
-            $ref: "#/definitions/RemoteConnectUserDeviceResponse"
+            $ref: '#/definitions/RemoteConnectUserDeviceResponse'
         default:
           description: Unexpected Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
     delete:
       summary: Remote Disconnect
-      description: The device connect endpoint will request stf server to disconnect remotely
+      description: >-
+        The device connect endpoint will request stf server to disconnect
+        remotely
       operationId: remoteDisconnectUserDeviceBySerial
       tags:
         - user
@@ -182,59 +311,65 @@ paths:
           required: true
           type: string
       responses:
-        "200":
+        '200':
           description: Remote Disonnect User Device Request Status
         default:
           description: Unexpected Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
   /user/accessTokens:
     x-swagger-router-controller: user
     get:
       summary: Access Tokens
-      description: The Access Tokens endpoints returns titles of all the valid access tokens
+      description: >-
+        The Access Tokens endpoints returns titles of all the valid access
+        tokens
       operationId: getUserAccessTokens
       tags:
         - user
       responses:
-        "200":
+        '200':
           description: Access Tokens titles
           schema:
-            $ref: "#/definitions/AccessTokensResponse"
+            $ref: '#/definitions/AccessTokensResponse'
         default:
           description: Unexpected Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
   /devices:
     x-swagger-router-controller: devices
     get:
       summary: Device List
-      description: The devices endpoint return list of all the STF devices including Disconnected and Offline
+      description: >-
+        The devices endpoint return list of all the STF devices including
+        Disconnected and Offline
       operationId: getDevices
       tags:
         - devices
       parameters:
         - name: fields
           in: query
-          description: Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response
+          description: >-
+            Fields query parameter takes a comma seperated list of fields. Only
+            listed field will be return in response
           required: false
           type: string
       responses:
-        "200":
+        '200':
           description: List of Devices
           schema:
-            $ref: "#/definitions/DeviceListResponse"
+            $ref: '#/definitions/DeviceListResponse'
         default:
           description: Unexpected Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
-  /devices/{serial}:
+  '/devices/{serial}':
     x-swagger-router-controller: devices
     get:
       summary: Device Information
@@ -250,18 +385,322 @@ paths:
           type: string
         - name: fields
           in: query
-          description: Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response
+          description: >-
+            Fields query parameter takes a comma seperated list of fields. Only
+            listed field will be return in response
           required: false
           type: string
       responses:
-        "200":
+        '200':
           description: Device Information
           schema:
-            $ref: "#/definitions/DeviceResponse"
+            $ref: '#/definitions/DeviceResponse'
         default:
           description: Unexpected Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - accessTokenAuth: []
+  '/testings/{status}':
+    x-swagger-router-controller: testing
+    post:
+      summary: Testing List
+      description: The testing list return list of testing record
+      operationId: getTestingList
+      tags:
+        - testing
+      parameters:
+        - name: status
+          in: path
+          description: test status
+          required: true
+          type: string
+        - name: fields
+          in: query
+          description: >-
+            Fields query parameter takes a comma seperated list of fields. Only
+            listed field will be return in response
+          required: false
+          type: string
+        - name: filters
+          in: body
+          description: filters
+          required: false
+          schema:
+            $ref: '#/definitions/QueryTestingPayload'
+      responses:
+        '200':
+          description: Testing List
+          schema:
+            $ref: '#/definitions/DeviceResponse'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - accessTokenAuth: []
+  '/testTemplates/{status}':
+    x-swagger-router-controller: testing
+    get:
+      summary: Testing List
+      description: The testing list return list of testing record
+      operationId: getTestcaseList
+      tags:
+        - testing
+      parameters:
+        - name: status
+          in: path
+          description: test status
+          required: true
+          type: string
+        - name: fields
+          in: query
+          description: >-
+            Fields query parameter takes a comma seperated list of fields. Only
+            listed field will be return in response
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Testing List
+          schema:
+            $ref: '#/definitions/DeviceResponse'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - accessTokenAuth: []
+  '/testing/{id}/report/':
+    x-swagger-router-controller: testing
+    get:
+      summary: Testing Report Info
+      description: The testing report info return report details of a testing
+      operationId: getTestingReport
+      tags:
+        - testing
+      parameters:
+        - name: id
+          in: path
+          description: test id
+          required: true
+          type: string
+        - name: fields
+          in: query
+          description: >-
+            Fields query parameter takes a comma seperated list of fields. Only
+            listed field will be return in response
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Testing Report Info
+          schema:
+            $ref: '#/definitions/DeviceResponse'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - accessTokenAuth: []
+  '/testing/pie/{name}/':
+    x-swagger-router-controller: testing
+    post:
+      summary: Testing Chart Data
+      description: The testing chart data info
+      operationId: getTestingPieChart
+      tags:
+        - testing
+      parameters:
+        - name: name
+          in: path
+          description: chart name
+          required: true
+          type: string
+        - name: fields
+          in: query
+          description: >-
+            Fields query parameter takes a comma seperated list of fields. Only
+            listed field will be return in response
+          required: false
+          type: string
+        - name: filters
+          in: body
+          description: filters
+          required: true
+          schema:
+            $ref: '#/definitions/QueryTestingPayload'
+      responses:
+        '200':
+          description: Testing Chart Data
+          schema:
+            $ref: '#/definitions/DeviceResponse'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - accessTokenAuth: []
+  '/testing/bar/{name}/':
+    x-swagger-router-controller: testing
+    post:
+      summary: Testing Chart Data
+      description: The testing chart data info
+      operationId: getTestingBarChart
+      tags:
+        - testing
+      parameters:
+        - name: name
+          in: path
+          description: chart name
+          required: true
+          type: string
+        - name: fields
+          in: query
+          description: >-
+            Fields query parameter takes a comma seperated list of fields. Only
+            listed field will be return in response
+          required: false
+          type: string
+        - name: filters
+          in: body
+          description: filters
+          required: true
+          schema:
+            $ref: '#/definitions/QueryTestingPayload'
+      responses:
+        '200':
+          description: Testing Chart Data
+          schema:
+            $ref: '#/definitions/DeviceResponse'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - accessTokenAuth: []
+  /testing/types/:
+    x-swagger-router-controller: testing
+    get:
+      summary: Get All Test Types
+      description: The testing types
+      operationId: getTestingTypes
+      tags:
+        - testing
+      parameters:
+        - name: fields
+          in: query
+          description: >-
+            Fields query parameter takes a comma seperated list of fields. Only
+            listed field will be return in response
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Testing types
+          schema:
+            $ref: '#/definitions/DeviceResponse'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - accessTokenAuth: []
+  '/stat/{name}/':
+    x-swagger-router-controller: stat
+    post:
+      summary: Get All user stat
+      description: user stat
+      operationId: loadUserDeviceStat
+      tags:
+        - stat
+      parameters:
+        - name: name
+          in: path
+          description: chart name
+          required: true
+          type: string
+        - name: fields
+          in: query
+          description: >-
+            Fields query parameter takes a comma seperated list of fields. Only
+            listed field will be return in response
+          required: false
+          type: string
+        - name: filters
+          in: body
+          description: filters
+          required: true
+          schema:
+            $ref: '#/definitions/QueryTestingPayload'
+      responses:
+        '200':
+          description: Testing types
+          schema:
+            $ref: '#/definitions/DeviceResponse'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - accessTokenAuth: []
+
+  '/overview/':
+    x-swagger-router-controller: stat
+    post:
+      summary: Get All Records Stat
+      description: records stat
+      operationId: loadRecordsStat
+      tags:
+        - stat
+      parameters:
+        - name: fields
+          in: query
+          description: >-
+            Fields query parameter takes a comma seperated list of fields. Only
+            listed field will be return in response
+          required: false
+          type: string
+        - name: filters
+          in: body
+          description: filters
+          required: true
+          schema:
+            $ref: '#/definitions/QueryOverviewPayload'
+      responses:
+        '200':
+          description: Overview
+          schema:
+            $ref: '#/definitions/OverviewResponse'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      security:
+        - accessTokenAuth: []
+  /rom/:
+    x-swagger-router-controller: rom
+    get:
+      summary: Rom info
+      description: Return device metadata and rom list
+      operationId: getRomList
+      tags:
+        - rom
+      parameters:
+        - name: model
+          in: query
+          description: 'Device model, which is used to query rom info from Gripper'
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Rom List
+          schema:
+            $ref: '#/definitions/RomResponse'
+        default:
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
       security:
         - accessTokenAuth: []
   /swagger.json:
@@ -272,6 +711,18 @@ definitions:
       - user
     properties:
       user:
+        type: object
+  UserListResponse:
+    required:
+      - users
+    properties:
+      users:
+        type: object
+  ServerListResponse:
+    required:
+      - servers
+    properties:
+      servers:
         type: object
   AccessTokensResponse:
     required:
@@ -304,6 +755,84 @@ definitions:
         type: string
       serial:
         type: string
+  RomResponse:
+    required:
+      - romlist
+    properties:
+      romlist:
+        type: object
+  OverviewResponse:
+    required:
+      - stat
+    properties:
+      stat:
+        type: object
+  QueryOverviewPayload:
+    description: payload object for query testings
+    required:
+      - start_time
+      - end_time
+    properties:
+      start_time:
+        description: start time
+        type: integer
+      end_time:
+        description: end time
+        type: integer
+      type:
+        description: type
+        type: string
+
+  QueryTestingPayload:
+    description: payload object for query testings
+    required:
+      - start_time
+      - end_time
+    properties:
+      start_time:
+        description: start time
+        type: integer
+      end_time:
+        description: end time
+        type: integer
+      test_type:
+        description: type
+        type: string
+  QueryUserTagsPayload:
+    description: payload object for query testings
+    required:
+      - email
+      - tags
+    properties:
+      email:
+        description: user email
+        type: string
+      tags:
+        description: user tags
+        type: string
+  QueryServerTagsPayload:
+    description: payload object for query testings
+    required:
+      - name
+    properties:
+      name:
+        description: provider name
+        type: string
+      note:
+        description: server note
+        type: string
+      tags:
+        description: user tags
+        type: string
+
+  QueryRomPayload:
+    description: payload object for query Rom Info
+    required:
+      - model
+    properties:
+      model:
+        description: device model
+        type: string
   AddUserDevicePayload:
     description: payload object for adding device to user
     required:
@@ -313,7 +842,9 @@ definitions:
         description: Device Serial
         type: string
       timeout:
-        description: Device timeout in ms. If device is kept idle for this period, it will be automatically disconnected. Default is provider group timeout
+        description: >-
+          Device timeout in ms. If device is kept idle for this period, it will
+          be automatically disconnected. Default is provider group timeout
         type: integer
   ErrorResponse:
     required:

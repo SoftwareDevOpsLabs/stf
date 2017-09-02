@@ -133,10 +133,10 @@ module.exports = function ControlServiceFactory(
       })
     }
 
-    this.shell = function(command) {
+    this.shell = function(command, timeout) {
       return sendTwoWay('shell.command', {
         command: command
-      , timeout: 10000
+      , timeout: timeout||10000
       })
     }
 
@@ -291,6 +291,18 @@ module.exports = function ControlServiceFactory(
 
     this.getWifiStatus = function() {
       return sendTwoWay('wifi.get')
+    }
+
+    //TODO @chenhao 添加测试命令
+    this.startTest = function(test) {
+      // @hy 2017-05-17 replace above json string to below test var
+      return sendOneWay('startTest', test)
+    }
+    //TODO @chenhao 添加停止测试命令
+    this.stopTest = function(test) {
+      return sendOneWay('stopTest',{
+        id : test.id
+      })
     }
 
     window.cc = this
