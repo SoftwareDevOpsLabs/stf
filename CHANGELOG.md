@@ -1,10 +1,22 @@
 # Changelog
 
-## HEAD
+## 3.1.0 (2017-08-31)
 
 ### Enhancements
 
-- Added support for Android O Developer Preview 1
+- Android 8.0 is now supported. Please note that Android O developer previews are no longer officially supported, though they may or may not still work.
+
+## 3.0.1 (2017-08-21)
+
+### Fixes
+
+- Updated [adbkit](https://github.com/openstf/adbkit) to fix `RangeError: Index out of range` errors when parsing newer APKs that use UTF-8 encoding for their string pools.
+
+## 3.0.0 (2017-08-09)
+
+### Enhancements
+
+- Added support for Android O Developer Preview 1 (note that any later previews are not supported yet)
 - You can now set screen JPEG quality with the `SCREEN_JPEG_QUALITY` environment variable at launch time. Can be useful for slow networks.
 - Switched to [yargs](http://yargs.js.org) for option parsing to make it easier to modify the CLI.
 - Almost all command line options can now be specified with environment variables.

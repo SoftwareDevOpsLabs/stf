@@ -46,7 +46,6 @@
   ],
   "paths": {
     "/user": {
-      "x-swagger-router-controller": "user",
       "get": {
         "summary": "User Profile",
         "description": "The User Profile endpoint returns information about current authorized user",
@@ -232,7 +231,6 @@
       }
     },
     "/user/devices": {
-      "x-swagger-router-controller": "user",
       "get": {
         "summary": "User Devices",
         "description": "The User Devices endpoint returns device list owner by current authorized user",
@@ -306,7 +304,6 @@
       }
     },
     "/user/devices/{serial}": {
-      "x-swagger-router-controller": "user",
       "get": {
         "summary": "User Device",
         "description": "The devices enpoint return information about device owned by user",
@@ -385,7 +382,6 @@
       }
     },
     "/user/devices/{serial}/remoteConnect": {
-      "x-swagger-router-controller": "user",
       "post": {
         "summary": "Remote Connect",
         "description": "The device connect endpoint will request stf server to connect remotely",
@@ -457,7 +453,6 @@
       }
     },
     "/user/accessTokens": {
-      "x-swagger-router-controller": "user",
       "get": {
         "summary": "Access Tokens",
         "description": "The Access Tokens endpoints returns titles of all the valid access tokens",
@@ -487,7 +482,6 @@
       }
     },
     "/devices": {
-      "x-swagger-router-controller": "devices",
       "get": {
         "summary": "Device List",
         "description": "The devices endpoint return list of all the STF devices including Disconnected and Offline",
@@ -526,7 +520,6 @@
       }
     },
     "/devices/{serial}": {
-      "x-swagger-router-controller": "devices",
       "get": {
         "summary": "Device Information",
         "description": "The device enpoint return information about a single device",
@@ -571,7 +564,6 @@
         ]
       }
     },
-<<<<<<< HEAD
     "/testings/{status}": {
       "x-swagger-router-controller": "testing",
       "post": {
@@ -962,8 +954,6 @@
         ]
       }
     },
-=======
->>>>>>> patch-3
     "/swagger.json": {
       "x-swagger-pipe": "swagger_raw"
     }
