@@ -7,6 +7,7 @@ module.exports = angular.module('device-list', [
   require('stf/control').name,
   require('stf/common-ui').name,
   require('stf/settings').name,
+  require('stf/user').name,
   require('./column').name,
   require('./details').name,
   require('./empty').name,

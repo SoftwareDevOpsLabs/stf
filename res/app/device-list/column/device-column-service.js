@@ -18,7 +18,8 @@ var filterOps = {
   }
 }
 
-module.exports = function DeviceColumnService($filter, gettext) {
+// 2017-11-11 @HY only admin user can modify device note
+module.exports = function DeviceColumnService($filter, gettext, UserService) {
   // Definitions for all possible values.
   return {
     state: DeviceStatusCell({
@@ -687,7 +688,15 @@ function DeviceNoteCell(options) {
       span.className = 'xeditable-wrapper'
       span.appendChild(document.createTextNode(''))
 
-      i.className = 'device-note-edit fa fa-pencil pointer'
+      // 2017-11-11 @HY Add permission rule: only admin can edit device note
+      var user = UserService.currentUser
+
+      var className = 'device-note-edit pointer'
+      if ((!!user.tags) && user.tags.indexOf('admin') >= 0) {
+        className += "fa fa-pencil"
+      }
+
+      i.className = className
 
       td.appendChild(span)
       td.appendChild(i)
